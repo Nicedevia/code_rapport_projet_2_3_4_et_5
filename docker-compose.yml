@@ -1,0 +1,21 @@
+services:
+  api:
+    image: chat_dog_classification-api
+    container_name: chat_dog_classification-api
+    ports:
+      - "8000:8000"
+    networks:
+      - mynetwork
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
