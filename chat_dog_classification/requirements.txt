@@ -1,0 +1,9 @@
+fastapi
+streamlit
+tensorflow==2.15.0
+librosa
+pydub
+uvicorn
+pillow
+numpy
+python-dotenv

@@ -8,4 +8,14 @@ docker-compose down
 2️⃣ Reconstruis l’image Docker avec la bonne version de TensorFlow :
 docker-compose build --no-cache
 3️⃣ Relance Docker avec l’API :
+docker-compose down
+docker-compose build --no-cache
 docker-compose up -d 
+docker stop chat_dog_classification-api
+docker rm chat_dog_classification-api
+docker-compose up -d
+docker run -d --name grafana -p 3000:3000 grafana/grafana
+
+
+pour les models .pkl 
+ 

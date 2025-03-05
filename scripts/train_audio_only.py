@@ -8,9 +8,8 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from tensorflow.keras.callbacks import Callback
-from tqdm.keras import TqdmCallback  # Pour afficher la barre de progression
-
+from tensorflow.keras.callbacks import Callback, TensorBoard
+from tqdm.keras import TqdmCallback 
 # Répertoires sources pour les données audio training
 audio_train_dir_cats = "data/audio/cleaned/train/cats"
 audio_train_dir_dogs = "data/audio/cleaned/train/dogs"
@@ -89,8 +88,6 @@ model = tf.keras.Sequential([
 
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 model.summary()
-
-# Callback personnalisé pour afficher les logs au début et à la fin de chaque époque
 class LoggingCallback(Callback):
     def on_epoch_begin(self, epoch, logs=None):
         print(f"----- Epoch {epoch+1} started -----")
@@ -101,8 +98,11 @@ class LoggingCallback(Callback):
         val_acc = logs.get("val_accuracy")
         print(f"----- Epoch {epoch+1} ended: loss={loss:.4f}, accuracy={acc:.4f}, val_loss={val_loss:.4f}, val_accuracy={val_acc:.4f} -----")
 
-# Callbacks : LoggingCallback et TqdmCallback pour la barre de progression
-callbacks = [LoggingCallback(), TqdmCallback(verbose=1)]
+# Création d'un TensorBoard callback
+tensorboard_callback = TensorBoard(log_dir='./logs/audio', histogram_freq=1)
+
+# Ajout de ce callback dans la liste
+callbacks = [LoggingCallback(), TqdmCallback(verbose=1), tensorboard_callback]
 
 # Entraînement du modèle
 model.fit(X_audio, y, epochs=10, validation_split=0.2, batch_size=16, callbacks=callbacks)

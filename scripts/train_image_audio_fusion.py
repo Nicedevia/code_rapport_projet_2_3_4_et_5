@@ -16,7 +16,8 @@ from tqdm.keras import TqdmCallback
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
 # --- Configuration et chemins ---
-MAPPING_CSV = "data/audio/train_image_audio_fusion_mapping.csv"
+# Mise à jour du chemin vers le mapping généré précédemment
+MAPPING_CSV = r"C:\Users\briac\Desktop\projet_3\data\data_fusion_model\fusion_mapping.csv"
 
 # --- Fonctions de prétraitement ---
 def preprocess_image(image_path):
@@ -27,14 +28,14 @@ def preprocess_image(image_path):
     return img.reshape(64, 64, 1)
 
 def preprocess_audio(audio_path):
-    """
+    r"""
     Charge le spectrogramme pré-généré correspondant au fichier audio.
     On suppose que le chemin de l'audio dans le mapping est de la forme :
-      data/audio/cleaned/.../xxx.wav
+      ...\cleaned\audio\...\xxx.wav
     et que le spectrogramme est pré-généré dans :
-      data/audio/spectrograms/.../xxx.png
+      ...\spectrograms\...\xxx.png
     """
-    # Transformation du chemin : remplacer "cleaned" par "spectrograms" et ".wav" par ".png"
+    # Transformation du chemin : remplace "cleaned" par "spectrograms" et ".wav" par ".png"
     spec_path = audio_path.replace("cleaned", "spectrograms").replace(".wav", ".png")
     if not os.path.exists(spec_path):
         print(f"❌ Spectrogramme introuvable pour {audio_path} -> {spec_path}")
@@ -67,11 +68,11 @@ print(f"Dataset final : {X_images.shape[0]} exemples")
 
 # --- Chargement des modèles individuels pré-entraînés ---
 print("Chargement des modèles individuels pré-entraînés...")
-image_model = tf.keras.models.load_model("models/image_classifier.keras")
+image_model = tf.keras.models.load_model("models/image_classifier_5.keras")
 audio_model = tf.keras.models.load_model("models/audio_classifier.keras")
 print("Modèles individuels chargés.")
 
-# Extraction des features (on utilise la sortie de la couche avant la dernière, supposée Dense(256))
+# Extraction des features : utilisation de la sortie de la couche avant la dernière (supposée Dense(256))
 image_feature_model = Model(inputs=image_model.input, outputs=image_model.layers[-2].output, name="image_feature_extractor")
 audio_feature_model = Model(inputs=audio_model.input, outputs=audio_model.layers[-2].output, name="audio_feature_extractor")
 
@@ -123,5 +124,5 @@ history = fusion_model.fit([X_images, X_audio], y_labels,
 
 # Sauvegarde du modèle fusionné
 os.makedirs("models", exist_ok=True)
-fusion_model.save("models/image_audio_fusion_model_v2.keras")
+fusion_model.save("models/image_audio_fusion_model_v5.keras")
 print("Modèle fusionné sauvegardé avec succès !")

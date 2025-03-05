@@ -11,9 +11,9 @@ import pygame
 
 # ------------------------------------------------------------------------------
 # 📂 Définition des chemins
-FUSION_MODEL_PATH = "models/image_audio_fusion_model_v2.keras"
-IMAGE_MODEL_PATH  = "models/image_classifier.keras"
-AUDIO_MODEL_PATH  = "models/audio_classifier.keras"
+FUSION_MODEL_PATH = "models/image_audio_fusion_model_v2.h5"
+IMAGE_MODEL_PATH  = "models/image_classifier.h5"
+AUDIO_MODEL_PATH  = "models/audio_classifier.h5"
 
 TEST_IMAGE_FOLDER = "data/images/cleaned/test_set"   # Dossier d'images de test
 TEST_AUDIO_FOLDER = "data/audio/cleaned/test"          # Dossier d'audios de test

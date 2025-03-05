@@ -1,10 +1,15 @@
-📂 chat_dog_classification/
+📂 projet_3/
+    📄 alertmanager.yml
     📄 arborescence.txt
+    📄 clean_arborescence.py
     📄 clean_data.py
     📄 clean_project.sh
     📄 config.py
+    📄 docker-compose.yml
     📄 Dockerfile
+    📄 instruction_api
     📄 main.py
+    📄 prometheus.yml
     📄 README.md
     📄 requirements.txt
     📄 test_results_fusion_v2.csv
@@ -16,7 +21,10 @@
     📂 api/
         📄 api.py
         📄 model_loader.py
+        📄 monitoring.py
         📄 routes.py
+    📂 chat_dog_classification/
+        📄 requirements.txt
     📂 config/
         📄 kaggle.json
     📂 data/
@@ -52,19 +60,59 @@
                         🖼 125 fichiers .png
                     📂 dogs/
                         🖼 85 fichiers .png
+        📂 data_fusion_model/
+            📄 fusion_mapping.csv
+            📄 test_image_audio_mapping.csv
+            📂 cleaned/
+                📂 audio/
+                    📂 test/
+                        📂 cats/
+                            🎵 111 fichiers .wav
+                        📂 dogs/
+                            🎵 93 fichiers .wav
+                    📂 train/
+                        📂 cats/
+                            🎵 427 fichiers .wav
+                        📂 dogs/
+                            🎵 380 fichiers .wav
+                📂 images/
+                    📂 test/
+                        📂 cats/
+                            📸 1000 fichiers .jpg/.jpeg
+                        📂 dogs/
+                            📸 1000 fichiers .jpg/.jpeg
+                    📂 train/
+                        📂 cats/
+                            📸 4000 fichiers .jpg/.jpeg
+                        📂 dogs/
+                            📸 3999 fichiers .jpg/.jpeg
+            📂 spectrograms/
+                📂 test/
+                    📂 cats/
+                        🖼 111 fichiers .png
+                    📂 dogs/
+                        🖼 93 fichiers .png
+                📂 train/
+                    📂 cats/
+                        🖼 427 fichiers .png
+                    📂 dogs/
+                        🖼 380 fichiers .png
             📂 test/
-                📂 cats/
-                📂 dogs/
+                📂 audio/
+                    📂 cats/
+                    📂 dogs/
+                📂 images/
+                    📂 cats/
+                    📂 dogs/
             📂 train/
-                📂 cats/
-                📂 dogs/
+                📂 audio/
+                    📂 cats/
+                    📂 dogs/
+                📂 images/
+                    📂 cats/
+                    📂 dogs/
+                        📸 1243 fichiers .jpg/.jpeg
         📂 extracted/
-            📂 test_set/
-                📂 cats/
-                📂 dogs/
-            📂 training_set/
-                📂 cats/
-                📂 dogs/
             📂 __MACOSX/
                 📂 Cat_Dog_data/
                     📂 test/
@@ -77,6 +125,28 @@
                             📸 11250 fichiers .jpg/.jpeg
                         📂 dog/
                             📸 11250 fichiers .jpg/.jpeg
+        📂 extracted_cat_and_dog/
+            📂 test_set/
+                📂 test_set/
+                    📂 cats/
+                        📄 _DS_Store
+                        📸 1011 fichiers .jpg/.jpeg
+                    📂 dogs/
+                        📄 _DS_Store
+                        📸 1012 fichiers .jpg/.jpeg
+            📂 training_set/
+                📂 training_set/
+                    📂 cats/
+                        📄 _DS_Store
+                        📸 4000 fichiers .jpg/.jpeg
+                    📂 dogs/
+                        📄 _DS_Store
+                        📸 2762 fichiers .jpg/.jpeg
+        📂 extracted_DvC/
+            📂 DvC/
+                📂 Cats/
+                    📄 desktop.ini
+                📂 Dogs/
         📂 images/
             📂 cleaned/
                 📂 test_set/
@@ -92,12 +162,16 @@
     📂 frontend/
         📄 app.py
         📄 frontend_classification.py
-    📂 ia_service/
-        📄 Dockerfile
-        📂 app/
-            📄 app.py
-            📄 requirements.txt
     📂 logs/
+        📂 audio/
+            📂 train/
+                📄 events.out.tfevents.1741170904.DESKTOP-8KG8OD6.9328.0.v2
+                📄 events.out.tfevents.1741177346.DESKTOP-8KG8OD6.20484.0.v2
+                📄 events.out.tfevents.1741177390.DESKTOP-8KG8OD6.25688.0.v2
+            📂 validation/
+                📄 events.out.tfevents.1741170907.DESKTOP-8KG8OD6.9328.1.v2
+                📄 events.out.tfevents.1741177348.DESKTOP-8KG8OD6.20484.1.v2
+                📄 events.out.tfevents.1741177392.DESKTOP-8KG8OD6.25688.1.v2
         📂 audio_image_classifier/
             📂 train/
                 📄 events.out.tfevents.1739974820.DESKTOP-8KG8OD6.16620.0.v2
@@ -108,11 +182,19 @@
                 📄 events.out.tfevents.1739977780.DESKTOP-8KG8OD6.28260.1.v2
                 📄 events.out.tfevents.1740053092.DESKTOP-8KG8OD6.21716.1.v2
     📂 models/
+        📄 audio_classifier.h5
         📄 audio_classifier.keras
         📄 audio_image_classifier.keras
         📄 image_audio_fusion_model.keras
+        📄 image_audio_fusion_model_v2.h5
         📄 image_audio_fusion_model_v2.keras
+        📄 image_audio_fusion_model_v5.keras
+        📄 image_classifier.h5
         📄 image_classifier.keras
+        📄 image_classifier_5.keras
+        📄 teste_models.py
+        📄 test_model_load.py
+    📂 prometheus.yml;C/
     📂 scripts/
         📄 augment_audio.py
         📄 check_arborescence.py
@@ -120,13 +202,16 @@
         📄 check_data_splits.py
         📄 check_model_bias.py
         📄 clean_data.py
+        📄 clean_fusion.py
         📄 clean_images.py
         📄 download_data.py
         📄 extract_data.py
+        📄 extract_data_fusion_model.py
         📄 extract_images.py
         📄 fusion_model_v2.py
         📄 fusion_model_v3.py
         📄 generate_mapping_fixed.py
+        📄 generate_mapping_test.py
         📄 generate_spectrograms.py
         📄 generate_train_mapping.py
         📄 generate_train_mapping_fusion.py
@@ -134,6 +219,7 @@
         📄 preprocess_audio.py
         📄 preprocess_images.py
         📄 run_all.sh
+        📄 spectrogramme_fusion.py
         📄 sync_audio_images.py
         📄 test_fusion_model_v2.py
         📄 test_model.py
@@ -146,6 +232,7 @@
         📄 train_image_audio_fusion.py
         📄 train_image_only.py
         📄 train_model.py
+        📄 verification.ipynb
     📂 tests/
         📄 test_api.py
     📂 utils/

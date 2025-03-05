@@ -3,7 +3,7 @@ data/images/cleaned/test_set\cats\cat.10009.jpg,data/audio/cleaned/test\cats\cat
 data/images/cleaned/test_set\cats\cat.10017.jpg,data/audio/cleaned/test\cats\cat_133.wav,0,0
 data/images/cleaned/test_set\cats\cat.10032.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
 data/images/cleaned/test_set\cats\cat.10038.jpg,data/audio/cleaned/test\cats\cat_28.wav,0,0
-data/images/cleaned/test_set\cats\cat.10054.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.10054.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.10061.jpg,data/audio/cleaned/test\cats\cat_135.wav,0,0
 data/images/cleaned/test_set\cats\cat.10063.jpg,data/audio/cleaned/test\cats\cat_148.wav,0,0
 data/images/cleaned/test_set\cats\cat.10066.jpg,data/audio/cleaned/test\cats\cat_28.wav,0,0
@@ -111,7 +111,7 @@ data/images/cleaned/test_set\cats\cat.10848.jpg,data/audio/cleaned/test\cats\cat
 data/images/cleaned/test_set\cats\cat.10851.jpg,data/audio/cleaned/test\cats\cat_158.wav,0,2
 data/images/cleaned/test_set\cats\cat.10859.jpg,data/audio/cleaned/test\cats\cat_144.wav,0,0
 data/images/cleaned/test_set\cats\cat.10890.jpg,data/audio/cleaned/test\cats\cat_55.wav,0,2
-data/images/cleaned/test_set\cats\cat.10893.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.10893.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.10919.jpg,data/audio/cleaned/test\cats\cat_20.wav,0,0
 data/images/cleaned/test_set\cats\cat.1092.jpg,data/audio/cleaned/test\cats\cat_143.wav,0,0
 data/images/cleaned/test_set\cats\cat.10936.jpg,data/audio/cleaned/test\cats\cat_137.wav,0,0
@@ -146,7 +146,7 @@ data/images/cleaned/test_set\cats\cat.11189.jpg,data/audio/cleaned/test\cats\cat
 data/images/cleaned/test_set\cats\cat.11190.jpg,data/audio/cleaned/test\cats\cat_143.wav,0,0
 data/images/cleaned/test_set\cats\cat.11192.jpg,data/audio/cleaned/test\cats\cat_82.wav,0,0
 data/images/cleaned/test_set\cats\cat.11218.jpg,data/audio/cleaned/test\cats\cat_126.wav,0,0
-data/images/cleaned/test_set\cats\cat.11220.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.11220.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.11249.jpg,data/audio/cleaned/test\cats\cat_75.wav,0,0
 data/images/cleaned/test_set\cats\cat.11258.jpg,data/audio/cleaned/test\cats\cat_29.wav,0,2
 data/images/cleaned/test_set\cats\cat.11270.jpg,data/audio/cleaned/test\cats\cat_20.wav,0,0
@@ -224,7 +224,7 @@ data/images/cleaned/test_set\cats\cat.12003.jpg,data/audio/cleaned/test\cats\cat
 data/images/cleaned/test_set\cats\cat.12014.jpg,data/audio/cleaned/test\cats\cat_126.wav,0,0
 data/images/cleaned/test_set\cats\cat.12026.jpg,data/audio/cleaned/test\cats\cat_17.wav,0,0
 data/images/cleaned/test_set\cats\cat.12028.jpg,data/audio/cleaned/test\cats\cat_135.wav,0,2
-data/images/cleaned/test_set\cats\cat.12031.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.12031.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.1205.jpg,data/audio/cleaned/test\cats\cat_56.wav,0,0
 data/images/cleaned/test_set\cats\cat.12075.jpg,data/audio/cleaned/test\cats\cat_59.wav,0,2
 data/images/cleaned/test_set\cats\cat.12078.jpg,data/audio/cleaned/test\cats\cat_115.wav,0,0
@@ -251,7 +251,7 @@ data/images/cleaned/test_set\cats\cat.12294.jpg,data/audio/cleaned/test\cats\cat
 data/images/cleaned/test_set\cats\cat.12298.jpg,data/audio/cleaned/test\cats\cat_3.wav,0,0
 data/images/cleaned/test_set\cats\cat.12309.jpg,data/audio/cleaned/test\cats\cat_158.wav,0,0
 data/images/cleaned/test_set\cats\cat.1233.jpg,data/audio/cleaned/test\cats\cat_57.wav,0,2
-data/images/cleaned/test_set\cats\cat.12349.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.12349.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.12352.jpg,data/audio/cleaned/test\cats\cat_110.wav,0,0
 data/images/cleaned/test_set\cats\cat.12356.jpg,data/audio/cleaned/test\cats\cat_58.wav,0,0
 data/images/cleaned/test_set\cats\cat.12364.jpg,data/audio/cleaned/test\cats\cat_115.wav,0,0
@@ -264,9 +264,9 @@ data/images/cleaned/test_set\cats\cat.12393.jpg,data/audio/cleaned/test\cats\cat
 data/images/cleaned/test_set\cats\cat.12418.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
 data/images/cleaned/test_set\cats\cat.12426.jpg,data/audio/cleaned/test\cats\cat_24.wav,0,0
 data/images/cleaned/test_set\cats\cat.12434.jpg,data/audio/cleaned/test\cats\cat_79.wav,0,0
-data/images/cleaned/test_set\cats\cat.12452.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.12452.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.12459.jpg,data/audio/cleaned/test\cats\cat_110.wav,0,0
-data/images/cleaned/test_set\cats\cat.1246.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.1246.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.12481.jpg,data/audio/cleaned/test\cats\cat_133.wav,0,2
 data/images/cleaned/test_set\cats\cat.12489.jpg,data/audio/cleaned/test\cats\cat_126.wav,0,0
 data/images/cleaned/test_set\cats\cat.1249.jpg,data/audio/cleaned/test\cats\cat_90.wav,0,0
@@ -393,7 +393,7 @@ data/images/cleaned/test_set\cats\cat.2282.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.2284.jpg,data/audio/cleaned/test\cats\cat_67.wav,0,0
 data/images/cleaned/test_set\cats\cat.2301.jpg,data/audio/cleaned/test\cats\cat_133.wav,0,2
 data/images/cleaned/test_set\cats\cat.2324.jpg,data/audio/cleaned/test\cats\cat_79.wav,0,0
-data/images/cleaned/test_set\cats\cat.2327.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.2327.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.2328.jpg,data/audio/cleaned/test\cats\cat_36.wav,0,0
 data/images/cleaned/test_set\cats\cat.2330.jpg,data/audio/cleaned/test\cats\cat_57.wav,0,0
 data/images/cleaned/test_set\cats\cat.2331.jpg,data/audio/cleaned/test\cats\cat_110.wav,0,0
@@ -405,7 +405,7 @@ data/images/cleaned/test_set\cats\cat.2405.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.2413.jpg,data/audio/cleaned/test\cats\cat_75.wav,0,0
 data/images/cleaned/test_set\cats\cat.2427.jpg,data/audio/cleaned/test\cats\cat_75.wav,0,0
 data/images/cleaned/test_set\cats\cat.2435.jpg,data/audio/cleaned/test\cats\cat_85.wav,0,0
-data/images/cleaned/test_set\cats\cat.2439.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.2439.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.2442.jpg,data/audio/cleaned/test\cats\cat_110.wav,0,0
 data/images/cleaned/test_set\cats\cat.2455.jpg,data/audio/cleaned/test\cats\cat_3.wav,0,0
 data/images/cleaned/test_set\cats\cat.2458.jpg,data/audio/cleaned/test\cats\cat_110.wav,0,0
@@ -472,14 +472,14 @@ data/images/cleaned/test_set\cats\cat.2956.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.2980.jpg,data/audio/cleaned/test\cats\cat_36.wav,0,2
 data/images/cleaned/test_set\cats\cat.2985.jpg,data/audio/cleaned/test\cats\cat_61.wav,0,2
 data/images/cleaned/test_set\cats\cat.2993.jpg,data/audio/cleaned/test\cats\cat_82.wav,0,0
-data/images/cleaned/test_set\cats\cat.3000.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.3000.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.3007.jpg,data/audio/cleaned/test\cats\cat_143.wav,0,0
 data/images/cleaned/test_set\cats\cat.3012.jpg,data/audio/cleaned/test\cats\cat_56.wav,0,0
 data/images/cleaned/test_set\cats\cat.3013.jpg,data/audio/cleaned/test\cats\cat_56.wav,0,0
 data/images/cleaned/test_set\cats\cat.302.jpg,data/audio/cleaned/test\cats\cat_112.wav,0,0
 data/images/cleaned/test_set\cats\cat.3023.jpg,data/audio/cleaned/test\cats\cat_24.wav,0,0
 data/images/cleaned/test_set\cats\cat.3025.jpg,data/audio/cleaned/test\cats\cat_88.wav,0,0
-data/images/cleaned/test_set\cats\cat.3032.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.3032.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.3038.jpg,data/audio/cleaned/test\cats\cat_67.wav,0,0
 data/images/cleaned/test_set\cats\cat.3050.jpg,data/audio/cleaned/test\cats\cat_144.wav,0,2
 data/images/cleaned/test_set\cats\cat.3069.jpg,data/audio/cleaned/test\cats\cat_3.wav,0,0
@@ -516,7 +516,7 @@ data/images/cleaned/test_set\cats\cat.3332.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.3339.jpg,data/audio/cleaned/test\cats\cat_24.wav,0,2
 data/images/cleaned/test_set\cats\cat.3350.jpg,data/audio/cleaned/test\cats\cat_24.wav,0,0
 data/images/cleaned/test_set\cats\cat.3362.jpg,data/audio/cleaned/test\cats\cat_57.wav,0,0
-data/images/cleaned/test_set\cats\cat.3364.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,1
+data/images/cleaned/test_set\cats\cat.3364.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
 data/images/cleaned/test_set\cats\cat.3367.jpg,data/audio/cleaned/test\cats\cat_144.wav,0,0
 data/images/cleaned/test_set\cats\cat.3370.jpg,data/audio/cleaned/test\cats\cat_110.wav,0,2
 data/images/cleaned/test_set\cats\cat.338.jpg,data/audio/cleaned/test\cats\cat_90.wav,0,0
@@ -528,7 +528,7 @@ data/images/cleaned/test_set\cats\cat.3469.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.3472.jpg,data/audio/cleaned/test\cats\cat_82.wav,0,0
 data/images/cleaned/test_set\cats\cat.3481.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
 data/images/cleaned/test_set\cats\cat.3483.jpg,data/audio/cleaned/test\cats\cat_58.wav,0,2
-data/images/cleaned/test_set\cats\cat.3505.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.3505.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.3506.jpg,data/audio/cleaned/test\cats\cat_88.wav,0,0
 data/images/cleaned/test_set\cats\cat.3509.jpg,data/audio/cleaned/test\cats\cat_85.wav,0,0
 data/images/cleaned/test_set\cats\cat.351.jpg,data/audio/cleaned/test\cats\cat_75.wav,0,0
@@ -555,7 +555,7 @@ data/images/cleaned/test_set\cats\cat.3699.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.3708.jpg,data/audio/cleaned/test\cats\cat_130.wav,0,2
 data/images/cleaned/test_set\cats\cat.3709.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
 data/images/cleaned/test_set\cats\cat.3730.jpg,data/audio/cleaned/test\cats\cat_112.wav,0,0
-data/images/cleaned/test_set\cats\cat.3733.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.3733.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.3754.jpg,data/audio/cleaned/test\cats\cat_17.wav,0,0
 data/images/cleaned/test_set\cats\cat.3758.jpg,data/audio/cleaned/test\cats\cat_56.wav,0,0
 data/images/cleaned/test_set\cats\cat.3760.jpg,data/audio/cleaned/test\cats\cat_85.wav,0,0
@@ -602,7 +602,7 @@ data/images/cleaned/test_set\cats\cat.4094.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.414.jpg,data/audio/cleaned/test\cats\cat_158.wav,0,0
 data/images/cleaned/test_set\cats\cat.4143.jpg,data/audio/cleaned/test\cats\cat_29.wav,0,0
 data/images/cleaned/test_set\cats\cat.4191.jpg,data/audio/cleaned/test\cats\cat_58.wav,0,0
-data/images/cleaned/test_set\cats\cat.4193.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.4193.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.4195.jpg,data/audio/cleaned/test\cats\cat_76.wav,0,2
 data/images/cleaned/test_set\cats\cat.42.jpg,data/audio/cleaned/test\cats\cat_115.wav,0,0
 data/images/cleaned/test_set\cats\cat.4205.jpg,data/audio/cleaned/test\cats\cat_130.wav,0,0
@@ -681,14 +681,14 @@ data/images/cleaned/test_set\cats\cat.4775.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.4777.jpg,data/audio/cleaned/test\cats\cat_66.wav,0,0
 data/images/cleaned/test_set\cats\cat.4789.jpg,data/audio/cleaned/test\cats\cat_55.wav,0,0
 data/images/cleaned/test_set\cats\cat.4792.jpg,data/audio/cleaned/test\cats\cat_148.wav,0,0
-data/images/cleaned/test_set\cats\cat.4794.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
-data/images/cleaned/test_set\cats\cat.480.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.4794.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
+data/images/cleaned/test_set\cats\cat.480.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.4811.jpg,data/audio/cleaned/test\cats\cat_143.wav,0,0
 data/images/cleaned/test_set\cats\cat.4815.jpg,data/audio/cleaned/test\cats\cat_137.wav,0,0
 data/images/cleaned/test_set\cats\cat.482.jpg,data/audio/cleaned/test\cats\cat_158.wav,0,0
 data/images/cleaned/test_set\cats\cat.4838.jpg,data/audio/cleaned/test\cats\cat_3.wav,0,0
 data/images/cleaned/test_set\cats\cat.4845.jpg,data/audio/cleaned/test\cats\cat_17.wav,0,2
-data/images/cleaned/test_set\cats\cat.4846.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,1
+data/images/cleaned/test_set\cats\cat.4846.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
 data/images/cleaned/test_set\cats\cat.4861.jpg,data/audio/cleaned/test\cats\cat_112.wav,0,0
 data/images/cleaned/test_set\cats\cat.4872.jpg,data/audio/cleaned/test\cats\cat_133.wav,0,0
 data/images/cleaned/test_set\cats\cat.4884.jpg,data/audio/cleaned/test\cats\cat_24.wav,0,0
@@ -716,7 +716,7 @@ data/images/cleaned/test_set\cats\cat.5045.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.5048.jpg,data/audio/cleaned/test\cats\cat_143.wav,0,2
 data/images/cleaned/test_set\cats\cat.5062.jpg,data/audio/cleaned/test\cats\cat_75.wav,0,0
 data/images/cleaned/test_set\cats\cat.5070.jpg,data/audio/cleaned/test\cats\cat_144.wav,0,0
-data/images/cleaned/test_set\cats\cat.5078.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.5078.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.5079.jpg,data/audio/cleaned/test\cats\cat_88.wav,0,0
 data/images/cleaned/test_set\cats\cat.5094.jpg,data/audio/cleaned/test\cats\cat_17.wav,0,0
 data/images/cleaned/test_set\cats\cat.5097.jpg,data/audio/cleaned/test\cats\cat_29.wav,0,0
@@ -814,7 +814,7 @@ data/images/cleaned/test_set\cats\cat.5894.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.5916.jpg,data/audio/cleaned/test\cats\cat_66.wav,0,0
 data/images/cleaned/test_set\cats\cat.5922.jpg,data/audio/cleaned/test\cats\cat_36.wav,0,0
 data/images/cleaned/test_set\cats\cat.5931.jpg,data/audio/cleaned/test\cats\cat_58.wav,0,0
-data/images/cleaned/test_set\cats\cat.5933.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.5933.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.5942.jpg,data/audio/cleaned/test\cats\cat_115.wav,0,0
 data/images/cleaned/test_set\cats\cat.5949.jpg,data/audio/cleaned/test\cats\cat_3.wav,0,0
 data/images/cleaned/test_set\cats\cat.5962.jpg,data/audio/cleaned/test\cats\cat_57.wav,0,2
@@ -926,7 +926,7 @@ data/images/cleaned/test_set\cats\cat.6909.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.6911.jpg,data/audio/cleaned/test\cats\cat_24.wav,0,2
 data/images/cleaned/test_set\cats\cat.692.jpg,data/audio/cleaned/test\cats\cat_90.wav,0,2
 data/images/cleaned/test_set\cats\cat.6936.jpg,data/audio/cleaned/test\cats\cat_115.wav,0,0
-data/images/cleaned/test_set\cats\cat.6948.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.6948.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.695.jpg,data/audio/cleaned/test\cats\cat_76.wav,0,0
 data/images/cleaned/test_set\cats\cat.6959.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
 data/images/cleaned/test_set\cats\cat.6976.jpg,data/audio/cleaned/test\cats\cat_67.wav,0,0
@@ -972,7 +972,7 @@ data/images/cleaned/test_set\cats\cat.7298.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.7311.jpg,data/audio/cleaned/test\cats\cat_28.wav,0,0
 data/images/cleaned/test_set\cats\cat.7322.jpg,data/audio/cleaned/test\cats\cat_133.wav,0,2
 data/images/cleaned/test_set\cats\cat.7333.jpg,data/audio/cleaned/test\cats\cat_133.wav,0,0
-data/images/cleaned/test_set\cats\cat.734.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.734.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.7343.jpg,data/audio/cleaned/test\cats\cat_36.wav,0,0
 data/images/cleaned/test_set\cats\cat.7368.jpg,data/audio/cleaned/test\cats\cat_75.wav,0,0
 data/images/cleaned/test_set\cats\cat.7380.jpg,data/audio/cleaned/test\cats\cat_42.wav,0,0
@@ -1171,12 +1171,12 @@ data/images/cleaned/test_set\cats\cat.925.jpg,data/audio/cleaned/test\cats\cat_2
 data/images/cleaned/test_set\cats\cat.9265.jpg,data/audio/cleaned/test\cats\cat_24.wav,0,0
 data/images/cleaned/test_set\cats\cat.9267.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
 data/images/cleaned/test_set\cats\cat.9274.jpg,data/audio/cleaned/test\cats\cat_57.wav,0,0
-data/images/cleaned/test_set\cats\cat.9297.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.9297.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.9327.jpg,data/audio/cleaned/test\cats\cat_82.wav,0,2
 data/images/cleaned/test_set\cats\cat.9328.jpg,data/audio/cleaned/test\cats\cat_79.wav,0,0
 data/images/cleaned/test_set\cats\cat.9334.jpg,data/audio/cleaned/test\cats\cat_135.wav,0,0
 data/images/cleaned/test_set\cats\cat.9338.jpg,data/audio/cleaned/test\cats\cat_137.wav,0,0
-data/images/cleaned/test_set\cats\cat.934.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,1
+data/images/cleaned/test_set\cats\cat.934.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
 data/images/cleaned/test_set\cats\cat.9380.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
 data/images/cleaned/test_set\cats\cat.9382.jpg,data/audio/cleaned/test\cats\cat_42.wav,0,2
 data/images/cleaned/test_set\cats\cat.939.jpg,data/audio/cleaned/test\cats\cat_17.wav,0,0
@@ -1184,7 +1184,7 @@ data/images/cleaned/test_set\cats\cat.9390.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.9398.jpg,data/audio/cleaned/test\cats\cat_36.wav,0,0
 data/images/cleaned/test_set\cats\cat.9415.jpg,data/audio/cleaned/test\cats\cat_3.wav,0,0
 data/images/cleaned/test_set\cats\cat.9427.jpg,data/audio/cleaned/test\cats\cat_55.wav,0,2
-data/images/cleaned/test_set\cats\cat.9430.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,1
+data/images/cleaned/test_set\cats\cat.9430.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
 data/images/cleaned/test_set\cats\cat.9436.jpg,data/audio/cleaned/test\cats\cat_152.wav,0,0
 data/images/cleaned/test_set\cats\cat.9462.jpg,data/audio/cleaned/test\cats\cat_79.wav,0,2
 data/images/cleaned/test_set\cats\cat.9485.jpg,data/audio/cleaned/test\cats\cat_135.wav,0,0
@@ -1245,7 +1245,7 @@ data/images/cleaned/test_set\cats\cat.9951.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\cats\cat.9965.jpg,data/audio/cleaned/test\cats\cat_90.wav,0,0
 data/images/cleaned/test_set\cats\cat.9969.jpg,data/audio/cleaned/test\cats\cat_67.wav,0,0
 data/images/cleaned/test_set\cats\cat.9976.jpg,data/audio/cleaned/test\cats\cat_17.wav,0,0
-data/images/cleaned/test_set\cats\cat.9985.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,2
+data/images/cleaned/test_set\cats\cat.9985.jpg,data/audio/cleaned/test\cats\cat_14.wav,0,0
 data/images/cleaned/test_set\cats\cat.9989.jpg,data/audio/cleaned/test\cats\cat_28.wav,0,0
 data/images/cleaned/test_set\cats\cat.9992.jpg,data/audio/cleaned/test\cats\cat_133.wav,0,0
 data/images/cleaned/test_set\cats\cat.9998.jpg,data/audio/cleaned/test\cats\cat_129.wav,0,0
@@ -2890,7 +2890,7 @@ data/images/cleaned/test_set\dogs\dog.3893.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\dogs\dog.3908.jpg,data/audio/cleaned/test\cats\cat_56.wav,2,2
 data/images/cleaned/test_set\dogs\dog.3967.jpg,data/audio/cleaned/test\cats\cat_79.wav,2,2
 data/images/cleaned/test_set\dogs\dog.3977.jpg,data/audio/cleaned/test\cats\cat_115.wav,2,2
-data/images/cleaned/test_set\dogs\dog.4084.jpg,data/audio/cleaned/test\cats\cat_14.wav,2,1
+data/images/cleaned/test_set\dogs\dog.4084.jpg,data/audio/cleaned/test\cats\cat_14.wav,2,2
 data/images/cleaned/test_set\dogs\dog.4157.jpg,data/audio/cleaned/test\cats\cat_20.wav,2,0
 data/images/cleaned/test_set\dogs\dog.4200.jpg,data/audio/cleaned/test\cats\cat_126.wav,2,2
 data/images/cleaned/test_set\dogs\dog.4510.jpg,data/audio/cleaned/test\cats\cat_152.wav,2,2
@@ -2977,7 +2977,7 @@ data/images/cleaned/test_set\dogs\dog.7889.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\dogs\dog.7963.jpg,data/audio/cleaned/test\cats\cat_75.wav,2,2
 data/images/cleaned/test_set\dogs\dog.7965.jpg,data/audio/cleaned/test\cats\cat_90.wav,2,2
 data/images/cleaned/test_set\dogs\dog.8017.jpg,data/audio/cleaned/test\cats\cat_88.wav,2,2
-data/images/cleaned/test_set\dogs\dog.8045.jpg,data/audio/cleaned/test\cats\cat_14.wav,2,1
+data/images/cleaned/test_set\dogs\dog.8045.jpg,data/audio/cleaned/test\cats\cat_14.wav,2,2
 data/images/cleaned/test_set\dogs\dog.8102.jpg,data/audio/cleaned/test\cats\cat_59.wav,2,2
 data/images/cleaned/test_set\dogs\dog.8149.jpg,data/audio/cleaned/test\cats\cat_59.wav,2,2
 data/images/cleaned/test_set\dogs\dog.8202.jpg,data/audio/cleaned/test\cats\cat_86.wav,2,2
@@ -3012,7 +3012,7 @@ data/images/cleaned/test_set\dogs\dog.9376.jpg,data/audio/cleaned/test\cats\cat_
 data/images/cleaned/test_set\dogs\dog.9409.jpg,data/audio/cleaned/test\cats\cat_20.wav,2,2
 data/images/cleaned/test_set\dogs\dog.9410.jpg,data/audio/cleaned/test\cats\cat_86.wav,2,2
 data/images/cleaned/test_set\dogs\dog.955.jpg,data/audio/cleaned/test\cats\cat_143.wav,2,2
-data/images/cleaned/test_set\dogs\dog.9558.jpg,data/audio/cleaned/test\cats\cat_14.wav,2,1
+data/images/cleaned/test_set\dogs\dog.9558.jpg,data/audio/cleaned/test\cats\cat_14.wav,2,2
 data/images/cleaned/test_set\dogs\dog.9640.jpg,data/audio/cleaned/test\cats\cat_135.wav,2,2
 data/images/cleaned/test_set\dogs\dog.9672.jpg,data/audio/cleaned/test\cats\cat_66.wav,2,2
 data/images/cleaned/test_set\dogs\dog.9679.jpg,data/audio/cleaned/test\cats\cat_55.wav,2,2
