@@ -1,5 +1,3 @@
-# monitoring.py (corrigé)
-
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 from fastapi import FastAPI, Response
 

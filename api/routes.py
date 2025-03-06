@@ -30,11 +30,6 @@ request_counter = Counter("http_requests_total", "Nombre total de requêtes reç
 prediction_duration = Histogram("model_prediction_duration_seconds", "Durée des prédictions du modèle en secondes")
 prediction_errors = Counter("model_prediction_errors_total", "Nombre total d'erreurs lors des prédictions")
 
-# Middleware pour compter les requêtes
-@router.middleware("http")
-async def count_requests(request, call_next):
-    request_counter.inc()
-    return await call_next(request)
 
 # Endpoint pour exposer les métriques Prometheus
 @router.get("/metrics", tags=["Monitoring"])
