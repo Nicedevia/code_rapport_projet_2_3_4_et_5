@@ -10,8 +10,7 @@ import time
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from fastapi.responses import Response
 from .model_loader import load_image_model, load_audio_model, load_fusion_model
-from config import DEFAULT_THRESHOLD
-
+DEFAULT_THRESHOLD = 0.5
 router = APIRouter()
 
 # Charger les modèles et créer les extracteurs de features

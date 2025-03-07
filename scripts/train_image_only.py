@@ -12,8 +12,8 @@ TRAIN_IMAGE_DIR = "data/images/cleaned/training_set"
 
 # Paramètres
 IMG_SIZE = (64, 64)
-BATCH_SIZE = 32
-EPOCHS = 30
+BATCH_SIZE = 128
+EPOCHS = 20
 
 # Création d'un générateur d'images avec augmentation
 train_datagen = ImageDataGenerator(
@@ -98,6 +98,6 @@ history = model.fit(
 
 # Sauvegarde du modèle
 os.makedirs("models", exist_ok=True)
-model.save("models/image_classifier_6.keras")
+model.save("models/image_classifier_final.keras")
 print("✅ Modèle image sauvegardé !")
 

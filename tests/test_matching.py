@@ -1,11 +1,20 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import pytest
-from scripts.matching import create_matching_pairs  # Fonction qui fait le matching des paires
+from scripts.generate_train_mapping_fusion import create_matching_pairs
 
 def test_matching_pairs():
-    pairs = create_matching_pairs("data/images/", "data/audio/")
+    # Utilisation des chemins fournis :
+    # Pour les images, on utilise "data/images/cleaned/training_set"
+    # Pour l'audio, on utilise "data/data_fusion_model/spectrograms/test"
+    image_base = r"data/images/cleaned/training_set/cats"
+    audio_base = r"data/data_fusion_model/spectrograms/test/cats"
+    
+    pairs = create_matching_pairs(image_base, audio_base)
     assert len(pairs) > 0, "Erreur: Aucune paire formée"
     
     # Vérifie que chaque paire a bien un label 0, 1 ou 2
-    for _, _, label in pairs:
-        assert label in [0, 1, 2], "Erreur: Label incorrect"
-
+    for img_path, aud_path, label in pairs:
+        assert label in [0, 1, 2], f"Erreur: Label incorrect ({label})"

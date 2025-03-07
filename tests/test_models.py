@@ -1,7 +1,14 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import numpy as np
 import tensorflow as tf
-import os
-from config import MODEL_PATHS
+
+MODEL_PATHS = {
+    "image": "models/image_classifier.h5",
+    "audio": "models/audio_classifier.h5",
+    "fusion": "models/image_audio_fusion_model_v2.h5"
+}
 
 def load_model(path):
     """

@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import os
 import tensorflow as tf
@@ -44,6 +47,33 @@ def preprocess_audio(audio_path):
     spec_img = cv2.resize(spec_img, (64, 64)) / 255.0
     return spec_img.reshape(64, 64, 1)
 
+
+def predict(model, image_path, audio_path):
+    """
+    Effectue la prédiction en chargeant et prétraitant l'image et l'audio donnés.
+    Retourne un entier parmi [0, 1, 2] représentant la classe prédite.
+      - 0 : Chat
+      - 1 : Chien
+      - 2 : Erreur
+    """
+    # Prétraitement de l'image
+    img = preprocess_image(image_path)
+    if img is None:
+        raise ValueError(f"Impossible de charger l'image à {image_path}")
+    
+    # Prétraitement de l'audio
+    aud = preprocess_audio(audio_path)
+    if aud is None:
+        raise ValueError(f"Impossible de charger l'audio à {audio_path}")
+    
+    # Effectuer la prédiction
+    prediction_proba = model.predict([np.expand_dims(img, axis=0), np.expand_dims(aud, axis=0)])
+    predicted_class = int(np.argmax(prediction_proba, axis=1)[0])
+    
+    return predicted_class
+
+
+
 # --- Chargement du mapping ---
 df = pd.read_csv(MAPPING_CSV)
 print(f"Nombre d'exemples dans le mapping : {len(df)}")
@@ -75,8 +105,8 @@ plt.show()
 # --- Chargement des modèles individuels pré-entraînés ---
 print("Chargement des modèles individuels pré-entraînés...")
 # Remplacer par le chemin correct selon vos sauvegardes
-image_model = tf.keras.models.load_model("models/image_classifier_5.keras")
-audio_model = tf.keras.models.load_model("models/audio_classifier.keras")
+image_model = tf.keras.models.load_model("models/image_classifier_final.keras")
+audio_model = tf.keras.models.load_model("models/audio_classifier_final.keras")
 print("Modèles individuels chargés.")
 
 # --- Extraction des features jusqu'à la couche Flatten ---
@@ -157,7 +187,7 @@ callbacks = [
 # --- Entraînement ---
 print("Entraînement du modèle fusionné...")
 history = fusion_model.fit([X_images, X_audio], y_labels,
-                           epochs=10, validation_split=0.2, batch_size=16,
+                           epochs=10, validation_split=0.2, batch_size=64,
                            callbacks=callbacks)
 
 # Sauvegarde du modèle fusionné

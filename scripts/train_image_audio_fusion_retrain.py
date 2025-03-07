@@ -46,7 +46,7 @@ def prepare_image(image_path):
 def prepare_audio(audio_path):
     """Charge et prétraite un fichier audio en spectrogramme."""
     try:
-        y, sr = librosa.load(audio_path, sr=22050, duration=2)
+        y, sr = librosa.load(audio_path, sr=22050)
     except Exception as e:
         print(f"Erreur audio {audio_path}: {e}")
         return None

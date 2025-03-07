@@ -1,7 +1,6 @@
 # api/model_loader.py
 
 import tensorflow as tf
-from config import MODEL_PATHS
 
 def load_image_model():
     print("🔍 Chargement du modèle IMAGE...")

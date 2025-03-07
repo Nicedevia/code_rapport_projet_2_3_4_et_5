@@ -17,21 +17,26 @@
     📄 test_results_v6.csv
     📄 test_results_v7.csv
     📄 test_results_v8.csv
+    📄 __ini__.py
     🖼 3 fichiers .png
     📂 api/
         📄 api.py
         📄 model_loader.py
         📄 monitoring.py
         📄 routes.py
+        📄 __ini__.py
     📂 chat_dog_classification/
         📄 requirements.txt
+        📄 __ini__.py
     📂 config/
         📄 kaggle.json
+        📄 __ini__.py
     📂 data/
         📄 audio-cats-and-dogs.zip
         📄 cat-and-dog.zip
         📄 Cat_Dog_data.zip
         📄 DvC.zip
+        📄 __ini__.py
         📂 audio/
             📄 test_image_audio_mapping.csv
             📄 train_image_audio_fusion_mapping.csv
@@ -159,10 +164,23 @@
                         📸 11248 fichiers .jpg/.jpeg
                     📂 dogs/
                         📸 11249 fichiers .jpg/.jpeg
+        📂 training/
+            📂 audio/
+                📂 chat/
+                    🎵 3 fichiers .wav
+                📂 chien/
+                    🎵 4 fichiers .wav
+            📂 images/
+                📂 chat/
+                    📸 3 fichiers .jpg/.jpeg
+                📂 chien/
+                    📸 2 fichiers .jpg/.jpeg
     📂 frontend/
         📄 app.py
         📄 frontend_classification.py
+        📄 __ini__.py
     📂 logs/
+        📄 __ini__.py
         📂 audio/
             📂 train/
                 📄 events.out.tfevents.1741170904.DESKTOP-8KG8OD6.9328.0.v2
@@ -181,11 +199,22 @@
                 📄 events.out.tfevents.1739974843.DESKTOP-8KG8OD6.16620.1.v2
                 📄 events.out.tfevents.1739977780.DESKTOP-8KG8OD6.28260.1.v2
                 📄 events.out.tfevents.1740053092.DESKTOP-8KG8OD6.21716.1.v2
+        📂 fusion_finetune/
+            📂 train/
+                📄 events.out.tfevents.1741273630.DESKTOP-8KG8OD6.13480.0.v2
+                📄 events.out.tfevents.1741275877.DESKTOP-8KG8OD6.10824.0.v2
+                📄 events.out.tfevents.1741276096.DESKTOP-8KG8OD6.14144.0.v2
+            📂 validation/
+                📄 events.out.tfevents.1741273632.DESKTOP-8KG8OD6.13480.1.v2
+                📄 events.out.tfevents.1741275879.DESKTOP-8KG8OD6.10824.1.v2
+                📄 events.out.tfevents.1741276098.DESKTOP-8KG8OD6.14144.1.v2
     📂 models/
         📄 audio_classifier.h5
         📄 audio_classifier.keras
         📄 audio_image_classifier.keras
         📄 image_audio_fusion_model.keras
+        📄 image_audio_fusion_model_retrained.keras
+        📄 image_audio_fusion_model_v10.keras
         📄 image_audio_fusion_model_v2.h5
         📄 image_audio_fusion_model_v2.keras
         📄 image_audio_fusion_model_v5.keras
@@ -194,8 +223,9 @@
         📄 image_classifier_5.keras
         📄 teste_models.py
         📄 test_model_load.py
-    📂 prometheus.yml;C/
+        📄 __ini__.py
     📂 scripts/
+        📄 aaa.py
         📄 augment_audio.py
         📄 check_arborescence.py
         📄 check_data_integrity.py
@@ -230,10 +260,21 @@
         📄 train_audio_model.py
         📄 train_audio_only.py
         📄 train_image_audio_fusion.py
+        📄 train_image_audio_fusion_retrain.py
         📄 train_image_only.py
         📄 train_model.py
         📄 verification.ipynb
+        📄 __ini__.py
     📂 tests/
+        📄 README.md
         📄 test_api.py
+        📄 test_inference.py
+        📄 test_matching.py
+        📄 test_models.py
+        📄 test_performance.py
+        📄 test_preprocessing.py
+        📄 test_training.py
+        📄 __ini__.py
     📂 utils/
         📄 helpers.py
+        📄 __ini__.py

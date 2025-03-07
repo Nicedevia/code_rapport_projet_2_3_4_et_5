@@ -1,9 +1,13 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import time
 import memory_profiler
-from scripts.predict import predict
+from scripts.train_image_audio_fusion import predict
 import tensorflow as tf
 
-model = tf.keras.models.load_model("models/image_audio_fusion_model_v5.keras")
+model = tf.keras.models.load_model("models/image_audio_fusion_model_final.keras")
 
 def test_performance():
     start_time = time.time()
