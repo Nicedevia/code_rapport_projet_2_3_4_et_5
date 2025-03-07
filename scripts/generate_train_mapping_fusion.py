@@ -6,7 +6,7 @@ import random
 import csv
 
 # Paramètre de sous-échantillonnage pour les paires discordantes (ici 20% seulement)
-discordant_sample_rate = 0.20
+discordant_sample_rate = 0.50
 
 # Répertoires d'images d'entraînement (images nettoyées)
 image_train_cats = r"C:\Users\briac\Desktop\projet_3\data\data_fusion_model\cleaned\images\train\cats"

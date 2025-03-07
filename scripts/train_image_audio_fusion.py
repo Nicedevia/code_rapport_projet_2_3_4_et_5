@@ -12,11 +12,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from tensorflow.keras.layers import Input, Dense, Dropout, concatenate
 from tensorflow.keras.models import Model
-from tqdm.keras import TqdmCallback
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from tqdm.keras import TqdmCallback
 
 # --- Configuration et chemins ---
-# Mise à jour du chemin vers le mapping généré précédemment
 MAPPING_CSV = r"C:\Users\briac\Desktop\projet_3\data\data_fusion_model\fusion_mapping.csv"
 
 # --- Fonctions de prétraitement ---
@@ -35,7 +34,6 @@ def preprocess_audio(audio_path):
     et que le spectrogramme est pré-généré dans :
       ...\spectrograms\...\xxx.png
     """
-    # Transformation du chemin : remplace "cleaned" par "spectrograms" et ".wav" par ".png"
     spec_path = audio_path.replace("cleaned", "spectrograms").replace(".wav", ".png")
     if not os.path.exists(spec_path):
         print(f"❌ Spectrogramme introuvable pour {audio_path} -> {spec_path}")
@@ -66,15 +64,51 @@ y_labels = np.array(y_labels)
 
 print(f"Dataset final : {X_images.shape[0]} exemples")
 
+# --- Visualisation de la répartition des classes ---
+plt.figure(figsize=(6,4))
+sns.countplot(x=y_labels)
+plt.title("Répartition des classes")
+plt.xlabel("Classe")
+plt.ylabel("Nombre d'exemples")
+plt.show()
+
 # --- Chargement des modèles individuels pré-entraînés ---
 print("Chargement des modèles individuels pré-entraînés...")
+# Remplacer par le chemin correct selon vos sauvegardes
 image_model = tf.keras.models.load_model("models/image_classifier_5.keras")
 audio_model = tf.keras.models.load_model("models/audio_classifier.keras")
 print("Modèles individuels chargés.")
 
-# Extraction des features : utilisation de la sortie de la couche avant la dernière (supposée Dense(256))
-image_feature_model = Model(inputs=image_model.input, outputs=image_model.layers[-2].output, name="image_feature_extractor")
-audio_feature_model = Model(inputs=audio_model.input, outputs=audio_model.layers[-2].output, name="audio_feature_extractor")
+# --- Extraction des features jusqu'à la couche Flatten ---
+# Pour le modèle image
+flatten_image_layer = None
+for layer in image_model.layers:
+    if isinstance(layer, tf.keras.layers.Flatten):
+        flatten_image_layer = layer
+        break
+if flatten_image_layer is None:
+    raise ValueError("Aucune couche Flatten trouvée dans le modèle image.")
+
+image_feature_model = Model(
+    inputs=image_model.input,
+    outputs=flatten_image_layer.output,
+    name="image_feature_extractor"
+)
+
+# Pour le modèle audio
+flatten_audio_layer = None
+for layer in audio_model.layers:
+    if isinstance(layer, tf.keras.layers.Flatten):
+        flatten_audio_layer = layer
+        break
+if flatten_audio_layer is None:
+    raise ValueError("Aucune couche Flatten trouvée dans le modèle audio.")
+
+audio_feature_model = Model(
+    inputs=audio_model.input,
+    outputs=flatten_audio_layer.output,
+    name="audio_feature_extractor"
+)
 
 # Optionnel : geler les extracteurs pour se concentrer sur l'entraînement des couches de fusion
 image_feature_model.trainable = False
@@ -95,7 +129,11 @@ fc = Dense(64, activation="relu")(fc)
 final_output = Dense(3, activation="softmax", name="output_layer")(fc)
 
 fusion_model = Model(inputs=[image_input, audio_input], outputs=final_output, name="fusion_model")
-fusion_model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+# 🔹 On donne plus de poids à la classe "Erreur" (2) pour qu'elle soit bien prise en compte
+class_weights = {"output_layer": {0: 1.0, 1: 1.0, 2: 2.5}}
+fusion_model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"], loss_weights=class_weights)
+
+
 fusion_model.summary()
 
 # --- Callbacks personnalisés ---
@@ -124,5 +162,57 @@ history = fusion_model.fit([X_images, X_audio], y_labels,
 
 # Sauvegarde du modèle fusionné
 os.makedirs("models", exist_ok=True)
-fusion_model.save("models/image_audio_fusion_model_v5.keras")
+fusion_model.save("models/image_audio_fusion_model_v10.keras")
 print("Modèle fusionné sauvegardé avec succès !")
+
+# --- Visualisation des courbes d'entraînement ---
+# Affichage du log loss et de l'accuracy
+plt.figure(figsize=(12,5))
+
+# Log Loss
+plt.subplot(1,2,1)
+plt.plot(history.history["loss"], label="Train Loss")
+plt.plot(history.history["val_loss"], label="Validation Loss")
+plt.title("Courbe du Log Loss")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.legend()
+
+# Accuracy
+plt.subplot(1,2,2)
+plt.plot(history.history["accuracy"], label="Train Accuracy")
+plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
+plt.title("Courbe de l'Accuracy")
+plt.xlabel("Epoch")
+plt.ylabel("Accuracy")
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+# --- Evaluation sur un ensemble de validation séparé ---
+# Pour obtenir une matrice de confusion, nous allons reconstruire un ensemble de validation
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report
+
+# Séparation en train/validation (20% pour validation)
+X_train_img, X_val_img, X_train_audio, X_val_audio, y_train, y_val = train_test_split(
+    X_images, X_audio, y_labels, test_size=0.2, random_state=42
+)
+
+# Prédictions sur l'ensemble de validation
+y_pred_proba = fusion_model.predict([X_val_img, X_val_audio])
+y_pred = np.argmax(y_pred_proba, axis=1)
+
+# Affichage des métriques
+print("Classification Report :")
+print(classification_report(y_val, y_pred))
+
+# Calcul et affichage de la matrice de confusion
+cm = confusion_matrix(y_val, y_pred)
+plt.figure(figsize=(6,5))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+plt.title("Matrice de Confusion")
+plt.xlabel("Prédictions")
+plt.ylabel("Véritables labels")
+plt.show()
