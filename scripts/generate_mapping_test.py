@@ -60,16 +60,23 @@ if os.path.exists(image_test_dogs) and os.path.exists(audio_test_cats):
 
 # Sauvegarde du mapping dans un fichier CSV
 import os  
+import os  
 
-# Définition d'un chemin relatif portable
+# Définition d'un chemin RELATIF
 output_csv = os.path.join("data", "data_fusion_model", "test_image_audio_mapping.csv")
 
-# Création du dossier si nécessaire
-os.makedirs(os.path.dirname(output_csv), exist_ok=True)
+# Vérification et correction
+output_dir = os.path.dirname(output_csv)
+if not output_dir:  # Si output_dir est vide, on force un chemin valide
+    output_dir = "data/data_fusion_model"
 
+os.makedirs(output_dir, exist_ok=True)
+
+# Écriture du fichier CSV
 with open(output_csv, "w", newline="", encoding="utf-8") as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(["image_path", "audio_path", "label"])
     writer.writerows(mapping_rows)
 
-print(f"Mapping de test généré : {len(mapping_rows)} paires enregistrées dans {output_csv}")
+print(f"✅ Mapping de test généré : {len(mapping_rows)} paires enregistrées dans {output_csv}")
+
