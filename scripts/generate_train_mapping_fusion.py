@@ -1,57 +1,55 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 import os
 import random
 import csv
 
 discordant_sample_rate = 0.50
 
-def create_matching_pairs(image_train_cats="data/data_fusion_model/cleaned/images/train/cats",
-                          image_train_dogs="data/data_fusion_model/cleaned/images/train/dogs",
-                          audio_train_cats="data/data_fusion_model/spectrograms/train/cats",
-                          audio_train_dogs="data/data_fusion_model/spectrograms/train/dogs"):
+def create_matching_pairs(image_cats, audio_cats, image_dogs, audio_dogs):
     """
-    Génère des paires image-audio et leurs labels.
-    Retourne une liste de paires sous la forme [image_path, audio_path, label].
+    Génère des paires image-audio et leurs labels pour les chats et les chiens.
     """
     mapping_rows = []
 
-    def list_files(directory, extensions):
-        """Liste les fichiers dans un dossier avec certaines extensions."""
-        return [os.path.join(directory, f) for f in os.listdir(directory)
-                if f.lower().endswith(extensions)] if os.path.exists(directory) else []
+    # --- Paires concordantes (Matching) ---
+    def get_files(path, extensions=(".jpg", ".jpeg", ".png", ".wav")):
+        """Retourne une liste de fichiers valides dans un dossier donné."""
+        return [os.path.join(path, f) for f in os.listdir(path) if f.lower().endswith(extensions)]
+    
+    cat_images = get_files(image_cats, (".jpg", ".jpeg", ".png"))
+    dog_images = get_files(image_dogs, (".jpg", ".jpeg", ".png"))
+    cat_audios = get_files(audio_cats, (".wav"))
+    dog_audios = get_files(audio_dogs, (".wav"))
 
-    # Charger les fichiers
-    cat_images = list_files(image_train_cats, (".jpg", ".jpeg", ".png"))
-    cat_audios = list_files(audio_train_cats, (".png", ".jpg", ".jpeg"))
-    dog_images = list_files(image_train_dogs, (".jpg", ".jpeg", ".png"))
-    dog_audios = list_files(audio_train_dogs, (".png", ".jpg", ".jpeg"))
-
+    # 📂 Vérifier si les fichiers existent bien
     print(f"📂 Chat images: {len(cat_images)}, Chat audios: {len(cat_audios)}")
     print(f"📂 Chien images: {len(dog_images)}, Chien audios: {len(dog_audios)}")
 
-    # Création des paires concordantes
+    # Chat (label 0)
     for img in cat_images:
         if cat_audios:
             aud = random.choice(cat_audios)
-            mapping_rows.append([img, aud, 0])  # Chat
+            mapping_rows.append([img, aud, 0])  # 0 = Chat
 
+    # Chien (label 1)
     for img in dog_images:
         if dog_audios:
             aud = random.choice(dog_audios)
-            mapping_rows.append([img, aud, 1])  # Chien
+            mapping_rows.append([img, aud, 1])  # 1 = Chien
 
-    # Création des paires discordantes (erreurs)
+    # --- Paires discordantes (Erreur, label 2) ---
+    # Chat image + Chien audio
     for img in cat_images:
         if dog_audios and random.random() < discordant_sample_rate:
             aud = random.choice(dog_audios)
-            mapping_rows.append([img, aud, 2])  # Erreur
+            mapping_rows.append([img, aud, 2])  # 2 = Erreur
 
+    # Chien image + Chat audio
     for img in dog_images:
         if cat_audios and random.random() < discordant_sample_rate:
             aud = random.choice(cat_audios)
-            mapping_rows.append([img, aud, 2])  # Erreur
+            mapping_rows.append([img, aud, 2])  # 2 = Erreur
 
     return mapping_rows
 
