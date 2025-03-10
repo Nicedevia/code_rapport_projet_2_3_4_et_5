@@ -7,7 +7,7 @@ import tensorflow as tf
 MODEL_PATHS = {
     "image": "models/image_classifier.h5",
     "audio": "models/audio_classifier.h5",
-    "fusion": "models/models/image_audio_fusion_new_model_v2.keras"
+    "fusion": "models/image_audio_fusion_new_model_v2.keras"
 }
 
 def load_model(path):
@@ -16,8 +16,6 @@ def load_model(path):
     """
     assert os.path.exists(path), f"Le modèle n'existe pas: {path}"
     return tf.keras.models.load_model(path)
-
-import numpy as np
 
 def test_image_model_inference():
     # Chargement du modèle (supposons qu'il soit déjà chargé)
@@ -45,9 +43,9 @@ def test_audio_model_inference():
 def test_fusion_model_inference():
     """Vérifie que le modèle de fusion combine correctement les deux vecteurs de caractéristiques."""
     model = load_model(MODEL_PATHS["fusion"])
-    # Supposons que le modèle de fusion attend deux vecteurs de taille (1,256)
-    dummy_input1 = np.random.rand(1, 256).astype(np.float32)
-    dummy_input2 = np.random.rand(1, 256).astype(np.float32)
+    # Supposons que le modèle de fusion attend deux entrées de taille (1, 64, 64, 1)
+    dummy_input1 = np.random.rand(1, 64, 64, 1).astype(np.float32)
+    dummy_input2 = np.random.rand(1, 64, 64, 1).astype(np.float32)
     prediction = model.predict([dummy_input1, dummy_input2])
     # Par exemple, le modèle de fusion doit renvoyer une prédiction sur 3 classes
     assert prediction.shape[0] == 1, "La fusion doit renvoyer une prédiction pour 1 échantillon"

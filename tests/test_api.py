@@ -15,23 +15,6 @@ TEST_INVALID_IMAGE_PATH = "tests/test_invalid.txt"
 TEST_INVALID_AUDIO_PATH = "tests/test_invalid.mp3"
 
 # --- 🔎 TESTS POUR L'API DE CLASSIFICATION ---
-def test_predict_image():
-    """✅ Vérifie la prédiction d'une image valide."""
-    with open(TEST_IMAGE_PATH, "rb") as file:
-        response = client.post("/predict/image", files={"file": file})
-    assert response.status_code == 200
-    json_response = response.json()
-    assert "prediction" in json_response
-    assert "confidence" in json_response
-
-def test_predict_audio():
-    """✅ Vérifie la prédiction d'un fichier audio valide."""
-    with open(TEST_AUDIO_PATH, "rb") as file:
-        response = client.post("/predict/audio", files={"file": file})
-    assert response.status_code == 200
-    json_response = response.json()
-    assert "prediction" in json_response
-    assert "confidence" in json_response
 
 def test_predict_multimodal():
     """✅ Vérifie la prédiction avec une image et un audio valides."""

@@ -8,8 +8,7 @@ import tensorflow as tf
 from scripts.newmodel import predict  # Fonction de prédiction
 
 
-model = tf.keras.models.load_model("models/image_audio_fusion_model_v10.keras")
-
+model = tf.keras.models.load_model("models/image_audio_fusion_new_model_v2.keras")
 def test_prediction():
-    result = predict(model, "data/images/test/cat.jpg", "data/audio/test/cat.wav")
+    result = predict(model, "data/images/cleaned/test_set/cats/cat.16.jpg", "data/audio/cleaned/train/cats/cat_1.wav")
     assert result in [0, 1, 2], "Erreur: Prédiction invalide"
