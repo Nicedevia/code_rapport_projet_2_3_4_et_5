@@ -9,7 +9,7 @@ import tensorflow as tf
 
 print("chargement du model")
 
-model = tf.keras.models.load_model("models/image_audio_fusion_model_v10.keras")
+model = tf.keras.models.load_model("models/image_audio_fusion_new_model.h5")
 
 print("model chargé ...")
 
