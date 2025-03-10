@@ -7,7 +7,7 @@ import tensorflow as tf
 MODEL_PATHS = {
     "image": "models/image_classifier.h5",
     "audio": "models/audio_classifier.h5",
-    "fusion": "models/image_audio_fusion_new_model_v2.keras"
+    "fusion": "models/image_audio_fusion_new_model_v2.h5"
 }
 
 def load_model(path):
