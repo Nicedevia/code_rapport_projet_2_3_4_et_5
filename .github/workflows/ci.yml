@@ -30,12 +30,13 @@ jobs:
     - name: 🚀 Exécuter les tests
       run: |
         pytest --maxfail=1 --disable-warnings -q
-
+        
     - name: 📊 Générer le rapport de couverture
       run: |
-        coverage run -m pytest
+        coverage run --source=projet_3 --omit="*/tmp/*" -m pytest
         coverage report -m
 
+    
   # --- 🔥 Étape 2 : Réentraînement du modèle ---
   retrain:
     needs: test
