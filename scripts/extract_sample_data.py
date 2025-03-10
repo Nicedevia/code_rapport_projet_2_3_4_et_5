@@ -2,12 +2,12 @@ import os
 import shutil
 
 # 📂 Dossiers source
-IMAGE_SRC_DIR = "data/images/cleaned/training_set/cats"
-AUDIO_SRC_DIR = "data/data_fusion_model/spectrograms/test/cats"
+IMAGE_SRC_DIR = "data/images/cleaned/training_set/dogs"
+AUDIO_SRC_DIR = "data/data_fusion_model/spectrograms/test/dogs"
 
 # 📂 Dossiers de destination (mini dataset)
-IMAGE_DEST_DIR = "data_sample/images/cats"
-AUDIO_DEST_DIR = "data_sample/audio/cats"
+IMAGE_DEST_DIR = "data_sample/images/dogs"
+AUDIO_DEST_DIR = "data_sample/audio/dogs"
 
 # Création des dossiers s'ils n'existent pas
 os.makedirs(IMAGE_DEST_DIR, exist_ok=True)
