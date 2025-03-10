@@ -1,4 +1,4 @@
-name: CI/CD - Test, Retrain, Deploy & Monitor
+name: CI/CD - Test, Retrain, Build & Monitor
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  # --- 🧪 Étape 1 : Tests Unitaires ---
+  # --- 🧪 Étape 1 : Tests Unitaire et Validation ---
   test:
     runs-on: ubuntu-latest
 
@@ -36,7 +36,7 @@ jobs:
     - name: 🚀 Exécuter les tests
       run: |
         pytest --maxfail=1 --disable-warnings -q
-
+        
     - name: 📊 Générer le rapport de couverture
       run: |
         coverage run --source=projet_3 --omit="*/tmp/*" -m pytest
@@ -68,9 +68,9 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: retrained_model
-        path: models/image_audio_fusion_model_retrained.h5
+        path: models/image_audio_fusion_model_retrained.h5  # 🔥 Sauvegarde en .h5 au lieu de .keras
 
-  # --- 🐳 Étape 3 : Build & Push Docker ---
+  # --- 🐳 Étape 3 : Construction et Push de l'Image Docker ---
   build_and_push:
     needs: retrain
     runs-on: ubuntu-latest
@@ -79,43 +79,19 @@ jobs:
     - name: 📥 Cloner le repo
       uses: actions/checkout@v3
 
-    - name: 📥 Télécharger le modèle entraîné
-      uses: actions/download-artifact@v4
-      with:
-        name: retrained_model
-        path: models/
-
     - name: 🛠 Construire l’image Docker
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/chat_dog_classification-api:latest .
+        docker build -t monprojet/ia-api:latest .
 
     - name: 📤 Pousser l’image vers DockerHub
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-        docker push ${{ secrets.DOCKER_USERNAME }}/chat_dog_classification-api:latest
+        docker tag monprojet/ia-api:latest monprojet/ia-api:v2.0
+        docker push monprojet/ia-api:v2.0
 
-  # --- 🚀 Étape 4 : Déploiement Automatique ---
-  # deploy:
-  #   needs: build_and_push
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - name: 🔄 Se connecter au serveur via SSH
-  #     uses: appleboy/ssh-action@v0.1.7
-  #     with:
-  #       host: ${{ secrets.SERVER_IP }}
-  #       username: ${{ secrets.SERVER_USER }}
-  #       password: ${{ secrets.SERVER_PASSWORD }}
-
-  #   - name: 🚀 Mettre à jour et redémarrer le conteneur
-  #     run: |
-  #       docker pull ${{ secrets.DOCKER_USERNAME }}/chat_dog_classification-api:latest
-  #       docker-compose down
-  #       docker-compose up -d
-
-  # --- 📊 Étape 5 : Vérification des métriques (Prometheus) ---
+  # --- 📊 Étape 4 : Vérification des métriques (Prometheus) ---
   monitor:
-    needs: deploy
+    needs: build_and_push  # 🔥 Dépend maintenant de build_and_push
     runs-on: ubuntu-latest
 
     steps:
