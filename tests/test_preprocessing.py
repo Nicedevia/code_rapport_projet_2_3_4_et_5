@@ -3,7 +3,8 @@ import os
 
 import pytest
 import numpy as np
-# Ajoute le chemin du projet dans les variables d'environnement Python
+# Ajoute le chemin du projet dans les variables d'environnement Python je pense 
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from scripts.newmodel import preprocess_image, preprocess_audio  # Import de tes fonctions
