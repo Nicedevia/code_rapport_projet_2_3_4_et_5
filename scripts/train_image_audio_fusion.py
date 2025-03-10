@@ -192,7 +192,7 @@ history = fusion_model.fit([X_images, X_audio], y_labels,
 
 # Sauvegarde du modèle fusionné
 os.makedirs("models", exist_ok=True)
-fusion_model.save("models/image_audio_fusion_model_v10.keras")
+fusion_model.save("models/image_audio_fusion_model_v10.pkl")
 print("Modèle fusionné sauvegardé avec succès !")
 
 # --- Visualisation des courbes d'entraînement ---
