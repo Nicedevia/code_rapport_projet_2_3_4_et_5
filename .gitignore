@@ -6,7 +6,7 @@ data/
 # MAIS inclure spécifiquement ces fichiers :
 !data/images/cleaned/test_set/cats/cat.16.jpg
 !data/audio/cleaned/train/cats/cat_1.wav
-
+!data/data_fusion_model/fusion_mapping.csv
 *.waw
 alertmanager.yml
 config/
