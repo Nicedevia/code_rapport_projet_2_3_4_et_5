@@ -9,8 +9,8 @@ def test_matching_pairs():
     # Utilisation des chemins fournis :
     # Pour les images, on utilise "data/images/cleaned/training_set"
     # Pour l'audio, on utilise "data/data_fusion_model/spectrograms/test"
-    image_base = r"data/images/cleaned/training_set/cats"
-    audio_base = r"data/data_fusion_model/spectrograms/test/cats"
+    image_base = r"data_sample/images/cleaned/training_set/cats"
+    audio_base = r"data_sample/data_fusion_model/spectrograms/test/cats"
     
     pairs = create_matching_pairs(image_base, audio_base)
     assert len(pairs) > 0, "Erreur: Aucune paire formée"
