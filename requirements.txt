@@ -22,3 +22,4 @@ python-multipart
 # Tests et monitoring
 pytest
 fastapi[testclient]
+httpx
