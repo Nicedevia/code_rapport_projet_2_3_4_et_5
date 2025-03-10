@@ -1,6 +1,12 @@
 __pycache__/
 *.pyc
+# Ignorer tout le dossier data/
 data/
+
+# MAIS inclure spécifiquement ces fichiers :
+!data/images/cleaned/test_set/cats/cat.16.jpg
+!data/audio/cleaned/train/cats/cat_1.wav
+
 *.waw
 alertmanager.yml
 config/
