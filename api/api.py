@@ -14,6 +14,8 @@ import time
 # Import du routeur de l'API (assure-toi que routes.py ne contient plus de middleware)
 from .routes import router as api_router
 
+
+
 app = FastAPI(
     title="API de Classification Chat/Chien",
     description="API REST pour la classification multimodale (images, audio et fusion) de chats et chiens",

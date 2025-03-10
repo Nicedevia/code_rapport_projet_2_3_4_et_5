@@ -1,4 +1,3 @@
-# api/routes.py
 from fastapi import APIRouter, File, UploadFile, HTTPException, Query, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import numpy as np
@@ -10,6 +9,7 @@ import time
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from fastapi.responses import Response
 from .model_loader import load_image_model, load_audio_model, load_fusion_model
+
 DEFAULT_THRESHOLD = 0.5
 router = APIRouter()
 
@@ -28,7 +28,6 @@ audio_extractor = tf.keras.Model(inputs=audio_model.input, outputs=audio_model.l
 request_counter = Counter("http_requests_total", "Nombre total de requêtes reçues")
 prediction_duration = Histogram("model_prediction_duration_seconds", "Durée des prédictions du modèle en secondes")
 prediction_errors = Counter("model_prediction_errors_total", "Nombre total d'erreurs lors des prédictions")
-
 
 # Endpoint pour exposer les métriques Prometheus
 @router.get("/metrics", tags=["Monitoring"])
@@ -66,6 +65,44 @@ def preprocess_audio_from_bytes(audio_bytes: bytes) -> np.ndarray:
 # ---------------------------
 # Endpoints de Prédiction
 # ---------------------------
+
+# Endpoint pour la prédiction d'une image seule
+@router.post("/predict/image", tags=["Prediction"])
+async def predict_image(file: UploadFile = File(..., description="Fichier image (JPEG ou PNG)")):
+    if file.content_type not in ["image/jpeg", "image/png"]:
+        raise HTTPException(status_code=400, detail="Format d'image non supporté")
+    image_bytes = await file.read()
+    try:
+        features_image = preprocess_image_from_bytes(image_bytes)
+    except Exception as e:
+        prediction_errors.inc()
+        raise e
+
+    # Appel du modèle d'image (prédiction simplifiée)
+    prediction = image_model.predict(features_image)
+    label = "Chien" if prediction[0][0] > DEFAULT_THRESHOLD else "Chat"
+    confidence = float(prediction[0][0])
+    return {"prediction": label, "confidence": confidence, "used_threshold": DEFAULT_THRESHOLD}
+
+# Endpoint pour la prédiction d'un audio seul
+@router.post("/predict/audio", tags=["Prediction"])
+async def predict_audio(file: UploadFile = File(..., description="Fichier audio (WAV)")):
+    if file.content_type != "audio/wav":
+        raise HTTPException(status_code=400, detail="Format audio non supporté")
+    audio_bytes = await file.read()
+    try:
+        features_audio = preprocess_audio_from_bytes(audio_bytes)
+    except Exception as e:
+        prediction_errors.inc()
+        raise e
+
+    # Appel du modèle audio (prédiction simplifiée)
+    prediction = audio_model.predict(features_audio)
+    label = "Chien" if prediction[0][0] > DEFAULT_THRESHOLD else "Chat"
+    confidence = float(prediction[0][0])
+    return {"prediction": label, "confidence": confidence, "used_threshold": DEFAULT_THRESHOLD}
+
+# Endpoint pour la prédiction multimodale (image et audio)
 @router.post("/predict/multimodal", tags=["Prediction"])
 async def predict_multimodal(
     image_file: UploadFile = File(..., description="Fichier image (JPEG ou PNG)"),

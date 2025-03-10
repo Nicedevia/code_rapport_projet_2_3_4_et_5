@@ -17,26 +17,23 @@
     📄 test_results_v6.csv
     📄 test_results_v7.csv
     📄 test_results_v8.csv
-    📄 __ini__.py
+    📄 __init__.py
     🖼 3 fichiers .png
     📂 api/
         📄 api.py
         📄 model_loader.py
         📄 monitoring.py
         📄 routes.py
-        📄 __ini__.py
-    📂 chat_dog_classification/
-        📄 requirements.txt
-        📄 __ini__.py
+        📄 __init__.py
     📂 config/
         📄 kaggle.json
-        📄 __ini__.py
+        📄 __init__.py
     📂 data/
         📄 audio-cats-and-dogs.zip
         📄 cat-and-dog.zip
         📄 Cat_Dog_data.zip
         📄 DvC.zip
-        📄 __ini__.py
+        📄 __init__.py
         📂 audio/
             📄 test_image_audio_mapping.csv
             📄 train_image_audio_fusion_mapping.csv
@@ -178,18 +175,20 @@
     📂 frontend/
         📄 app.py
         📄 frontend_classification.py
-        📄 __ini__.py
+        📄 __init__.py
     📂 logs/
-        📄 __ini__.py
+        📄 __init__.py
         📂 audio/
             📂 train/
                 📄 events.out.tfevents.1741170904.DESKTOP-8KG8OD6.9328.0.v2
                 📄 events.out.tfevents.1741177346.DESKTOP-8KG8OD6.20484.0.v2
                 📄 events.out.tfevents.1741177390.DESKTOP-8KG8OD6.25688.0.v2
+                📄 events.out.tfevents.1741353276.DESKTOP-8KG8OD6.3888.0.v2
             📂 validation/
                 📄 events.out.tfevents.1741170907.DESKTOP-8KG8OD6.9328.1.v2
                 📄 events.out.tfevents.1741177348.DESKTOP-8KG8OD6.20484.1.v2
                 📄 events.out.tfevents.1741177392.DESKTOP-8KG8OD6.25688.1.v2
+                📄 events.out.tfevents.1741353278.DESKTOP-8KG8OD6.3888.1.v2
         📂 audio_image_classifier/
             📂 train/
                 📄 events.out.tfevents.1739974820.DESKTOP-8KG8OD6.16620.0.v2
@@ -211,6 +210,7 @@
     📂 models/
         📄 audio_classifier.h5
         📄 audio_classifier.keras
+        📄 audio_classifier_final.keras
         📄 audio_image_classifier.keras
         📄 image_audio_fusion_model.keras
         📄 image_audio_fusion_model_retrained.keras
@@ -218,14 +218,14 @@
         📄 image_audio_fusion_model_v2.h5
         📄 image_audio_fusion_model_v2.keras
         📄 image_audio_fusion_model_v5.keras
+        📄 image_audio_fusion_new_model.keras
+        📄 image_audio_fusion_new_model_v2.keras
         📄 image_classifier.h5
         📄 image_classifier.keras
         📄 image_classifier_5.keras
-        📄 teste_models.py
-        📄 test_model_load.py
-        📄 __ini__.py
+        📄 image_classifier_final.keras
+        📄 __init__.py
     📂 scripts/
-        📄 aaa.py
         📄 augment_audio.py
         📄 check_arborescence.py
         📄 check_data_integrity.py
@@ -238,25 +238,18 @@
         📄 extract_data.py
         📄 extract_data_fusion_model.py
         📄 extract_images.py
-        📄 fusion_model_v2.py
-        📄 fusion_model_v3.py
         📄 generate_mapping_fixed.py
         📄 generate_mapping_test.py
         📄 generate_spectrograms.py
         📄 generate_train_mapping.py
         📄 generate_train_mapping_fusion.py
+        📄 newmodel.py
         📄 prepare_data.py
         📄 preprocess_audio.py
         📄 preprocess_images.py
         📄 run_all.sh
         📄 spectrogramme_fusion.py
         📄 sync_audio_images.py
-        📄 test_fusion_model_v2.py
-        📄 test_model.py
-        📄 test_model_audio_only.py
-        📄 test_model_final.py
-        📄 test_model_image_only.py
-        📄 test_model_v6.py
         📄 train_audio_model.py
         📄 train_audio_only.py
         📄 train_image_audio_fusion.py
@@ -264,17 +257,18 @@
         📄 train_image_only.py
         📄 train_model.py
         📄 verification.ipynb
-        📄 __ini__.py
+        📄 __init__.py
     📂 tests/
         📄 README.md
         📄 test_api.py
         📄 test_inference.py
+        📄 test_invalid.mp3
+        📄 test_invalid.txt
         📄 test_matching.py
         📄 test_models.py
         📄 test_performance.py
         📄 test_preprocessing.py
-        📄 test_training.py
-        📄 __ini__.py
+        📄 __init__.py
     📂 utils/
         📄 helpers.py
-        📄 __ini__.py
+        📄 __init__.py

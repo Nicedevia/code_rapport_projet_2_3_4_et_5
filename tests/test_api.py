@@ -1,21 +1,16 @@
-# tests/test_api.py
-
-
-import os
 import sys
 import os
+# Ajoute le dossier racine du projet dans PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from fastapi.testclient import TestClient
 from api.api import app
 
-# Ajoute le chemin du projet dans les variables d'environnement Python
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-
 client = TestClient(app)
 
-# 📌 Chemins vers les fichiers de test (assurez-vous qu'ils existent dans `tests/`)
-TEST_IMAGE_PATH = "tests/test_image.jpg"
-TEST_AUDIO_PATH = "tests/test_audio.wav"
+# 📌 Chemins vers les fichiers de test 
+TEST_IMAGE_PATH = "data/images/cleaned/test_set/cats/cat.16.jpg"
+TEST_AUDIO_PATH = "data/audio/cleaned/train/cats/cat_1.wav"
 TEST_INVALID_IMAGE_PATH = "tests/test_invalid.txt"
 TEST_INVALID_AUDIO_PATH = "tests/test_invalid.mp3"
 

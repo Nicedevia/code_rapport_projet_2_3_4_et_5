@@ -246,3 +246,4 @@ plt.title("Matrice de Confusion")
 plt.xlabel("Prédictions")
 plt.ylabel("Véritables labels")
 plt.show()
+# ou l'appel direct à la fonction d'entraînement/affichage

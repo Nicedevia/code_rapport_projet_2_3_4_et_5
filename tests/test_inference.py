@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import pytest
 import tensorflow as tf
-from scripts.train_image_audio_fusion import predict  # Fonction de prédiction
+from scripts.newmodel import predict  # Fonction de prédiction
 
 
 model = tf.keras.models.load_model("models/image_audio_fusion_model_v10.keras")
