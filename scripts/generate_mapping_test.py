@@ -59,8 +59,14 @@ if os.path.exists(image_test_dogs) and os.path.exists(audio_test_cats):
             mapping_rows.append([img, aud, 2])  # 2 = Erreur
 
 # Sauvegarde du mapping dans un fichier CSV
-output_csv = r"C:\Users\briac\Desktop\projet_3\data\data_fusion_model\test_image_audio_mapping.csv"
+import os  
+
+# Définition d'un chemin relatif portable
+output_csv = os.path.join("data", "data_fusion_model", "test_image_audio_mapping.csv")
+
+# Création du dossier si nécessaire
 os.makedirs(os.path.dirname(output_csv), exist_ok=True)
+
 with open(output_csv, "w", newline="", encoding="utf-8") as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(["image_path", "audio_path", "label"])
