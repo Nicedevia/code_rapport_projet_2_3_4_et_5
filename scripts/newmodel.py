@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import pickle
 import tensorflow as tf
 import pandas as pd
 import numpy as np
@@ -11,8 +10,8 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import seaborn as sns
-from tensorflow.keras.layers import Input, Dense, Dropout, concatenate
-from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, Dropout, concatenate, Flatten
+from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tqdm.keras import TqdmCallback
 from sklearn.model_selection import train_test_split
@@ -20,6 +19,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 # --- 📂 Configuration et chemins ---
 MAPPING_CSV = "data/data_fusion_model/fusion_mapping.csv"
+MODEL_PATH = "models/image_audio_fusion_new_model.h5"  # Sauvegarde en `.h5`
 
 # --- 📌 Fonctions de prétraitement ---
 def preprocess_image(image_path):
@@ -92,13 +92,9 @@ def build_fusion_model(image_feature_model, audio_feature_model):
     final_output = Dense(3, activation="softmax", name="output_layer")(fc)
 
     fusion_model = Model(inputs=[image_input, audio_input], outputs=final_output, name="fusion_model")
-
-    # 🔹 On donne plus de poids à la classe "Erreur" (2) pour qu'elle soit bien prise en compte
-    class_weights = {0: 1.0, 1: 1.0, 2: 2.5}
     fusion_model.compile(optimizer="adam", 
                          loss="sparse_categorical_crossentropy", 
-                         metrics=["accuracy"], 
-                         loss_weights=class_weights)
+                         metrics=["accuracy"])
 
     return fusion_model
 
@@ -119,6 +115,9 @@ def train_fusion_model(fusion_model, X_images, X_audio, y_labels):
         X_images, X_audio, y_labels, test_size=0.2, random_state=42
     )
 
+    # Définition des poids de classe
+    class_weights = {0: 1.0, 1: 1.0, 2: 2.0}
+
     # Callbacks personnalisés
     class LoggingCallback(tf.keras.callbacks.Callback):
         def on_epoch_end(self, epoch, logs=None):
@@ -134,15 +133,15 @@ def train_fusion_model(fusion_model, X_images, X_audio, y_labels):
     print("🚀 Entraînement du modèle fusionné...")
     fusion_model.fit([X_train_img, X_train_audio], y_train,
                      validation_data=([X_val_img, X_val_audio], y_val),
-                     epochs=10, batch_size=16, callbacks=callbacks)
+                     epochs=10, batch_size=16, callbacks=callbacks,
+                     class_weight=class_weights)  # ✅ Ajout des poids de classe
 
     return fusion_model
 
-# --- 📌 Sauvegarde en `.pkl` ---
-def save_model_pkl(model, filename="models/fusion_model.pkl"):
+# --- 📌 Sauvegarde en `.h5` ---
+def save_model_h5(model, filename=MODEL_PATH):
     os.makedirs("models", exist_ok=True)
-    with open(filename, "wb") as file:
-        pickle.dump(model, file)
+    model.save(filename)
     print(f"✅ Modèle sauvegardé en {filename}")
 
 # --- 📌 Programme principal ---
@@ -160,8 +159,8 @@ def main():
     # Entraînement
     trained_model = train_fusion_model(fusion_model, X_images, X_audio, y_labels)
 
-    # Sauvegarde du modèle en `.pkl`
-    save_model_pkl(trained_model)
+    # Sauvegarde du modèle en `.h5`
+    save_model_h5(trained_model)
 
 if __name__ == "__main__":
     main()
