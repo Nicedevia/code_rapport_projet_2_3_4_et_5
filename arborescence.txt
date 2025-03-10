@@ -172,6 +172,13 @@
                     📸 3 fichiers .jpg/.jpeg
                 📂 chien/
                     📸 2 fichiers .jpg/.jpeg
+    📂 data_sample/
+        📂 audio/
+            📂 cats/
+                🖼 10 fichiers .png
+        📂 images/
+            📂 cats/
+                📸 10 fichiers .jpg/.jpeg
     📂 frontend/
         📄 app.py
         📄 frontend_classification.py
@@ -218,8 +225,10 @@
         📄 image_audio_fusion_model_v2.h5
         📄 image_audio_fusion_model_v2.keras
         📄 image_audio_fusion_model_v5.keras
+        📄 image_audio_fusion_new_model.h5
         📄 image_audio_fusion_new_model.keras
         📄 image_audio_fusion_new_model_v2.keras
+        📄 image_audio_fusion_new_model_v2.pkl
         📄 image_classifier.h5
         📄 image_classifier.keras
         📄 image_classifier_5.keras
@@ -238,6 +247,7 @@
         📄 extract_data.py
         📄 extract_data_fusion_model.py
         📄 extract_images.py
+        📄 extract_sample_data.py
         📄 generate_mapping_fixed.py
         📄 generate_mapping_test.py
         📄 generate_spectrograms.py
