@@ -27,6 +27,12 @@ jobs:
         pip install -r requirements.txt
         pip install pytest coverage
 
+    - name: 🔎 Vérifier l’environnement
+      run: |
+        python --version
+        pip list
+        ls -la
+
     - name: 🚀 Exécuter les tests
       run: |
         pytest --maxfail=1 --disable-warnings -q
@@ -36,7 +42,6 @@ jobs:
         coverage run --source=projet_3 --omit="*/tmp/*" -m pytest
         coverage report -m
 
-    
   # --- 🔥 Étape 2 : Réentraînement du modèle ---
   retrain:
     needs: test
@@ -60,7 +65,7 @@ jobs:
         python scripts/train_image_audio_fusion_retrain.py
 
     - name: 📤 Sauvegarder le modèle entraîné
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # 🔥 Correction de v3 ➝ v4
       with:
         name: retrained_model
         path: models/image_audio_fusion_model_retrained.keras
@@ -112,3 +117,5 @@ jobs:
     - name: 📊 Vérifier l'état des métriques Prometheus
       run: |
         curl -X GET http://localhost:8000/metrics
+        curl -X GET http://localhost:9090
+        
