@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  # --- 🧪 Étape 1 : Tests Unitaires et Validation ---
+  # --- 🧪 Étape 1 : Tests Unitaires ---
   test:
     runs-on: ubuntu-latest
 
@@ -21,11 +21,9 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        cache: 'pip'  # 🔥 Active le cache des dépendances
 
     - name: 📦 Installer les dépendances
       run: |
-        pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest coverage
 
@@ -33,12 +31,12 @@ jobs:
       run: |
         python --version
         pip list
-        ls -la  # 🔥 Vérifie que tous les fichiers sont bien clonés
+        ls -la
 
     - name: 🚀 Exécuter les tests
       run: |
         pytest --maxfail=1 --disable-warnings -q
-        
+
     - name: 📊 Générer le rapport de couverture
       run: |
         coverage run --source=projet_3 --omit="*/tmp/*" -m pytest
@@ -57,11 +55,9 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        cache: 'pip'
 
     - name: 📦 Installer les dépendances
       run: |
-        pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: 🔥 Réentraîner le modèle IA
@@ -69,12 +65,12 @@ jobs:
         python scripts/train_image_audio_fusion_retrain.py
 
     - name: 📤 Sauvegarder le modèle entraîné
-      uses: actions/upload-artifact@v4  # 🔥 Correction de v3 → v4
+      uses: actions/upload-artifact@v4
       with:
         name: retrained_model
-        path: models/image_audio_fusion_model_retrained.h5  # 🔥 Correction pour enregistrer en .h5
+        path: models/image_audio_fusion_model_retrained.h5
 
-  # --- 🐳 Étape 3 : Construction et Push de l'Image Docker ---
+  # --- 🐳 Étape 3 : Build & Push Docker ---
   build_and_push:
     needs: retrain
     runs-on: ubuntu-latest
@@ -83,21 +79,22 @@ jobs:
     - name: 📥 Cloner le repo
       uses: actions/checkout@v3
 
+    - name: 📥 Télécharger le modèle entraîné
+      uses: actions/download-artifact@v4
+      with:
+        name: retrained_model
+        path: models/
+
     - name: 🛠 Construire l’image Docker
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/monprojet:latest .
-
-    - name: 🔑 Se connecter à Docker Hub
-      run: |
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/chat_dog_classification-api:latest .
 
     - name: 📤 Pousser l’image vers DockerHub
       run: |
-        docker tag ${{ secrets.DOCKER_USERNAME }}/monprojet:latest ${{ secrets.DOCKER_USERNAME }}/monprojet:v2.0
-        docker push ${{ secrets.DOCKER_USERNAME }}/monprojet:v2.0
-        docker push ${{ secrets.DOCKER_USERNAME }}/monprojet:latest
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        docker push ${{ secrets.DOCKER_USERNAME }}/chat_dog_classification-api:latest
 
-  # --- 🚀 Étape 4 : Déploiement Automatique sur le Serveur ---
+  # --- 🚀 Étape 4 : Déploiement Automatique ---
   deploy:
     needs: build_and_push
     runs-on: ubuntu-latest
@@ -112,7 +109,7 @@ jobs:
 
     - name: 🚀 Mettre à jour et redémarrer le conteneur
       run: |
-        docker pull ${{ secrets.DOCKER_USERNAME }}/monprojet:v2.0
+        docker pull ${{ secrets.DOCKER_USERNAME }}/chat_dog_classification-api:latest
         docker-compose down
         docker-compose up -d
 
