@@ -50,4 +50,4 @@ def test_model_loading():
         assert loaded_model is not None, "❌ Échec du chargement du modèle."
         print("✅ Modèle chargé avec succès !")
     except Exception as e:
-        pytest.fail(f"❌ Erreur lors du chargement du modèle : {e}")
+        pytest.fail(f"❌ Erreur lors du chargement du modèle !: {e}")
