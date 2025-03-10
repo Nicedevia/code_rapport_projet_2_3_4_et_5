@@ -1,33 +1,33 @@
-name: CI/CD - Test, Build, Deploy & Monitor
+name: CI/CD - Test, Retrain, Deploy & Monitor
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:  # Permet un lancement manuel
 
 jobs:
 
-  # --- 🧪 Étape 1 : Exécution des tests unitaires ---
+  # --- 🧪 Étape 1 : Tests Unitaire et Validation ---
   test:
     runs-on: ubuntu-latest
 
     steps:
     - name: 📥 Cloner le repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: 🛠 Installer Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.8'
+        python-version: '3.9'
 
     - name: 📦 Installer les dépendances
       run: |
-        python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest coverage
 
-    - name: 🚀 Exécuter les tests avec pytest
+    - name: 🚀 Exécuter les tests
       run: |
         pytest --maxfail=1 --disable-warnings -q
 
@@ -36,47 +36,42 @@ jobs:
         coverage run -m pytest
         coverage report -m
 
-  # --- 📊 Étape 2 : Entraînement et Évaluation du Modèle ---
-  train:
-    needs: test  # Cette étape ne s'exécute que si les tests réussissent
+  # --- 🔥 Étape 2 : Réentraînement du modèle ---
+  retrain:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
     - name: 📥 Cloner le repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: 🛠 Installer Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.8'
+        python-version: '3.9'
 
     - name: 📦 Installer les dépendances
       run: |
-        python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: 🔥 Entraîner le modèle
+    - name: 🔥 Réentraîner le modèle IA
       run: |
-        python scripts/train_model.py  # Vérifie que ce fichier existe
-
-    - name: 📊 Générer le rapport d’évaluation
-      run: |
-        python scripts/evaluate_model.py > reports/model_report.txt
+        python scripts/train_image_audio_fusion_retrain.py
 
     - name: 📤 Sauvegarder le modèle entraîné
       uses: actions/upload-artifact@v3
       with:
-        name: trained_model
-        path: models/
+        name: retrained_model
+        path: models/image_audio_fusion_model_retrained.keras
 
   # --- 🐳 Étape 3 : Construction et Push de l'Image Docker ---
   build_and_push:
-    needs: train
+    needs: retrain
     runs-on: ubuntu-latest
 
     steps:
     - name: 📥 Cloner le repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: 🛠 Construire l’image Docker
       run: |
@@ -85,10 +80,10 @@ jobs:
     - name: 📤 Pousser l’image vers DockerHub
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-        docker tag monprojet/ia-api:latest monprojet/ia-api:v1.0
-        docker push monprojet/ia-api:v1.0
+        docker tag monprojet/ia-api:latest monprojet/ia-api:v2.0
+        docker push monprojet/ia-api:v2.0
 
-  # --- 🚀 Étape 4 : Déploiement sur Serveur ---
+  # --- 🚀 Étape 4 : Déploiement Automatique sur le Serveur ---
   deploy:
     needs: build_and_push
     runs-on: ubuntu-latest
@@ -101,13 +96,13 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
 
-    - name: 🚀 Déployer l’application
+    - name: 🚀 Mettre à jour et redémarrer le conteneur
       run: |
-        docker pull monprojet/ia-api:v1.0
+        docker pull monprojet/ia-api:v2.0
         docker-compose down
         docker-compose up -d
 
-  # --- 🔍 Étape 5 : Vérification des métriques et monitoring ---
+  # --- 📊 Étape 5 : Vérification des métriques (Prometheus) ---
   monitor:
     needs: deploy
     runs-on: ubuntu-latest

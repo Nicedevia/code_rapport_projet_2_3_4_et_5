@@ -4,41 +4,37 @@ FROM python:3.9
 # Désactiver l'interaction pour éviter les interruptions
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Installer les dépendances système
+# Installer les dépendances système nécessaires
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
+    libgl1-mesa-glx ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier tous les fichiers du projet dans le conteneur
-COPY ./ /app/
+# Copier uniquement le fichier requirements.txt en premier (optimisation du cache)
+COPY requirements.txt /app/requirements.txt
 
-# Mettre à jour pip et installer `certifi` pour corriger les erreurs SSL
+# Vérifier si le fichier requirements.txt a bien été copié (debug)
+RUN ls -l /app/requirements.txt || echo "❌ ERREUR: Le fichier requirements.txt n'a pas été copié !"
+
+# Mettre à jour pip et installer les dépendances requises
 RUN python -m pip install --upgrade pip certifi
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Définir la variable d'environnement pour les certificats SSL
-ENV SSL_CERT_FILE=/usr/local/lib/python3.9/site-packages/certifi/cacert.pem
+# Copier l'ensemble du projet dans le conteneur après l'installation des dépendances
+COPY . /app/
 
-# Installer les packages nécessaires, en forçant `pip` à ignorer les erreurs SSL
-RUN pip install --no-cache-dir \
-    --trusted-host pypi.org \
-    --trusted-host pypi.python.org \
-    --trusted-host files.pythonhosted.org \
-    fastapi uvicorn opencv-python pillow prometheus_client librosa pydub \
-    tensorflow==2.15.0 keras==2.15.0 python-multipart
+# Exposer les ports nécessaires
+EXPOSE 8000  
+EXPOSE 9090  
 
-# Exposer le port 8000 pour l'API
-EXPOSE 8000
-# port promet 
-EXPOSE 9090
 
 # Assurer que le dossier des modèles existe
 RUN mkdir -p /app/models
 
-# Copier les modèles dans le conteneur
+# Copier les modèles existants dans le conteneur
 COPY models /app/models
 
-# Lancer l'API avec Uvicorn
+# Lancer l'API FastAPI avec Uvicorn
 CMD ["uvicorn", "api.api:app", "--host", "0.0.0.0", "--port", "8000"]

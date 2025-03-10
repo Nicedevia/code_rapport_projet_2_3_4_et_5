@@ -1,11 +1,34 @@
+version: "3.8"
+
 services:
   api:
     image: chat_dog_classification-api
     container_name: chat_dog_classification-api
+    build: .
     ports:
       - "8000:8000"
+    volumes:
+      - ./models:/app/models  # 🔥 Permet de garder le modèle même après un redémarrage
+      - ./logs:/app/logs      # 🔥 Stockage des logs d'entraînement
     networks:
       - mynetwork
+    depends_on:
+      - prometheus
+      - grafana
+
+  # --- 🔥 Service pour le réentraînement automatique ---
+  retrain:
+    image: chat_dog_classification-retrain
+    container_name: chat_dog_classification-retrain
+    build: .
+    command: ["python", "scripts/train_image_audio_fusion_retrain.py"]
+    volumes:
+      - ./models:/app/models  # 🔥 Le modèle mis à jour sera conservé
+      - ./logs:/app/logs
+    networks:
+      - mynetwork
+    depends_on:
+      - api
 
   prometheus:
     image: prom/prometheus
@@ -32,6 +55,17 @@ services:
       - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
     ports:
       - "9093:9093"
+    networks:
+      - mynetwork
+
+  tensorboard:
+    image: tensorflow/tensorflow
+    container_name: tensorboard
+    volumes:
+      - ./logs:/app/logs
+    ports:
+      - "6006:6006"
+    command: ["tensorboard", "--logdir=/app/logs", "--host", "0.0.0.0"]
     networks:
       - mynetwork
 
