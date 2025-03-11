@@ -24,3 +24,4 @@ pytest
 fastapi[testclient]
 httpx
 memory_profiler
+six==1.16.0
