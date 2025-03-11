@@ -55,7 +55,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        
+
     - name: 🔧 Installer TensorFlow et toutes ses dépendances manquantes
       run: |
         pip install --upgrade pip
@@ -105,8 +105,22 @@ jobs:
   monitor:
     needs: build_and_push  # 🔥 Dépend maintenant de build_and_push
     runs-on: ubuntu-latest
-
+    
     steps:
+    - name: 🚀 Démarrer le conteneur Docker
+      run: |
+        docker run -d -p 8000:8000 intdpixel/ia-api:latest
+        sleep 10  # Attendre 10 secondes pour s'assurer que l'API démarre
+
+    - name: 🔍 Vérifier les conteneurs actifs
+      run: docker ps -a
+
+    - name: 🔍 Vérifier les processus en cours
+      run: ps aux
+
+    - name: 🔍 Vérifier les ports ouverts
+      run: netstat -tulnp
+
     - name: 📊 Vérifier l'état des métriques Prometheus
       run: |
         curl -X GET http://localhost:8000/metrics
