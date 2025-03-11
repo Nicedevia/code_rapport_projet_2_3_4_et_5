@@ -6,7 +6,6 @@ prometheus_client
 
 # Bibliothèques Machine Learning et Deep Learning
 tensorflow==2.15.0
-numpy
 
 scikit-learn
 librosa
@@ -29,3 +28,4 @@ six==1.16.0
 absl-py==2.1.0
 clyent==1.2.1
 protobuf==3.20.3
+numpy<2.0
