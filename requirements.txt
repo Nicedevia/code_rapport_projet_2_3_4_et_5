@@ -25,5 +25,4 @@ fastapi[testclient]
 httpx
 memory_profiler
 six==1.16.0
-absl-py==1.4.0
 absl-py==2.1.0
