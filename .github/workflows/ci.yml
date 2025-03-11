@@ -55,6 +55,13 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
+        
+    - name: 🔧 Installer TensorFlow et toutes ses dépendances manquantes
+      run: |
+        pip install --upgrade pip
+        pip install tensorflow
+        pip install -r requirements.txt
+
     - name: 📦 Installer les dépendances
       run: |
         pip install --no-cache-dir --no-deps --upgrade -r requirements.txt
