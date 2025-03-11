@@ -62,7 +62,7 @@ jobs:
 
     - name: 🔥 Réentraîner le modèle IA
       run: |
-        python scripts/train_image_audio_fusion_retrain.py
+        python scripts/retainmapping.py
 
     - name: 📤 Sauvegarder le modèle entraîné
       uses: actions/upload-artifact@v4
