@@ -55,10 +55,9 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-
     - name: 📦 Installer les dépendances
       run: |
-        pip install -r requirements.txt
+        pip install --no-cache-dir --no-deps --upgrade -r requirements.txt
 
     - name: 🔥 Réentraîner le modèle IA
       run: |
