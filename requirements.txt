@@ -27,4 +27,4 @@ httpx
 memory_profiler
 six==1.16.0
 absl-py==2.1.0
-clyent==1.2.2
+clyent==1.2.1
