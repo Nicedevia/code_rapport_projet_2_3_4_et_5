@@ -124,4 +124,4 @@ jobs:
     - name: 📊 Vérifier l'état des métriques Prometheus
       run: |
         curl -X GET http://localhost:8000/metrics
-        curl -X GET http://localhost:9090
+
