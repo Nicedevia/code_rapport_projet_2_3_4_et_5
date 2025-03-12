@@ -2,9 +2,9 @@ name: CI/CD - Test, Retrain, Build & Monitor
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, cicd ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, cicd ]
   workflow_dispatch:  # Permet un lancement manuel
 
 jobs:
@@ -124,4 +124,3 @@ jobs:
     - name: 📊 Vérifier l'état des métriques Prometheus
       run: |
         curl -X GET http://localhost:8000/metrics
-
