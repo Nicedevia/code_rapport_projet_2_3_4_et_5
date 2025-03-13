@@ -11,6 +11,13 @@ docker-compose build --no-cache
 docker-compose down
 docker-compose build --no-cache
 docker-compose up -d 
+docker run -d --name grafana -p 3000:3000 grafana/grafana
+tensorboard --logdir=logs --port=6006
+
+
+
+
+
 docker stop chat_dog_classification-api
 docker rm chat_dog_classification-api
 docker-compose up -d
@@ -19,3 +26,19 @@ docker run -d --name grafana -p 3000:3000 grafana/grafana
 
 pour les models .pkl 
  
+tensorboard --logdir=logs --port=6006
+
+
+
+$env:PYTHONPATH = $pwd
+>> pytest tests/
+>>
+
+
+docker stop $(docker ps -q)
+docker rm $(docker ps -aq)
+docker volume rm $(docker volume ls -q)
+docker network prune -f
+
+
+chmod +x cleanup_docker.sh

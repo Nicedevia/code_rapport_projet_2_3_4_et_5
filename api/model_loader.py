@@ -5,6 +5,10 @@ import tensorflow as tf
 def load_image_model():
     print("🔍 Chargement du modèle IMAGE...")
     model = tf.keras.models.load_model("models/image_classifier.h5", compile=False)
+    # Si l'input n'est pas défini, appeler le modèle avec un tenseur fictif pour le construire.
+    if not model.inputs:
+        dummy_input = tf.zeros((1, 64, 64, 1))
+        model(dummy_input)
     print("✅ Modèle IMAGE chargé avec succès :", model.summary())
     return model
 
