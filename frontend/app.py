@@ -15,7 +15,7 @@ tf.keras.utils.get_custom_objects()['BatchNormalization'] = tf.keras.layers.Batc
 tf.keras.utils.get_custom_objects()['BatchNormalizationV2'] = tf.keras.layers.BatchNormalization
 
 # --- Définition des chemins ---
-MODEL_PATH = "models/image_audio_fusion_new_model.h5"  # Modèle de fusion
+MODEL_PATH = "models/fusion.h5"  # Modèle de fusion
 EXAMPLE_IMAGE_FOLDER = "data/images/cleaned/test_set"
 EXAMPLE_AUDIO_FOLDER = "data/audio/cleaned/test"
 

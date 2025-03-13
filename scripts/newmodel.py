@@ -19,7 +19,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 # --- 📂 Configuration et chemins ---
 MAPPING_CSV = "data/data_fusion_model/fusion_mapping.csv"
-MODEL_PATH = "models/image_audio_fusion_new_model.h5"  # Sauvegarde en `.h5`
+MODEL_PATH = "models/fusion.h5"  # Sauvegarde en `.h5`
 
 # --- 📌 Fonctions de prétraitement ---
 def preprocess_image(image_path):
