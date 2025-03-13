@@ -10,9 +10,6 @@ import matplotlib.pyplot as plt
 import cv2
 import pygame
 
-# Enregistrement global pour BatchNormalization (pour éviter d'éventuelles erreurs de désérialisation)
-tf.keras.utils.get_custom_objects()['BatchNormalization'] = tf.keras.layers.BatchNormalization
-tf.keras.utils.get_custom_objects()['BatchNormalizationV2'] = tf.keras.layers.BatchNormalization
 
 # --- Définition des chemins ---
 MODEL_PATH = "models/fusion.h5"  # Modèle de fusion

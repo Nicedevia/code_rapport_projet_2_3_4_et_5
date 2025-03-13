@@ -26,6 +26,7 @@ jobs:
       run: |
         pip install -r requirements.txt
         pip install selenium
+        pip install webdriver_manager
         pip install pytest coverage
 
     - name: 🔎 Vérifier l’environnement
@@ -60,6 +61,7 @@ jobs:
     - name: 🔧 Installer TensorFlow et toutes ses dépendances manquantes
       run: |
         pip install --upgrade pip
+        pip install webdriver_manager
         pip install tensorflow
         pip install selenium
         pip install -r requirements.txt

@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.callbacks import Callback, TensorBoard
 from tqdm.keras import TqdmCallback 
+
 # Répertoires sources pour les données audio training
 audio_train_dir_cats = "data/audio/cleaned/train/cats"
 audio_train_dir_dogs = "data/audio/cleaned/train/dogs"
@@ -27,7 +28,7 @@ def process_audio_file(audio_path):
     spectrogram = librosa.feature.melspectrogram(y=y_audio, sr=sr, n_mels=128)
     spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
     
-    # Création explicite d'une figure et d'un axe pour éviter les erreurs
+    # Création explicite d'une figure pour éviter les problèmes
     fig, ax = plt.subplots(figsize=(3, 3))
     librosa.display.specshow(spectrogram_db, sr=sr, x_axis="time", y_axis="mel", ax=ax)
     ax.axis("off")
@@ -88,6 +89,7 @@ model = tf.keras.Sequential([
 
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 model.summary()
+
 class LoggingCallback(Callback):
     def on_epoch_begin(self, epoch, logs=None):
         print(f"----- Epoch {epoch+1} started -----")
@@ -101,13 +103,13 @@ class LoggingCallback(Callback):
 # Création d'un TensorBoard callback
 tensorboard_callback = TensorBoard(log_dir='./logs/audio', histogram_freq=1)
 
-# Ajout de ce callback dans la liste
+# Ajout des callbacks
 callbacks = [LoggingCallback(), TqdmCallback(verbose=1), tensorboard_callback]
 
 # Entraînement du modèle
 model.fit(X_audio, y, epochs=10, validation_split=0.2, batch_size=16, callbacks=callbacks)
 
-# Sauvegarde du modèle entraîné
+# Sauvegarde du modèle sous le nom "audio.kera"
 os.makedirs("models", exist_ok=True)
-model.save("models/audio_classifier_final.keras")
-print("✅ Modèle audio sauvegardé !")
+model.save("models/audio.keras")
+print("✅ Modèle audio sauvegardé sous 'models/audio.keras' !")

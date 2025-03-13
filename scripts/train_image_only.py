@@ -12,7 +12,6 @@ TRAIN_IMAGE_DIR = "data/images/cleaned/training_set"
 
 # Paramètres
 IMG_SIZE = (64, 64)
-BATCH_SIZE = 128
 EPOCHS = 20
 
 # Création d'un générateur d'images avec augmentation
@@ -26,12 +25,11 @@ train_datagen = ImageDataGenerator(
     horizontal_flip=True
 )
 
-# Création des générateurs pour chaque catégorie (Chat et Chien)
+# Création des générateurs pour les ensembles d'entraînement et de validation
 train_generator = train_datagen.flow_from_directory(
     TRAIN_IMAGE_DIR,
     target_size=IMG_SIZE,
-    color_mode="grayscale",  # Conserve le format grayscale
-    batch_size=BATCH_SIZE,
+    color_mode="grayscale",  # Utilisation du format grayscale
     class_mode="binary",  # 0 pour Chat, 1 pour Chien
     subset='training'
 )
@@ -40,7 +38,6 @@ validation_generator = train_datagen.flow_from_directory(
     TRAIN_IMAGE_DIR,
     target_size=IMG_SIZE,
     color_mode="grayscale",
-    batch_size=BATCH_SIZE,
     class_mode="binary",
     subset='validation'
 )
@@ -96,8 +93,7 @@ history = model.fit(
     callbacks=callbacks
 )
 
-# Sauvegarde du modèle
+# Sauvegarde du modèle sous le nom "image.keras"
 os.makedirs("models", exist_ok=True)
-model.save("models/image_classifier_final.keras")
-print("✅ Modèle image sauvegardé !")
-
+model.save("models/image.keras")
+print("✅ Modèle image sauvegardé sous 'models/image.keras' !")
