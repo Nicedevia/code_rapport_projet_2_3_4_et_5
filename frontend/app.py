@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import cv2
 import pygame
 
-
 # --- Définition des chemins ---
 MODEL_PATH = "models/fusion.h5"  # Modèle de fusion
 EXAMPLE_IMAGE_FOLDER = "data/images/cleaned/test_set"
@@ -47,7 +46,6 @@ def preprocess_image(image_path):
 
 # ------------------------------------------------------------------------------
 # Prétraitement de l'audio
-# Ici, nous générons un melspectrogramme à la volée à partir du fichier audio.
 def preprocess_audio(audio_path):
     try:
         y, sr = librosa.load(audio_path, sr=22050, duration=2)
@@ -56,7 +54,6 @@ def preprocess_audio(audio_path):
         return None
     spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
     spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
-    # Normalisation sur [0,1]
     norm_spec = (spectrogram_db - spectrogram_db.min()) / (spectrogram_db.max() - spectrogram_db.min())
     spec_img = cv2.resize(norm_spec, (64, 64))
     return spec_img.reshape(64, 64, 1)
@@ -68,7 +65,6 @@ def predict_fusion(image_path, audio_path):
     aud = preprocess_audio(audio_path)
     if img is None or aud is None:
         return None, None
-    # Ajout de la dimension batch
     img_batch = np.expand_dims(img, axis=0)
     aud_batch = np.expand_dims(aud, axis=0)
     prediction = fusion_model.predict([img_batch, aud_batch])
@@ -86,7 +82,7 @@ def get_random_file(folder):
 # ------------------------------------------------------------------------------
 # Sauvegarde d'un fichier uploadé
 def save_uploaded_file(uploaded_file, category, file_type="image"):
-    base_dir = "data/training"  # Dossier de stockage pour les uploads
+    base_dir = "data/training"
     sub_dir = "images" if file_type == "image" else "audio"
     category = category.lower()
     save_dir = os.path.join(base_dir, sub_dir, category)
@@ -137,7 +133,7 @@ with cols[0]:
         folder = os.path.join(EXAMPLE_IMAGE_FOLDER, "cats" if image_cat_choice == "Chat" else "dogs")
         st.session_state["test_image_path"] = get_random_file(folder)
     st.image(st.session_state["test_image_path"], caption="Image sélectionnée", width=200)
-    if st.button("🔄 Changer l'image"):
+    if st.button("Changer l'image"):
         folder = os.path.join(EXAMPLE_IMAGE_FOLDER, "cats" if image_cat_choice == "Chat" else "dogs")
         st.session_state["test_image_path"] = get_random_file(folder)
         st.experimental_rerun()
@@ -158,22 +154,21 @@ with cols[1]:
         folder = os.path.join(EXAMPLE_AUDIO_FOLDER, "cats" if audio_cat_choice == "Chat" else "dogs")
         st.session_state["test_audio_path"] = get_random_file(folder)
     st.audio(st.session_state["test_audio_path"])
-    if st.button("🔄 Changer l'audio"):
+    if st.button("Changer l'audio"):
         folder = os.path.join(EXAMPLE_AUDIO_FOLDER, "cats" if audio_cat_choice == "Chat" else "dogs")
         st.session_state["test_audio_path"] = get_random_file(folder)
         st.experimental_rerun()
 
 st.markdown("---")
 st.header("Prédiction")
-if st.button("🔮 Prédire"):
+if st.button("Prédire"):
     if not st.session_state["test_image_path"] or not st.session_state["test_audio_path"]:
-        st.warning("⚠️ Sélectionnez une image et un audio.")
+        st.warning("Sélectionnez une image et un audio.")
     else:
         class_index, prediction = predict_fusion(st.session_state["test_image_path"], st.session_state["test_audio_path"])
         if class_index is None:
             st.error("Erreur lors de la prédiction.")
         else:
-            # Libellés des classes (à adapter si besoin)
             class_labels = ["🐱 Chat", "🐶 Chien", "❌ Erreur"]
             confidence = f"{np.max(prediction) * 100:.2f}%"
-            st.success(f"✅ Prédiction : {class_labels[class_index]} (Confiance : {confidence})")
+            st.success(f"Prédiction : {class_labels[class_index]} (Confiance : {confidence})")

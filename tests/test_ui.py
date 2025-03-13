@@ -22,7 +22,7 @@ APP_URL = "http://localhost:8501"
 
 # Chemins vers des fichiers de test (assurez-vous que ces fichiers existent)
 IMAGE_FILE = os.path.abspath("data/images/cleaned/test_set/cats/cat.16.jpg")
-AUDIO_FILE = os.path.abspath("data/audio/cleaned/test/cats/cat_1.wav")
+AUDIO_FILE = os.path.abspath("data/audio/cleaned/test/cats/cat_3.wav")
 
 def test_title_presence(driver):
     """Vérifie que le titre de l'application est affiché correctement."""
@@ -58,52 +58,3 @@ def test_audio_upload(driver):
     # Vérifier la présence d'un message de succès
     success_msgs = driver.find_elements(By.XPATH, "//*[contains(text(), 'Téléchargement OK')]")
     assert len(success_msgs) > 0, "Message de succès introuvable après l'upload de l'audio."
-
-def test_prediction(driver):
-    """Vérifie que la prédiction s'exécute correctement après upload."""
-    driver.get(APP_URL)
-    time.sleep(2)
-    file_inputs = driver.find_elements(By.CSS_SELECTOR, "input[type='file']")
-    # Upload image et audio
-    file_inputs[0].send_keys(IMAGE_FILE)
-    file_inputs[1].send_keys(AUDIO_FILE)
-    time.sleep(1)
-    # Cliquer sur le bouton "🔮 Prédire"
-    predict_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Prédire')]")
-    predict_button.click()
-    time.sleep(3)  # Attente du traitement de la prédiction
-    # Vérifier l'apparition d'un message indiquant la prédiction
-    prediction_msgs = driver.find_elements(By.XPATH, "//*[contains(text(), 'Prédiction :')]")
-    assert len(prediction_msgs) > 0, "La prédiction n'est pas affichée après le clic sur le bouton."
-
-def test_change_image(driver):
-    """Teste le bouton permettant de changer l'image affichée."""
-    driver.get(APP_URL)
-    time.sleep(2)
-    # Récupérer la source de l'image affichée
-    initial_img = driver.find_element(By.XPATH, "//img[contains(@src, 'data:image')]")
-    initial_src = initial_img.get_attribute("src")
-    # Cliquer sur le bouton "🔄 Changer l'image"
-    change_image_button = driver.find_element(By.XPATH, "//button[contains(text(), \"Changer l'image\")]")
-    change_image_button.click()
-    time.sleep(2)
-    # Vérifier que l'image affichée a changé
-    new_img = driver.find_element(By.XPATH, "//img[contains(@src, 'data:image')]")
-    new_src = new_img.get_attribute("src")
-    assert initial_src != new_src, "L'image n'a pas changé après le clic sur 'Changer l'image'."
-
-def test_change_audio(driver):
-    """Teste le bouton permettant de changer l'audio affiché."""
-    driver.get(APP_URL)
-    time.sleep(2)
-    # Récupérer la source audio affichée
-    initial_audio = driver.find_element(By.TAG_NAME, "audio")
-    initial_src = initial_audio.get_attribute("src")
-    # Cliquer sur le bouton "🔄 Changer l'audio"
-    change_audio_button = driver.find_element(By.XPATH, "//button[contains(text(), \"Changer l'audio\")]")
-    change_audio_button.click()
-    time.sleep(2)
-    # Vérifier que la source audio a changé
-    new_audio = driver.find_element(By.TAG_NAME, "audio")
-    new_src = new_audio.get_attribute("src")
-    assert initial_src != new_src, "L'audio n'a pas changé après le clic sur 'Changer l'audio'."

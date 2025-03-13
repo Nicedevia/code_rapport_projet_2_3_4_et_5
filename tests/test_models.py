@@ -5,9 +5,9 @@ import numpy as np
 import tensorflow as tf
 
 MODEL_PATHS = {
-    "image": "models/image_classifier.h5",
-    "audio": "models/audio_classifier.h5",
-    "fusion": "models/image_audio_fusion_new_model.h5"
+    "image": "models/image.keras",
+    "audio": "models/audio.keras",
+    "fusion": "models/fusion.h5"
 }
 
 def load_model(path):

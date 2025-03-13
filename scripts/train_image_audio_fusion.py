@@ -17,6 +17,9 @@ from tensorflow.keras.layers import Input, Dense, Dropout, concatenate
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tqdm.keras import TqdmCallback
+from tensorflow.keras.models import load_model
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report
 
 # --- Configuration et chemins ---
 MAPPING_CSV = r"C:\Users\briac\Desktop\projet_3\data\data_fusion_model\fusion_mapping.csv"
@@ -192,7 +195,7 @@ history = fusion_model.fit([X_images, X_audio], y_labels,
 
 # Sauvegarde du modèle fusionné
 os.makedirs("models", exist_ok=True)
-fusion_model.save("models/image_audio_fusion_model_v10.pkl")
+fusion_model.save("models/image_audio_fusion_model_v10.keras")
 print("Modèle fusionné sauvegardé avec succès !")
 
 # --- Visualisation des courbes d'entraînement ---

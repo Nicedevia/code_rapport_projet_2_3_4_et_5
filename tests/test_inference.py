@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 import pytest
 
 # 🔹 Définition du chemin du modèle (assurez-vous qu'il est bien généré par l'entraînement)
-MODEL_PATH = "models/image_audio_fusion_new_model.h5"
+MODEL_PATH = "models/fusion.h5"
 
 # --- 📌 Vérification que le modèle existe avant d'exécuter les tests ---
 @pytest.fixture(scope="module")

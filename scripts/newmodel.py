@@ -15,16 +15,13 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tqdm.keras import TqdmCallback
 from sklearn.model_selection import train_test_split
 
-# --- 📂 Configuration et chemins ---
+# --- Configuration et chemins ---
 MAPPING_CSV = "data/data_fusion_model/fusion_mapping.csv"
-MODEL_PATH = "models/fusion.h5"
+FUSION_MODEL_PATH = "models/fusion.h5"
+IMAGE_MODEL_PATH = "models/image.keras"
+AUDIO_MODEL_PATH = "models/audio.keras"
 
-image_model = tf.keras.models.load_model("models/image.keras")
-audio_model = tf.keras.models.load_model("models/audio.keras")
-print(image_model.summary())
-print(audio_model.summary())
-
-# --- 📌 Fonctions de prétraitement ---
+# --- Fonctions de prétraitement ---
 def preprocess_image(image_path):
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
@@ -43,7 +40,7 @@ def preprocess_audio(audio_path):
     spec_img = cv2.resize(spec_img, (64, 64)) / 255.0
     return spec_img.reshape(64, 64, 1)
 
-# --- 📌 Chargement des données ---
+# --- Chargement des données ---
 def load_data():
     df = pd.read_csv(MAPPING_CSV)
     X_images, X_audio, y_labels = [], [], []
@@ -57,75 +54,100 @@ def load_data():
         y_labels.append(row["label"])
     return np.array(X_images), np.array(X_audio), np.array(y_labels)
 
-# --- 📌 Chargement des modèles pré-entraînés individuels ---
+# --- Fonction personnalisée pour contourner l'erreur batch_shape ---
+def custom_input_layer(*args, **kwargs):
+    kwargs.pop("batch_shape", None)
+    return tf.keras.layers.InputLayer(*args, **kwargs)
+
+# --- Re-sauvegarde des modèles individuels avec input défini ---
+def re_save_individual_models():
+    print("🔄 Re-sauvegarde des modèles IMAGE et AUDIO avec input défini...")
+    # Charger les modèles avec custom_objects pour contourner l'erreur de batch_shape
+    image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
+    audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
+    
+    # Pour un modèle séquentiel non construit, on appelle build
+    if isinstance(image_model, tf.keras.Sequential) and not image_model.built:
+        image_model.build((None, 64, 64, 1))
+    if isinstance(audio_model, tf.keras.Sequential) and not audio_model.built:
+        audio_model.build((None, 64, 64, 1))
+    
+    # Forcer l'appel sur un dummy tensor pour définir l'input
+    dummy_image = tf.zeros((1, 64, 64, 1))
+    dummy_audio = tf.zeros((1, 64, 64, 1))
+    _ = image_model(dummy_image)
+    _ = audio_model(dummy_audio)
+    
+    # Pour éviter l'erreur, utiliser .inputs si .input n'est pas disponible
+    try:
+        print("Input IMAGE :", image_model.input)
+    except AttributeError:
+        print("Input IMAGE :", image_model.inputs)
+    try:
+        print("Input AUDIO :", audio_model.input)
+    except AttributeError:
+        print("Input AUDIO :", audio_model.inputs)
+    
+    # Re-sauvegarder les modèles avec l'input défini
+    image_model.save(IMAGE_MODEL_PATH)
+    audio_model.save(AUDIO_MODEL_PATH)
+    print("✅ Modèles IMAGE et AUDIO re-sauvegardés avec input défini.")
+
+# --- Chargement des modèles pré-entraînés individuels ---
 def load_pretrained_models():
     print("🔍 Chargement des modèles individuels pré-entraînés...")
-
-    # Charger les modèles
-    image_model = tf.keras.models.load_model("models/image.keras")
-    audio_model = tf.keras.models.load_model("models/audio.keras")
-
-    # 🔹 Forcer un appel aux modèles pour s'assurer qu'ils sont initialisés
-    dummy_input_image = tf.zeros((1, 64, 64, 1))
-    dummy_input_audio = tf.zeros((1, 64, 64, 1))
+    image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
+    audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
     
-    image_model(dummy_input_image)
-    audio_model(dummy_input_audio)
-
-    # 🔹 Extraction des couches Flatten
+    # Vérifier que l'input est bien défini (utiliser .inputs)
+    if not image_model.inputs:
+        raise ValueError("❌ Le modèle IMAGE n'a pas d'input défini.")
+    if not audio_model.inputs:
+        raise ValueError("❌ Le modèle AUDIO n'a pas d'input défini.")
+    
+    # Extraction des couches Flatten
     flatten_image_layer = next((layer for layer in image_model.layers if isinstance(layer, Flatten)), None)
     flatten_audio_layer = next((layer for layer in audio_model.layers if isinstance(layer, Flatten)), None)
-
     if flatten_image_layer is None or flatten_audio_layer is None:
         raise ValueError("❌ Erreur: Impossible de trouver une couche Flatten dans les modèles.")
-
-    # 🔹 Création des modèles de feature extraction
+    
+    # Création des modèles de feature extraction
     image_input = Input(shape=(64, 64, 1), name="image_input")
     audio_input = Input(shape=(64, 64, 1), name="audio_input")
-
     image_feature_output = flatten_image_layer(image_model(image_input))
     audio_feature_output = flatten_audio_layer(audio_model(audio_input))
-
     image_feature_model = Model(inputs=image_input, outputs=image_feature_output, name="image_feature_extractor")
     audio_feature_model = Model(inputs=audio_input, outputs=audio_feature_output, name="audio_feature_extractor")
-
     image_feature_model.trainable = False
     audio_feature_model.trainable = False
-
     return image_feature_model, audio_feature_model
 
-
-# --- 📌 Création du modèle fusionné ---
+# --- Création du modèle fusionné ---
 def build_fusion_model(image_feature_model, audio_feature_model):
     image_input = Input(shape=(64, 64, 1), name="image_input")
     audio_input = Input(shape=(64, 64, 1), name="audio_input")
-    
     image_features = image_feature_model(image_input)
     audio_features = audio_feature_model(audio_input)
-    
     combined_features = concatenate([image_features, audio_features], name="fusion_layer")
     fc = Dense(128, activation="relu")(combined_features)
     fc = Dropout(0.3)(fc)
     fc = Dense(64, activation="relu")(fc)
     final_output = Dense(3, activation="softmax", name="output_layer")(fc)
-    
     fusion_model = Model(inputs=[image_input, audio_input], outputs=final_output, name="fusion_model")
     fusion_model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
     return fusion_model
 
-# --- 📌 Entraînement du modèle ---
+# --- Entraînement du modèle fusionné ---
 def train_fusion_model(fusion_model, X_images, X_audio, y_labels):
     X_train_img, X_val_img, X_train_audio, X_val_audio, y_train, y_val = train_test_split(
         X_images, X_audio, y_labels, test_size=0.2, random_state=42
     )
-    
     class_weights = {0: 1.0, 1: 1.0, 2: 2.0}
     callbacks = [
         EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True),
         ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, verbose=1),
         TqdmCallback(verbose=1)
     ]
-    
     print("🚀 Entraînement du modèle fusionné...")
     fusion_model.fit(
         [X_train_img, X_train_audio], y_train,
@@ -135,14 +157,27 @@ def train_fusion_model(fusion_model, X_images, X_audio, y_labels):
     )
     return fusion_model
 
-# --- 📌 Sauvegarde du modèle ---
-def save_model_h5(model, filename=MODEL_PATH):
+# --- Sauvegarde du modèle fusionné ---
+def save_model_h5(model, filename=FUSION_MODEL_PATH):
     os.makedirs("models", exist_ok=True)
     model.save(filename)
-    print(f"✅ Modèle sauvegardé en {filename}")
+    print(f"✅ Modèle FUSION sauvegardé en {filename}")
 
-# --- 📌 Programme principal ---
+# --- Fonction predict pour l'inférence ---
+def predict(model, image_path, audio_path):
+    img = preprocess_image(image_path)
+    aud = preprocess_audio(audio_path)
+    if img is None or aud is None:
+        return None, None
+    img = np.expand_dims(img, axis=0)
+    aud = np.expand_dims(aud, axis=0)
+    prediction = model.predict([img, aud])
+    class_index = int(np.argmax(prediction, axis=1)[0])
+    return class_index, prediction
+
+# --- Programme principal ---
 def main():
+    re_save_individual_models()
     X_images, X_audio, y_labels = load_data()
     image_feature_model, audio_feature_model = load_pretrained_models()
     fusion_model = build_fusion_model(image_feature_model, audio_feature_model)

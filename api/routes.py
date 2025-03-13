@@ -13,14 +13,26 @@ from .model_loader import load_image_model, load_audio_model, load_fusion_model
 DEFAULT_THRESHOLD = 0.5
 router = APIRouter()
 
-# Charger les modèles et créer les extracteurs de features
+# Charger les modèles
 image_model = load_image_model()
 audio_model = load_audio_model()
 fusion_model = load_fusion_model()
 
-# Création des extracteurs (couche avant-dernière de chaque modèle)
-image_extractor = tf.keras.Model(inputs=image_model.input, outputs=image_model.layers[-2].output)
-audio_extractor = tf.keras.Model(inputs=audio_model.input, outputs=audio_model.layers[-2].output)
+# Forcer l'appel des modèles avec un dummy input pour définir leurs inputs
+dummy_image = tf.zeros((1, 64, 64, 1))
+dummy_audio = tf.zeros((1, 64, 64, 1))
+_ = image_model(dummy_image)
+_ = audio_model(dummy_audio)
+
+# Création des extracteurs en utilisant inputs[0]
+image_extractor = tf.keras.Model(
+    inputs=image_model.inputs[0],
+    outputs=image_model.layers[-2].output
+)
+audio_extractor = tf.keras.Model(
+    inputs=audio_model.inputs[0],
+    outputs=audio_model.layers[-2].output
+)
 
 # ---------------------------
 # Définition des métriques Prometheus
