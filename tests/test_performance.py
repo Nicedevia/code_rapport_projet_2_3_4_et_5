@@ -7,9 +7,20 @@ import memory_profiler
 from scripts.newmodel import predict
 import tensorflow as tf
 
+from scripts.newmodel import predict
+import tensorflow as tf
+
+def custom_input_layer(*args, **kwargs):
+    # Extraire et supprimer batch_shape de kwargs
+    batch_shape = kwargs.pop("batch_shape", None)
+    if batch_shape is not None:
+        # Utiliser la forme sans la dimension batch (la première dimension)
+        kwargs["shape"] = tuple(batch_shape[1:])
+    return tf.keras.layers.InputLayer(*args, **kwargs)
+
 print("chargement du model")
 
-model = tf.keras.models.load_model("models/fusion.h5")
+model = tf.keras.models.load_model("models/fusion.h5", custom_objects={"InputLayer": custom_input_layer})
 
 print("model chargé ...")
 
@@ -19,5 +30,3 @@ def test_performance():
     end_time = time.time()
     assert (end_time - start_time) < 1.0, "Erreur: Temps d'inférence trop long"
 
-    # mem_usage = memory_profiler.memory_usage()
-    # assert max(mem_usage) < 2000, "Erreur: Trop de mémoire utilisée"
