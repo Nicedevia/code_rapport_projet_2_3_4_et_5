@@ -11,12 +11,11 @@ from scripts.newmodel import predict
 import tensorflow as tf
 
 def custom_input_layer(*args, **kwargs):
-    # Extraire et supprimer batch_shape de kwargs
     batch_shape = kwargs.pop("batch_shape", None)
     if batch_shape is not None:
-        # Utiliser la forme sans la dimension batch (la première dimension)
-        kwargs["shape"] = tuple(batch_shape[1:])
+        kwargs["batch_input_shape"] = tuple(batch_shape)
     return tf.keras.layers.InputLayer(*args, **kwargs)
+
 
 print("chargement du model")
 
