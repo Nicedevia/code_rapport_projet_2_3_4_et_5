@@ -56,29 +56,29 @@ def load_data():
 
 # --- Fonction personnalisée pour contourner l'erreur batch_shape ---
 def custom_input_layer(*args, **kwargs):
-    kwargs.pop("batch_shape", None)
+    batch_shape = kwargs.pop("batch_shape", None)
+    if batch_shape is not None:
+        if "input_shape" in kwargs:
+            del kwargs["input_shape"]
+        kwargs["batch_input_shape"] = tuple(batch_shape)
     return tf.keras.layers.InputLayer(*args, **kwargs)
 
 # --- Re-sauvegarde des modèles individuels avec input défini ---
 def re_save_individual_models():
     print("🔄 Re-sauvegarde des modèles IMAGE et AUDIO avec input défini...")
-    # Charger les modèles avec custom_objects pour contourner l'erreur de batch_shape
     image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
     audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
     
-    # Pour un modèle séquentiel non construit, on appelle build
     if isinstance(image_model, tf.keras.Sequential) and not image_model.built:
         image_model.build((None, 64, 64, 1))
     if isinstance(audio_model, tf.keras.Sequential) and not audio_model.built:
         audio_model.build((None, 64, 64, 1))
     
-    # Forcer l'appel sur un dummy tensor pour définir l'input
     dummy_image = tf.zeros((1, 64, 64, 1))
     dummy_audio = tf.zeros((1, 64, 64, 1))
     _ = image_model(dummy_image)
     _ = audio_model(dummy_audio)
     
-    # Pour éviter l'erreur, utiliser .inputs si .input n'est pas disponible
     try:
         print("Input IMAGE :", image_model.input)
     except AttributeError:
@@ -88,7 +88,6 @@ def re_save_individual_models():
     except AttributeError:
         print("Input AUDIO :", audio_model.inputs)
     
-    # Re-sauvegarder les modèles avec l'input défini
     image_model.save(IMAGE_MODEL_PATH)
     audio_model.save(AUDIO_MODEL_PATH)
     print("✅ Modèles IMAGE et AUDIO re-sauvegardés avec input défini.")
@@ -99,19 +98,16 @@ def load_pretrained_models():
     image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
     audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
     
-    # Vérifier que l'input est bien défini (utiliser .inputs)
     if not image_model.inputs:
         raise ValueError("❌ Le modèle IMAGE n'a pas d'input défini.")
     if not audio_model.inputs:
         raise ValueError("❌ Le modèle AUDIO n'a pas d'input défini.")
     
-    # Extraction des couches Flatten
     flatten_image_layer = next((layer for layer in image_model.layers if isinstance(layer, Flatten)), None)
     flatten_audio_layer = next((layer for layer in audio_model.layers if isinstance(layer, Flatten)), None)
     if flatten_image_layer is None or flatten_audio_layer is None:
         raise ValueError("❌ Erreur: Impossible de trouver une couche Flatten dans les modèles.")
     
-    # Création des modèles de feature extraction
     image_input = Input(shape=(64, 64, 1), name="image_input")
     audio_input = Input(shape=(64, 64, 1), name="audio_input")
     image_feature_output = flatten_image_layer(image_model(image_input))
