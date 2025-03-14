@@ -6,9 +6,9 @@ import requests
 # URL de base de l'API (à adapter si nécessaire)
 API_BASE_URL = "http://localhost:8000"
 
-# Dossiers de test pour la sélection aléatoire (on utilise des chemins absolus)
-TEST_IMAGE_FOLDER = os.path.abspath("data/images/cleaned/test_set")
-TEST_AUDIO_FOLDER = os.path.abspath("data/audio/cleaned/test")
+# Dossiers de test pour la sélection aléatoire
+TEST_IMAGE_FOLDER = "data/images/cleaned/test_set"
+TEST_AUDIO_FOLDER = "data/audio/cleaned/test"
 
 # Fonction pour sélectionner aléatoirement un fichier dans un dossier
 def get_random_file(folder):
@@ -36,7 +36,7 @@ with col1:
     # Option d'upload d'image
     uploaded_image = st.file_uploader("Uploader une image", type=["jpg", "jpeg", "png"], key="upload_image")
     if uploaded_image:
-        # Si un fichier est uploadé, on réinitialise la sélection aléatoire
+        # Si un fichier est uploadé, on ne conserve pas la sélection aléatoire
         st.session_state["image_path"] = None
         st.image(uploaded_image, caption="Image uploadée", use_column_width=True)
     else:
@@ -47,8 +47,7 @@ with col1:
         if st.session_state["image_path"]:
             st.image(st.session_state["image_path"], caption="Image sélectionnée", use_column_width=True)
     
-    # Bouton de changement d'image (texte sans emoji pour correspondre aux sélecteurs de test)
-    if st.button("Changer l'image", key="change_img"):
+    if st.button("🔄 Changer l'image", key="change_img"):
         folder = os.path.join(TEST_IMAGE_FOLDER, "cats" if image_category == "Chat" else "dogs")
         st.session_state["image_path"] = get_random_file(folder)
         st.experimental_rerun()
@@ -70,14 +69,13 @@ with col2:
         if st.session_state["audio_path"]:
             st.audio(st.session_state["audio_path"])
     
-    # Bouton de changement d'audio (texte sans emoji)
-    if st.button("Changer l'audio", key="change_audio"):
+    if st.button("🔄 Changer l'audio", key="change_audio"):
         folder = os.path.join(TEST_AUDIO_FOLDER, "cats" if audio_category == "Chat" else "dogs")
         st.session_state["audio_path"] = get_random_file(folder)
         st.experimental_rerun()
 
 # --- Bouton de Prédiction ---
-if st.button("Prédire"):
+if st.button("🔮 Prédire"):
     # Déterminer l'image à utiliser
     if uploaded_image:
         image_file = uploaded_image
@@ -112,6 +110,6 @@ if st.button("Prédire"):
         result = response.json()
         prediction = result.get("prediction", "Inconnu")
         confidence = result.get("confidence", 0)
-        st.success(f"Prédiction : {prediction} (Confiance : {confidence:.2f})")
+        st.success(f"✅ Prédiction : {prediction} (Confiance : {confidence:.2f})")
     else:
         st.error(f"Erreur API {response.status_code} : {response.text}")

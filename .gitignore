@@ -8,6 +8,6 @@ data/
 !data/audio/cleaned/train/cats/cat_1.wav
 !data/data_fusion_model/fusion_mapping.csv
 *.waw
-alertmanager.yml
+# alertmanager.yml
 config/
 C:\Users\briac\Desktop\projet_3\config\kaggle.json

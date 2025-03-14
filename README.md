@@ -13,3 +13,8 @@ Cette API REST, développée avec FastAPI, permet de classer des images (et ult�
 Dans le répertoire racine du projet, lancez :
 uvicorn api.api:app --host 0.0.0.0 --port 8000 --reload
 http://localhost:8000/docs
+
+
+git add .
+git commit -m "monitorage"
+git push origin main
