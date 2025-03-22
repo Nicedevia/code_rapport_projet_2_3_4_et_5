@@ -15,6 +15,14 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tqdm.keras import TqdmCallback
 from sklearn.model_selection import train_test_split
 
+# --- Enregistrer notre InputLayer personnalisé ---
+class CustomInputLayer(tf.keras.layers.InputLayer):
+    def __init__(self, *args, **kwargs):
+        if "batch_shape" in kwargs:
+            batch_shape = kwargs.pop("batch_shape")
+            kwargs["batch_input_shape"] = tuple(batch_shape)
+        super().__init__(*args, **kwargs)
+
 # --- Configuration et chemins ---
 MAPPING_CSV = "data/data_fusion_model/fusion_mapping.csv"
 FUSION_MODEL_PATH = "models/fusion.h5"
@@ -54,20 +62,12 @@ def load_data():
         y_labels.append(row["label"])
     return np.array(X_images), np.array(X_audio), np.array(y_labels)
 
-# --- Fonction personnalisée pour contourner l'erreur batch_shape ---
-def custom_input_layer(*args, **kwargs):
-    batch_shape = kwargs.pop("batch_shape", None)
-    if batch_shape is not None:
-        if "input_shape" in kwargs:
-            del kwargs["input_shape"]
-        kwargs["batch_input_shape"] = tuple(batch_shape)
-    return tf.keras.layers.InputLayer(*args, **kwargs)
-
 # --- Re-sauvegarde des modèles individuels avec input défini ---
 def re_save_individual_models():
     print("🔄 Re-sauvegarde des modèles IMAGE et AUDIO avec input défini...")
-    image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
-    audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
+    # Charger les modèles avec custom_objects pour contourner l'erreur de batch_shape
+    image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": CustomInputLayer})
+    audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": CustomInputLayer})
     
     if isinstance(image_model, tf.keras.Sequential) and not image_model.built:
         image_model.build((None, 64, 64, 1))
@@ -95,8 +95,8 @@ def re_save_individual_models():
 # --- Chargement des modèles pré-entraînés individuels ---
 def load_pretrained_models():
     print("🔍 Chargement des modèles individuels pré-entraînés...")
-    image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
-    audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": custom_input_layer})
+    image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects={"InputLayer": CustomInputLayer})
+    audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects={"InputLayer": CustomInputLayer})
     
     if not image_model.inputs:
         raise ValueError("❌ Le modèle IMAGE n'a pas d'input défini.")

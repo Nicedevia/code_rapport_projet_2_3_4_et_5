@@ -1,0 +1,41 @@
+name: Incident Report
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 * * * *'  # déclenchement toutes les heures
+
+jobs:
+  incident:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        fi
+
+    - name: Generate Incident Report
+      run: python logs/incident_report.py
+
+
+    - name: Commit Incident Report if generated
+      run: |
+        if [ -f incident_report.md ]; then
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add incident_report.md
+          git commit -m "Ajout du rapport d'incident" || echo "Aucun changement à committer"
+          git push
+        else
+          echo "Aucun rapport d'incident généré."
+        fi
