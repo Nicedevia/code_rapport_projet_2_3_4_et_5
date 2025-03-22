@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import time
 import memory_profiler
 import tensorflow as tf
-from scripts.newmodel import predict, custom_input_layer
+from scripts.newmodel import predict, CustomInputLayer
 
 # Enregistrer la classe DTypePolicy dans le scope des objets personnalisés
 from tensorflow.keras.mixed_precision import Policy
@@ -13,7 +13,7 @@ tf.keras.utils.get_custom_objects()["DTypePolicy"] = Policy
 
 print("chargement du model")
 
-model = tf.keras.models.load_model("models/fusion.h5", custom_objects={"InputLayer": custom_input_layer})
+model = tf.keras.models.load_model("models/fusion.h5", custom_objects={"InputLayer": CustomInputLayer})
 print("model chargé ...")
 
 def test_performance():
