@@ -1,19 +1,29 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 import time
 import memory_profiler
 import tensorflow as tf
+
+# Ajouter le chemin du dossier parent pour les imports
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# Import des fonctions et classes personnalisées
 from scripts.newmodel import predict, CustomInputLayer
 
-# Enregistrer la classe DTypePolicy dans le scope des objets personnalisés
+# Enregistrement des objets personnalisés pour le chargement du modèle
 from tensorflow.keras.mixed_precision import Policy
-tf.keras.utils.get_custom_objects()["DTypePolicy"] = Policy
+
+custom_objects = {
+    "CustomInputLayer": CustomInputLayer,
+    "InputLayer": CustomInputLayer,
+    "DTypePolicy": Policy
+}
 
 print("chargement du model")
 
-model = tf.keras.models.load_model("models/fusion.h5", custom_objects={"InputLayer": CustomInputLayer})
+# Chargement du modèle fusionné avec les objets personnalisés
+model = tf.keras.models.load_model("models/fusion.h5", custom_objects=custom_objects)
+
 print("model chargé ...")
 
 def test_performance():
@@ -22,5 +32,4 @@ def test_performance():
     end_time = time.time()
     elapsed = end_time - start_time
     print("Temps d'inférence mesuré :", elapsed, "secondes")
-    # Vous pouvez ajuster le seuil si nécessaire (ici, par exemple, 2 secondes)
     assert elapsed < 2.0, f"Erreur: Temps d'inférence trop long: {elapsed} secondes"

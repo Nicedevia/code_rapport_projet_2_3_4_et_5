@@ -2,7 +2,7 @@ name: Incident Report
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, cicd ]
   schedule:
     - cron: '0 * * * *'  # déclenchement toutes les heures
 
