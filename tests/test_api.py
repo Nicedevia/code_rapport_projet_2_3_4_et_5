@@ -1,6 +1,7 @@
 import sys
 import os
-# Ajoute le dossier racine du projet dans PYTHONPATH
+# Ajoute le dossier racine du projet dans PYTHONPATH 
+# nessecaire pour les imports en fonction de local .env ou git
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from fastapi.testclient import TestClient
