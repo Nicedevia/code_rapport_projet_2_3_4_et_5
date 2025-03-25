@@ -2,9 +2,9 @@ name: CI/CD - Test, Retrain, Build & Monitor
 
 on:
   push:
-    branches: [ main, cicd ]
+    branches: [ main, cicd, projet4dev ]
   pull_request:
-    branches: [ main, cicd ]
+    branches: [ main, cicd, projet4dev ]
   workflow_dispatch:  # Permet un lancement manuel
 
 jobs:
