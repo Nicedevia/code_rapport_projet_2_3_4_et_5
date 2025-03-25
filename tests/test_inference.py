@@ -1,13 +1,11 @@
 import os
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import load_model
 import pytest
 
-from scripts.newmodel import CustomInputLayer
-from tensorflow.keras.mixed_precision import Policy
+from scripts.newmodel import CustomInputLayer, build_fusion_model, load_pretrained_models
 
-# 🔹 Définition du chemin du modèle (assurez-vous qu'il est bien généré par l'entraînement)
+# 🔹 Définition du chemin du modèle
 MODEL_PATH = "models/fusion.h5"
 
 # --- 📌 Vérification que le modèle existe avant d'exécuter les tests ---
@@ -16,16 +14,11 @@ def model():
     if not os.path.exists(MODEL_PATH):
         pytest.fail(f"❌ Le modèle n'existe pas : {MODEL_PATH}")
 
-    print(f"✅ Chargement du modèle : {MODEL_PATH}")
-    return load_model(
-        MODEL_PATH,
-        compile=False,
-        custom_objects={
-            "InputLayer": CustomInputLayer,
-            "CustomInputLayer": CustomInputLayer,
-            "DTypePolicy": Policy
-        }
-    )
+    print(f"✅ Reconstruction du modèle puis chargement des poids depuis : {MODEL_PATH}")
+    image_model, audio_model = load_pretrained_models()
+    fusion_model = build_fusion_model(image_model, audio_model)
+    fusion_model.load_weights(MODEL_PATH)
+    return fusion_model
 
 # --- 📌 Fonction de prédiction simplifiée pour le test ---
 def predict(model, image_array, audio_array):
@@ -52,19 +45,13 @@ def test_model_prediction(model):
 # --- 📌 Test additionnel pour vérifier si le modèle est bien chargé ---
 def test_model_loading():
     """
-    Vérifie que le modèle se charge sans erreur.
+    Vérifie que le modèle se charge sans erreur via reconstruction + poids.
     """
     try:
-        model = load_model(
-            MODEL_PATH,
-            compile=False,
-            custom_objects={
-                "InputLayer": CustomInputLayer,
-                "CustomInputLayer": CustomInputLayer,
-                "DTypePolicy": Policy
-            }
-        )
-        assert model is not None, "❌ Échec du chargement du modèle."
-        print("✅ Modèle chargé avec succès !")
+        image_model, audio_model = load_pretrained_models()
+        fusion_model = build_fusion_model(image_model, audio_model)
+        fusion_model.load_weights(MODEL_PATH)
+        assert fusion_model is not None, "❌ Échec de la reconstruction du modèle."
+        print("✅ Modèle reconstruit et chargé avec succès !")
     except Exception as e:
-        pytest.fail(f"❌ Erreur lors du chargement du modèle !: {e}")
+        pytest.fail(f"❌ Erreur lors de la reconstruction/chargement du modèle !: {e}")
