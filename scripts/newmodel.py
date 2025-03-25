@@ -66,7 +66,12 @@ def load_data():
 # --- Re-sauvegarde des modèles individuels avec input défini ---
 def re_save_individual_models():
     print("🔄 Re-sauvegarde des modèles IMAGE et AUDIO avec input défini...")
-    custom_objects = {"InputLayer": CustomInputLayer, "CustomInputLayer": CustomInputLayer, "DTypePolicy": Policy}
+    custom_objects = {
+    "InputLayer": CustomInputLayer,
+    "CustomInputLayer": CustomInputLayer,
+    "input_layer": CustomInputLayer,
+    "DTypePolicy": Policy
+}
     image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects=custom_objects)
     audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects=custom_objects)
 
@@ -87,7 +92,12 @@ def re_save_individual_models():
 # --- Chargement des modèles pré-entraînés individuels ---
 def load_pretrained_models():
     print("🔍 Chargement des modèles individuels pré-entraînés...")
-    custom_objects = {"InputLayer": CustomInputLayer, "CustomInputLayer": CustomInputLayer, "DTypePolicy": Policy}
+    custom_objects = {
+    "InputLayer": CustomInputLayer,
+    "CustomInputLayer": CustomInputLayer,
+    "input_layer": CustomInputLayer,
+    "DTypePolicy": Policy
+}
     image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH, custom_objects=custom_objects)
     audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH, custom_objects=custom_objects)
 
