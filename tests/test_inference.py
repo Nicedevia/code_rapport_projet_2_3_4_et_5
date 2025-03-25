@@ -4,7 +4,8 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 import pytest
 
-from scripts.newmodel import CustomInputLayer  # Ajout pour désérialisation correcte
+from scripts.newmodel import CustomInputLayer
+from tensorflow.keras.mixed_precision import Policy
 
 # 🔹 Définition du chemin du modèle (assurez-vous qu'il est bien généré par l'entraînement)
 MODEL_PATH = "models/fusion.h5"
@@ -19,7 +20,11 @@ def model():
     return load_model(
         MODEL_PATH,
         compile=False,
-        custom_objects={"InputLayer": CustomInputLayer, "CustomInputLayer": CustomInputLayer}
+        custom_objects={
+            "InputLayer": CustomInputLayer,
+            "CustomInputLayer": CustomInputLayer,
+            "DTypePolicy": Policy
+        }
     )
 
 # --- 📌 Fonction de prédiction simplifiée pour le test ---
@@ -53,7 +58,11 @@ def test_model_loading():
         model = load_model(
             MODEL_PATH,
             compile=False,
-            custom_objects={"InputLayer": CustomInputLayer, "CustomInputLayer": CustomInputLayer}
+            custom_objects={
+                "InputLayer": CustomInputLayer,
+                "CustomInputLayer": CustomInputLayer,
+                "DTypePolicy": Policy
+            }
         )
         assert model is not None, "❌ Échec du chargement du modèle."
         print("✅ Modèle chargé avec succès !")
