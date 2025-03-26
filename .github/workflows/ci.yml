@@ -34,7 +34,12 @@ jobs:
         python --version
         pip list
         ls -la
+        
+    - name: Verify TensorFlow version
+      run: python -c "import tensorflow as tf; print('TensorFlow version:', tf.__version__)"
 
+    - name: Run tests
+      run: pytest --maxfail=1 --disable-warnings -q
     - name: 🚀 Exécuter les tests
       run: |
         pytest --maxfail=1 --disable-warnings -q

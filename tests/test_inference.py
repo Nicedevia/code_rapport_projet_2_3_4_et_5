@@ -15,9 +15,14 @@ def model():
         pytest.fail(f"❌ Le modèle n'existe pas : {MODEL_PATH}")
 
     print(f"✅ Reconstruction du modèle puis chargement des poids depuis : {MODEL_PATH}")
-    image_model, audio_model = load_pretrained_models()
-    fusion_model = build_fusion_model(image_model, audio_model)
-    fusion_model.load_weights(MODEL_PATH)
+    fusion_model = tf.keras.models.load_model(MODEL_PATH)
+
+    # Vérifiez que les entrées du modèle sont définies
+    if not fusion_model.inputs:
+        dummy_image = tf.zeros((1, 64, 64, 1))
+        dummy_audio = tf.zeros((1, 64, 64, 1))
+        fusion_model([dummy_image, dummy_audio])
+
     return fusion_model
 
 # --- 📌 Fonction de prédiction simplifiée pour le test ---
@@ -55,3 +60,20 @@ def test_model_loading():
         print("✅ Modèle reconstruit et chargé avec succès !")
     except Exception as e:
         pytest.fail(f"❌ Erreur lors de la reconstruction/chargement du modèle !: {e}")
+
+    def re_save_individual_models():
+    print("🔄 Re-sauvegarde des modèles IMAGE et AUDIO avec input défini...")
+    image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH)
+    audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH)
+
+    # Définir des entrées factices si nécessaire
+    if not image_model.inputs:
+        dummy_input = tf.zeros((1, 64, 64, 1))
+        image_model(dummy_input)
+    if not audio_model.inputs:
+        dummy_input = tf.zeros((1, 64, 64, 1))
+        audio_model(dummy_input)
+
+    # Sauvegarder les modèles
+    image_model.save("models/image_classifier_updated.keras")
+    audio_model.save("models/audio_classifier_updated.keras")

@@ -21,7 +21,7 @@ class CustomInputLayer(tf.keras.layers.InputLayer):
     def __init__(self, *args, **kwargs):
         if "batch_shape" in kwargs:
             batch_shape = kwargs.pop("batch_shape")
-            kwargs["batch_input_shape"] = tuple(batch_shape)
+            kwargs["batch_input_shape"] = tuple(batch_shape)  # Correction ici
         super().__init__(*args, **kwargs)
 
 # --- Configuration et chemins ---
