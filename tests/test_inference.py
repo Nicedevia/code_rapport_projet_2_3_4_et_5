@@ -4,6 +4,8 @@ import tensorflow as tf
 import pytest
 
 from scripts.newmodel import CustomInputLayer, build_fusion_model, load_pretrained_models
+IMAGE_MODEL_PATH = "models/image.keras"
+AUDIO_MODEL_PATH = "models/audio.keras"
 
 # 🔹 Définition du chemin du modèle
 MODEL_PATH = "models/fusion.h5"
@@ -61,7 +63,7 @@ def test_model_loading():
     except Exception as e:
         pytest.fail(f"❌ Erreur lors de la reconstruction/chargement du modèle !: {e}")
 
-    def re_save_individual_models():
+def re_save_individual_models():
     print("🔄 Re-sauvegarde des modèles IMAGE et AUDIO avec input défini...")
     image_model = tf.keras.models.load_model(IMAGE_MODEL_PATH)
     audio_model = tf.keras.models.load_model(AUDIO_MODEL_PATH)
