@@ -44,6 +44,18 @@
             📄 train_image_audio_mapping.csv
             📄 train_test_split.csv
             📄 utils.py
+            📂 cats_dogs/
+                🎵 277 fichiers .wav
+                📂 test/
+                    📂 cats/
+                        🎵 39 fichiers .wav
+                    📂 test/
+                        🎵 28 fichiers .wav
+                📂 train/
+                    📂 cat/
+                        🎵 125 fichiers .wav
+                    📂 dog/
+                        🎵 85 fichiers .wav
             📂 cleaned/
                 📂 test/
                     📂 cats/
@@ -106,19 +118,61 @@
             📂 test/
                 📂 audio/
                     📂 cats/
+                        🎵 114 fichiers .wav
                     📂 dogs/
+                        🎵 97 fichiers .wav
                 📂 images/
                     📂 cats/
+                        📸 1011 fichiers .jpg/.jpeg
                     📂 dogs/
+                        📸 1012 fichiers .jpg/.jpeg
             📂 train/
                 📂 audio/
                     📂 cats/
+                        🎵 452 fichiers .wav
                     📂 dogs/
+                        🎵 387 fichiers .wav
                 📂 images/
                     📂 cats/
+                        📸 4000 fichiers .jpg/.jpeg
                     📂 dogs/
-                        📸 1243 fichiers .jpg/.jpeg
+                        📸 4005 fichiers .jpg/.jpeg
         📂 extracted/
+            📂 Cat_Dog_data/
+                📂 test/
+                    📂 cat/
+                        📸 1250 fichiers .jpg/.jpeg
+                    📂 dog/
+                        📸 1250 fichiers .jpg/.jpeg
+                📂 train/
+                    📂 cat/
+                        📸 11250 fichiers .jpg/.jpeg
+                    📂 dog/
+                        📸 11250 fichiers .jpg/.jpeg
+            📂 test_set/
+                📂 cats/
+                    📸 1250 fichiers .jpg/.jpeg
+                📂 dogs/
+                    📸 1250 fichiers .jpg/.jpeg
+                📂 test_set/
+                    📂 cats/
+                        📄 _DS_Store
+                        📸 1011 fichiers .jpg/.jpeg
+                    📂 dogs/
+                        📄 _DS_Store
+                        📸 1012 fichiers .jpg/.jpeg
+            📂 training_set/
+                📂 cats/
+                    📸 11250 fichiers .jpg/.jpeg
+                📂 dogs/
+                    📸 11250 fichiers .jpg/.jpeg
+                📂 training_set/
+                    📂 cats/
+                        📄 _DS_Store
+                        📸 4000 fichiers .jpg/.jpeg
+                    📂 dogs/
+                        📄 _DS_Store
+                        📸 4005 fichiers .jpg/.jpeg
             📂 __MACOSX/
                 📂 Cat_Dog_data/
                     📂 test/
@@ -147,7 +201,7 @@
                         📸 4000 fichiers .jpg/.jpeg
                     📂 dogs/
                         📄 _DS_Store
-                        📸 2762 fichiers .jpg/.jpeg
+                        📸 2186 fichiers .jpg/.jpeg
         📂 extracted_DvC/
             📂 DvC/
                 📂 Cats/
@@ -168,12 +222,12 @@
         📂 training/
             📂 audio/
                 📂 chat/
-                    🎵 23 fichiers .wav
+                    🎵 27 fichiers .wav
                 📂 chien/
                     🎵 4 fichiers .wav
             📂 images/
                 📂 chat/
-                    📸 24 fichiers .jpg/.jpeg
+                    📸 28 fichiers .jpg/.jpeg
                 📂 chien/
                     📸 2 fichiers .jpg/.jpeg
     📂 data_retrain/
@@ -207,6 +261,9 @@
                 🖼 10 fichiers .png
             📂 dogs/
                 🖼 10 fichiers .png
+    📂 docs/
+        📄 deployement.md
+        📄 monitoring.md
     📂 frontend/
         📄 app.py
         📄 frontend_classification.py

@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   api:
     image: chat_dog_classification-api
@@ -6,22 +8,21 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./models:/app/models  # 🔥 Permet de garder le modèle même après un redémarrage
-      - ./logs:/app/logs      # 🔥 Stockage des logs d'entraînement
+      - ./models:/app/models        # Pour conserver les modèles
+      - ./logs:/app/logs            # Pour les logs applicatifs
     networks:
       - mynetwork
     depends_on:
       - prometheus
       - grafana
 
-  # --- 🔥 Service pour le réentraînement automatique ---
   retrain:
     image: chat_dog_classification-retrain
     container_name: chat_dog_classification-retrain
     build: .
     command: ["python", "scripts/train_image_audio_fusion_retrain.py"]
     volumes:
-      - ./models:/app/models  # 🔥 Le modèle mis à jour sera conservé
+      - ./models:/app/models
       - ./logs:/app/logs
     networks:
       - mynetwork
@@ -31,10 +32,10 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - mynetwork
 
@@ -43,9 +44,10 @@ services:
     container_name: grafana
     ports:
       - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana  # 🧠 Pour conserver les dashboards
     networks:
       - mynetwork
-
   alertmanager:
     image: prom/alertmanager
     container_name: alertmanager
@@ -59,14 +61,19 @@ services:
   tensorboard:
     image: tensorflow/tensorflow
     container_name: tensorboard
-    volumes:
-      - ./logs:/app/logs
+    command: ["tensorboard", "--logdir=/app/logs", "--host", "0.0.0.0"]
     ports:
       - "6006:6006"
-    command: ["tensorboard", "--logdir=/app/logs", "--host", "0.0.0.0"]
+    volumes:
+      - ./logs:/app/logs
     networks:
       - mynetwork
 
 networks:
   mynetwork:
     driver: bridge
+
+volumes:
+  grafana-data:
+
+

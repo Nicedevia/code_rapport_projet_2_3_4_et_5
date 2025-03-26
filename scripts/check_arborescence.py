@@ -57,3 +57,15 @@ def list_directory_structure(root_dir, output_file="arborescence.txt"):
 
 if __name__ == "__main__":
     list_directory_structure(PROJECT_ROOT)
+
+
+
+
+
+
+
+
+
+
+
+

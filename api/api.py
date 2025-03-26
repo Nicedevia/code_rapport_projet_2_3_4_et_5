@@ -10,19 +10,25 @@ from prometheus_client import (
     Gauge,
 )
 import time
+import os
 
-# Import du routeur de l'API (assure-toi que routes.py ne contient plus de middleware)
+# Import du routeur de l'API
 from .routes import router as api_router
 
+# Logger configuré avec rotation
+from logs.log_config import setup_logger
+logger = setup_logger("main_logger", "logs/app.log")
 
-
+# -------------------------------
+# Création de l'application FastAPI
+# -------------------------------
 app = FastAPI(
     title="API de Classification Chat/Chien",
     description="API REST pour la classification multimodale (images, audio et fusion) de chats et chiens",
     version="1.0.0"
 )
 
-# Middleware CORS (à adapter en production)
+# Middleware CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -31,37 +37,36 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inclusion du routeur de l'API
+# Inclusion du routeur
 app.include_router(api_router)
 
 # -------------------------------
-# Création d'un CollectorRegistry dédié
+# Prometheus Metrics
 # -------------------------------
 registry = CollectorRegistry()
 
-# Définition des métriques en les enregistrant dans le registry personnalisé
 REQUEST_COUNTER = Counter(
-    "http_requests_total", 
-    "Nombre total de requêtes reçues", 
+    "http_requests_total",
+    "Nombre total de requêtes reçues",
     ["method", "endpoint", "http_status"],
     registry=registry
 )
 
 REQUEST_LATENCY = Histogram(
-    "http_request_duration_seconds", 
-    "Durée des requêtes HTTP", 
+    "http_request_duration_seconds",
+    "Durée des requêtes HTTP",
     ["method", "endpoint"],
     registry=registry
 )
 
 IN_PROGRESS = Gauge(
-    "inprogress_requests", 
+    "inprogress_requests",
     "Nombre de requêtes actuellement en cours de traitement",
     registry=registry
 )
 
 # -------------------------------
-# Middleware de collecte des métriques
+# Middleware Prometheus + Logs
 # -------------------------------
 @app.middleware("http")
 async def prometheus_metrics(request: Request, call_next):
@@ -74,23 +79,29 @@ async def prometheus_metrics(request: Request, call_next):
         REQUEST_LATENCY.labels(method=request.method, endpoint=request.url.path).observe(duration)
         REQUEST_COUNTER.labels(method=request.method, endpoint=request.url.path, http_status=500).inc()
         IN_PROGRESS.dec()
+
+        # 🔥 Log de l'erreur
+        logger.exception(f"Erreur {request.method} {request.url.path} - {str(e)}")
+
         raise e
     duration = time.time() - start_time
     REQUEST_LATENCY.labels(method=request.method, endpoint=request.url.path).observe(duration)
     REQUEST_COUNTER.labels(method=request.method, endpoint=request.url.path, http_status=response.status_code).inc()
     IN_PROGRESS.dec()
+
+    # 🔁 Log info basique pour chaque requête
+    logger.info(f"{request.method} {request.url.path} -> {response.status_code}")
     return response
 
 # -------------------------------
-# Endpoint d'export des métriques pour Prometheus
+# Endpoint des métriques
 # -------------------------------
 @app.get("/metrics")
 def metrics():
-    """Exporter les métriques pour Prometheus"""
     return Response(generate_latest(registry), media_type=CONTENT_TYPE_LATEST)
 
 # -------------------------------
-# Lancement de l'API avec Uvicorn (mode développement)
+# Lancement local (optionnel)
 # -------------------------------
 if __name__ == "__main__":
     import uvicorn
