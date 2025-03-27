@@ -4,41 +4,38 @@ on:
   push:
     branches: [ main, cicd, projet-5 ]
   schedule:
-    - cron: '0 * * * *'  # Toutes les heures
+    - cron: '0 * * * *'  # toutes les heures
 
 jobs:
   incident:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📥 Checkout du dépôt
+    - name: 📥 Récupération du dépôt
       uses: actions/checkout@v3
 
-    - name: 🐍 Installation de Python
+    - name: 🐍 Configuration de Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
 
-    - name: 📦 Installer les dépendances
+    - name: 📦 Installation des dépendances
       run: |
         if [ -f requirements.txt ]; then
           pip install -r requirements.txt
         fi
 
-    - name: 🔐 Créer les variables d’environnement secrètes
-      run: |
-        mkdir -p config
-        echo "EMAIL_ADDRESS = '${{ secrets.EMAIL_ADDRESS }}'" > config/code.py
-        echo "EMAIL_APP_PASSWORD = '${{ secrets.EMAIL_APP_PASSWORD }}'" >> config/code.py
-
-    - name: 🛠️ Générer le rapport d'incident et envoyer l’alerte mail
+    - name: 🛠️ Génération du rapport d'incident
       run: python logs/incident_report.py
 
     - name: ✅ Commit du rapport si nouveau
+      env:
+        GH_TOKEN: ${{ secrets.GH_PAT }}
       run: |
         if [ -f logs/incident_report.md ]; then
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
           git add logs/incident_report.md
           git commit -m "📝 Mise à jour automatique du rapport d'incident" || echo "Aucun changement à committer"
           git push
