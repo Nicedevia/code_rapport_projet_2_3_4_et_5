@@ -15,6 +15,7 @@ import os
 
 # Import du routeur de l'API
 from .routes import router as api_router
+# test erreur pour CI
 
 # Logger configuré avec rotation
 from logs.log_config import setup_logger

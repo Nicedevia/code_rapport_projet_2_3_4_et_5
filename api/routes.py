@@ -1,3 +1,4 @@
+
 # --- api/routes.py ---
 from fastapi import APIRouter, File, UploadFile, HTTPException, Query, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -12,7 +13,6 @@ from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_
 from .model_loader import load_image_model, load_audio_model, load_fusion_model
 import subprocess
 import os
-import logging
 
 DEFAULT_THRESHOLD = 0.5
 router = APIRouter()
@@ -32,11 +32,10 @@ request_counter = Counter("http_requests_total", "Nombre total de requêtes reç
 prediction_duration = Histogram("model_prediction_duration_seconds", "Durée des prédictions du modèle en secondes")
 prediction_errors = Counter("model_prediction_errors_total", "Nombre total d'erreurs lors des prédictions")
 
-logger = logging.getLogger("main_logger")
-
 @router.get("/metrics", tags=["Monitoring"])
 def metrics():
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
 
 def preprocess_image_from_bytes(image_bytes: bytes) -> np.ndarray:
     np_arr = np.frombuffer(image_bytes, np.uint8)
@@ -46,6 +45,7 @@ def preprocess_image_from_bytes(image_bytes: bytes) -> np.ndarray:
     img = cv2.resize(img, (64, 64)) / 255.0
     img = img.reshape(1, 64, 64, 1)
     return image_extractor.predict(img)
+
 
 def preprocess_audio_from_bytes(audio_bytes: bytes) -> np.ndarray:
     try:
@@ -61,6 +61,7 @@ def preprocess_audio_from_bytes(audio_bytes: bytes) -> np.ndarray:
     spec_img = spec_img.reshape(1, 64, 64, 1)
     return audio_extractor.predict(spec_img)
 
+
 @router.post("/predict/image", tags=["Prediction"])
 async def predict_image(file: UploadFile = File(...)):
     if file.content_type not in ["image/jpeg", "image/png"]:
@@ -75,6 +76,7 @@ async def predict_image(file: UploadFile = File(...)):
     label = "Chien" if prediction[0][0] > DEFAULT_THRESHOLD else "Chat"
     return {"prediction": label, "confidence": float(prediction[0][0]), "used_threshold": DEFAULT_THRESHOLD}
 
+
 @router.post("/predict/audio", tags=["Prediction"])
 async def predict_audio(file: UploadFile = File(...)):
     if file.content_type != "audio/wav":
@@ -88,6 +90,7 @@ async def predict_audio(file: UploadFile = File(...)):
     prediction = audio_model.predict(features)
     label = "Chien" if prediction[0][0] > DEFAULT_THRESHOLD else "Chat"
     return {"prediction": label, "confidence": float(prediction[0][0]), "used_threshold": DEFAULT_THRESHOLD}
+
 
 @router.post("/predict/multimodal", tags=["Prediction"])
 async def predict_multimodal(
@@ -113,11 +116,13 @@ async def predict_multimodal(
     label = "Chien" if prediction[0][0] > threshold else "Chat"
     return {"prediction": label, "confidence": float(prediction[0][0]), "used_threshold": threshold}
 
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @router.post("/token", tags=["Authentication"])
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": "dummy_token", "token_type": "bearer"}
+
 
 @router.get("/protected", tags=["Authentication"])
 async def protected_route(token: str = Depends(oauth2_scheme)):
@@ -125,7 +130,15 @@ async def protected_route(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Token invalide")
     return {"message": "Accès autorisé"}
 
+
 @router.get("/force-error", response_class=PlainTextResponse)
 def trigger_error_and_show_report():
-    raise ValueError("❌ Erreur volontaire pour test MCO - HTTP 500")
-
+    try:
+        raise ValueError("Erreur volontaire pour test MCO")
+    except Exception:
+        subprocess.run(["python", "logs/incident_report.py"], check=False)
+        if os.path.exists("incident_report.md"):
+            with open("incident_report.md", "r", encoding="utf-8") as f:
+                return f.read()
+        else:
+            return "Aucun rapport généré."

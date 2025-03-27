@@ -1,41 +1,43 @@
-name: Incident Report
+name: Incident Report & Alert
 
 on:
   push:
     branches: [ main, cicd, projet-5 ]
   schedule:
-    - cron: '0 * * * *'  # déclenchement toutes les heures
+    - cron: '0 * * * *'  # Exécution chaque heure
+  workflow_dispatch:      # Permet le déclenchement manuel
 
 jobs:
   incident:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-    - name: Install dependencies
-      run: |
-        if [ -f requirements.txt ]; then
+      - name: Install dependencies
+        run: |
           pip install -r requirements.txt
-        fi
 
-    - name: Generate Incident Report
-      run: python logs/incident_report.py
+      - name: Set up environment variables
+        run: |
+          echo "EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}" >> $GITHUB_ENV
+          echo "EMAIL_APP_PASSWORD=${{ secrets.EMAIL_APP_PASSWORD }}" >> $GITHUB_ENV
 
+      - name: Generate Incident Report and Send Email if Errors
+        run: python logs/incident_report.py
 
-    - name: Commit Incident Report if generated
-      run: |
-        if [ -f incident_report.md ]; then
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git add incident_report.md
-          git commit -m "Ajout du rapport d'incident" || echo "Aucun changement à committer"
-          git push
-        else
-          echo "Aucun rapport d'incident généré."
-        fi
+      - name: Commit Incident Report if generated
+        run: |
+          if [ -f logs/incident_report.md ]; then
+            git config --global user.email "action@github.com"
+            git config --global user.name "GitHub Action"
+            git add logs/incident_report.md
+            git commit -m "🔁 Rapport d'incident mis à jour" || echo "Aucun changement à committer"
+            git push
+          else
+            echo "Aucun rapport généré."

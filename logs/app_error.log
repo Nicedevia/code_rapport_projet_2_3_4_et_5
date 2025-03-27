@@ -28,3 +28,33 @@ Traceback (most recent call last):
   File "/app/api/routes.py", line 131, in trigger_error_and_show_report
     raise ValueError("Erreur volontaire pour test MCO")
 ValueError: Erreur volontaire pour test MCO
+2025-03-27 15:03:37,510 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 15:49:35,270 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 16:04:10,619 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 16:04:11,641 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 16:04:12,106 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 16:04:12,409 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
