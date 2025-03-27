@@ -40,3 +40,4 @@ jobs:
           git push origin HEAD:${{ github.ref_name }}
         else
           echo "Aucun rapport d'incident généré."
+        fi
