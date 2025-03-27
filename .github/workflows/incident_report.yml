@@ -4,41 +4,39 @@ on:
   push:
     branches: [ main, cicd, projet-5 ]
   schedule:
-    - cron: '0 * * * *'  # toutes les heures
+    - cron: '0 * * * *'
 
 jobs:
   incident:
     runs-on: ubuntu-latest
-
     steps:
-    - name: 📥 Récupération du dépôt
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: 🐍 Configuration de Python
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
 
-    - name: 📦 Installation des dépendances
+    - name: Install dependencies
       run: |
         if [ -f requirements.txt ]; then
           pip install -r requirements.txt
         fi
 
-    - name: 🛠️ Génération du rapport d'incident
+    - name: Generate Incident Report
       run: python logs/incident_report.py
 
-    - name: ✅ Commit du rapport si nouveau
+    - name: Commit & Push Report if generated
       env:
-        GH_TOKEN: ${{ secrets.GH_PAT }}
+        GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         if [ -f logs/incident_report.md ]; then
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
           git add logs/incident_report.md
-          git commit -m "📝 Mise à jour automatique du rapport d'incident" || echo "Aucun changement à committer"
+          git commit -m "📝 Mise à jour automatique du rapport d'incident" || echo "Aucun changement"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
           git push
         else
-          echo "Aucun rapport d'incident généré."
-        fi
+          echo "Aucun rapport à push"
