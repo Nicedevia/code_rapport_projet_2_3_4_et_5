@@ -1987,3 +1987,4 @@ ValueError: Erreur volontaire pour test MCO
 2025-03-27 16:22:48,410 - INFO - GET /metrics -> 200
 2025-03-27 16:22:53,412 - INFO - GET /metrics -> 200
 2025-03-27 16:22:58,407 - INFO - GET /metrics -> 200
+2025-03-27 16:23:03,412 - INFO - GET /metrics -> 200

@@ -5,8 +5,10 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Import relatif des identifiants
-from config.code import EMAIL_ADDRESS, EMAIL_APP_PASSWORD
+import os
+
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_APP_PASSWORD = os.getenv("EMAIL_APP_PASSWORD")
 
 def send_error_email(subject, message, to_email="nicedevia@gmail.com"):
     print("📧 Envoi du mail en cours...")
