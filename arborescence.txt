@@ -269,7 +269,10 @@
         📄 frontend_classification.py
         📄 __init__.py
     📂 logs/
+        📄 app.log
+        📄 incident_report.md
         📄 incident_report.py
+        📄 log_config.py
         📄 __init__.py
         📂 audio/
             📂 train/

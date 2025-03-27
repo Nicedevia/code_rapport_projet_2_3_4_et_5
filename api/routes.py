@@ -159,3 +159,24 @@ async def protected_route(token: str = Depends(oauth2_scheme)):
     if token != "dummy_token":
         raise HTTPException(status_code=401, detail="Token invalide")
     return {"message": "Accès autorisé"}
+
+from fastapi.responses import PlainTextResponse
+import subprocess
+import os
+
+@router.get("/force-error", response_class=PlainTextResponse)
+def trigger_error_and_show_report():
+    # Déclencher volontairement une erreur
+    try:
+        raise ValueError("Erreur volontaire pour test MCO")
+    except Exception as e:
+        # Génère le rapport d'incident via le script
+        subprocess.run(["python", "logs/incident_report.py"], check=False)
+
+        # Lire et renvoyer le contenu du rapport
+        report_path = "incident_report.md"
+        if os.path.exists(report_path):
+            with open(report_path, "r", encoding="utf-8") as f:
+                return f.read()
+        else:
+            return "Aucun rapport généré."

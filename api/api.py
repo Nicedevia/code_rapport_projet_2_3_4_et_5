@@ -79,19 +79,15 @@ async def prometheus_metrics(request: Request, call_next):
         REQUEST_LATENCY.labels(method=request.method, endpoint=request.url.path).observe(duration)
         REQUEST_COUNTER.labels(method=request.method, endpoint=request.url.path, http_status=500).inc()
         IN_PROGRESS.dec()
-
-        # 🔥 Log de l'erreur
         logger.exception(f"Erreur {request.method} {request.url.path} - {str(e)}")
-
         raise e
     duration = time.time() - start_time
     REQUEST_LATENCY.labels(method=request.method, endpoint=request.url.path).observe(duration)
     REQUEST_COUNTER.labels(method=request.method, endpoint=request.url.path, http_status=response.status_code).inc()
     IN_PROGRESS.dec()
-
-    # 🔁 Log info basique pour chaque requête
     logger.info(f"{request.method} {request.url.path} -> {response.status_code}")
     return response
+
 
 # -------------------------------
 # Endpoint des métriques
