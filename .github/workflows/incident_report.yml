@@ -1,46 +1,42 @@
-name: 📋 Incident Report & Alert
+name: Incident Report
 
 on:
   push:
     branches: [ main, cicd, projet-5 ]
   schedule:
-    - cron: '0 * * * *'  # Toutes les heures
+    - cron: '0 * * * *'
 
 jobs:
   incident:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: 🐍 Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
 
-      - name: 📦 Install dependencies
-        run: |
+    - name: Install dependencies
+      run: |
+        if [ -f requirements.txt ]; then
           pip install -r requirements.txt
+        fi
 
-      - name: 🛠️ Generate Incident Report
-        env:
-          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
-          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
-        run: |
-          python logs/incident_report.py
+    - name: Generate Incident Report
+      run: python logs/incident_report.py
 
-      - name: ✅ Commit & Push Report if generated
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-        run: |
-          if [ -f logs/incident_report.md ]; then
-            git config --global user.email "action@github.com"
-            git config --global user.name "GitHub Action"
-            git add logs/incident_report.md
-            git commit -m "📝 Mise à jour automatique du rapport d'incident" || echo "Aucun changement"
-            git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
-            git push
-          else
-            echo "Aucun rapport à push"
-          fi
+    - name: Commit Incident Report if generated
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
+      run: |
+        if [ -f logs/incident_report.md ]; then
+          git config --global user.email "you@example.com"
+          git config --global user.name "GitHub Actions Bot"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
+          git add logs/incident_report.md
+          git commit -m "📝 Mise à jour automatique du rapport d'incident" || echo "Aucun changement à committer"
+          git push origin HEAD:${{ github.ref_name }}
+        else
+          echo "Aucun rapport d'incident généré."
