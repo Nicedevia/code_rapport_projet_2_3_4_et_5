@@ -13,3 +13,18 @@ Traceback (most recent call last):
   File "/app/api/routes.py", line 131, in trigger_error_and_show_report
     raise ValueError("Erreur volontaire pour test MCO")
 ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:11:59,964 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:12:00,667 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:12:01,516 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO

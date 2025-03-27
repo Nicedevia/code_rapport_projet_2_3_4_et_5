@@ -69,3 +69,56 @@ ValueError: Erreur volontaire pour test MCO
 2025-03-27 13:10:03,162 - INFO - GET /metrics -> 200
 2025-03-27 13:10:08,165 - INFO - GET /metrics -> 200
 2025-03-27 13:10:13,161 - INFO - GET /metrics -> 200
+2025-03-27 13:10:18,167 - INFO - GET /metrics -> 200
+2025-03-27 13:10:23,167 - INFO - GET /metrics -> 200
+2025-03-27 13:10:28,162 - INFO - GET /metrics -> 200
+2025-03-27 13:10:33,158 - INFO - GET /metrics -> 200
+2025-03-27 13:10:38,164 - INFO - GET /metrics -> 200
+2025-03-27 13:10:43,158 - INFO - GET /metrics -> 200
+2025-03-27 13:10:48,163 - INFO - GET /metrics -> 200
+2025-03-27 13:10:53,158 - INFO - GET /metrics -> 200
+2025-03-27 13:10:58,158 - INFO - GET /metrics -> 200
+2025-03-27 13:11:03,154 - INFO - GET /metrics -> 200
+2025-03-27 13:11:08,162 - INFO - GET /metrics -> 200
+2025-03-27 13:11:13,155 - INFO - GET /metrics -> 200
+2025-03-27 13:11:18,159 - INFO - GET /metrics -> 200
+2025-03-27 13:11:23,154 - INFO - GET /metrics -> 200
+2025-03-27 13:11:28,156 - INFO - GET /metrics -> 200
+2025-03-27 13:11:33,152 - INFO - GET /metrics -> 200
+2025-03-27 13:11:38,152 - INFO - GET /metrics -> 200
+2025-03-27 13:11:43,155 - INFO - GET /metrics -> 200
+2025-03-27 13:11:48,157 - INFO - GET /metrics -> 200
+2025-03-27 13:11:53,151 - INFO - GET /metrics -> 200
+2025-03-27 13:11:58,153 - INFO - GET /metrics -> 200
+2025-03-27 13:11:59,964 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:12:00,032 - INFO - GET /force-error -> 500
+2025-03-27 13:12:00,667 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:12:00,724 - INFO - GET /force-error -> 500
+2025-03-27 13:12:01,516 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:12:01,579 - INFO - GET /force-error -> 500
+2025-03-27 13:12:03,150 - INFO - GET /metrics -> 200
+2025-03-27 13:12:08,154 - INFO - GET /metrics -> 200
+2025-03-27 13:12:13,150 - INFO - GET /metrics -> 200
+2025-03-27 13:12:18,154 - INFO - GET /metrics -> 200
+2025-03-27 13:12:23,150 - INFO - GET /metrics -> 200
+2025-03-27 13:12:28,153 - INFO - GET /metrics -> 200
+2025-03-27 13:12:33,147 - INFO - GET /metrics -> 200
+2025-03-27 13:12:38,156 - INFO - GET /metrics -> 200
+2025-03-27 13:12:43,148 - INFO - GET /metrics -> 200
+2025-03-27 13:12:48,153 - INFO - GET /metrics -> 200
+2025-03-27 13:12:53,148 - INFO - GET /metrics -> 200
+2025-03-27 13:12:58,150 - INFO - GET /metrics -> 200
+2025-03-27 13:13:03,149 - INFO - GET /metrics -> 200
+2025-03-27 13:13:08,150 - INFO - GET /metrics -> 200
