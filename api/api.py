@@ -1,3 +1,4 @@
+# --- api/api.py ---
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
@@ -17,7 +18,7 @@ from .routes import router as api_router
 
 # Logger configuré avec rotation
 from logs.log_config import setup_logger
-logger = setup_logger("main_logger", "logs/app.log")
+logger = setup_logger("main_logger", "logs")
 
 # -------------------------------
 # Création de l'application FastAPI
@@ -36,9 +37,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Inclusion du routeur
-app.include_router(api_router)
 
 # -------------------------------
 # Prometheus Metrics
@@ -88,6 +86,8 @@ async def prometheus_metrics(request: Request, call_next):
     logger.info(f"{request.method} {request.url.path} -> {response.status_code}")
     return response
 
+# Inclusion du routeur
+app.include_router(api_router)
 
 # -------------------------------
 # Endpoint des métriques

@@ -18,3 +18,4 @@ echo "✅ [5/5] Vérification des conteneurs actifs..."
 docker ps -a
 
 echo "🎯 Docker cleanup et rebuild terminé avec succès ! 🚀"
+

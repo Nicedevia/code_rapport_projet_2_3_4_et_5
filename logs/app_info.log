@@ -1,0 +1,71 @@
+2025-03-27 13:05:53,224 - INFO - GET /metrics -> 200
+2025-03-27 13:05:58,209 - INFO - GET /metrics -> 200
+2025-03-27 13:06:03,207 - INFO - GET /metrics -> 200
+2025-03-27 13:06:08,208 - INFO - GET /metrics -> 200
+2025-03-27 13:06:13,206 - INFO - GET /metrics -> 200
+2025-03-27 13:06:18,209 - INFO - GET /metrics -> 200
+2025-03-27 13:06:23,205 - INFO - GET /metrics -> 200
+2025-03-27 13:06:28,201 - INFO - GET /metrics -> 200
+2025-03-27 13:06:33,198 - INFO - GET /metrics -> 200
+2025-03-27 13:06:38,201 - INFO - GET /metrics -> 200
+2025-03-27 13:06:43,198 - INFO - GET /metrics -> 200
+2025-03-27 13:06:48,201 - INFO - GET /metrics -> 200
+2025-03-27 13:06:53,198 - INFO - GET /metrics -> 200
+2025-03-27 13:06:58,195 - INFO - GET /metrics -> 200
+2025-03-27 13:07:03,192 - INFO - GET /metrics -> 200
+2025-03-27 13:07:08,198 - INFO - GET /metrics -> 200
+2025-03-27 13:07:13,191 - INFO - GET /metrics -> 200
+2025-03-27 13:07:18,195 - INFO - GET /metrics -> 200
+2025-03-27 13:07:23,192 - INFO - GET /metrics -> 200
+2025-03-27 13:07:28,190 - INFO - GET /metrics -> 200
+2025-03-27 13:07:33,186 - INFO - GET /metrics -> 200
+2025-03-27 13:07:38,192 - INFO - GET /metrics -> 200
+2025-03-27 13:07:43,186 - INFO - GET /metrics -> 200
+2025-03-27 13:07:48,191 - INFO - GET /metrics -> 200
+2025-03-27 13:07:53,186 - INFO - GET /metrics -> 200
+2025-03-27 13:07:58,184 - INFO - GET /metrics -> 200
+2025-03-27 13:08:03,185 - INFO - GET /metrics -> 200
+2025-03-27 13:08:08,184 - INFO - GET /metrics -> 200
+2025-03-27 13:08:13,180 - INFO - GET /metrics -> 200
+2025-03-27 13:08:18,186 - INFO - GET /metrics -> 200
+2025-03-27 13:08:23,181 - INFO - GET /metrics -> 200
+2025-03-27 13:08:28,182 - INFO - GET /metrics -> 200
+2025-03-27 13:08:33,449 - INFO - GET /metrics -> 200
+2025-03-27 13:08:38,180 - INFO - GET /metrics -> 200
+2025-03-27 13:08:43,175 - INFO - GET /metrics -> 200
+2025-03-27 13:08:48,182 - INFO - GET /metrics -> 200
+2025-03-27 13:08:53,177 - INFO - GET /metrics -> 200
+2025-03-27 13:08:58,175 - INFO - GET /metrics -> 200
+2025-03-27 13:09:03,171 - INFO - GET /metrics -> 200
+2025-03-27 13:09:08,178 - INFO - GET /metrics -> 200
+2025-03-27 13:09:13,172 - INFO - GET /metrics -> 200
+2025-03-27 13:09:18,175 - INFO - GET /metrics -> 200
+2025-03-27 13:09:23,171 - INFO - GET /metrics -> 200
+2025-03-27 13:09:28,170 - INFO - GET /metrics -> 200
+2025-03-27 13:09:33,166 - INFO - GET /metrics -> 200
+2025-03-27 13:09:33,498 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:09:33,597 - INFO - GET /force-error -> 500
+2025-03-27 13:09:38,167 - INFO - GET /metrics -> 200
+2025-03-27 13:09:43,167 - INFO - GET /metrics -> 200
+2025-03-27 13:09:48,171 - INFO - GET /metrics -> 200
+2025-03-27 13:09:50,797 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:09:50,867 - INFO - GET /force-error -> 500
+2025-03-27 13:09:52,042 - ERROR - Erreur dans /force-error : Erreur volontaire pour test MCO
+Traceback (most recent call last):
+  File "/app/api/routes.py", line 131, in trigger_error_and_show_report
+    raise ValueError("Erreur volontaire pour test MCO")
+ValueError: Erreur volontaire pour test MCO
+2025-03-27 13:09:52,105 - INFO - GET /force-error -> 500
+2025-03-27 13:09:53,168 - INFO - GET /metrics -> 200
+2025-03-27 13:09:58,165 - INFO - GET /metrics -> 200
+2025-03-27 13:10:03,162 - INFO - GET /metrics -> 200
+2025-03-27 13:10:08,165 - INFO - GET /metrics -> 200
+2025-03-27 13:10:13,161 - INFO - GET /metrics -> 200
