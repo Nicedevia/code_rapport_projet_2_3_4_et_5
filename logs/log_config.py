@@ -35,3 +35,5 @@ def setup_logger(name: str, log_dir: str = "logs", level=logging.INFO):
         logger.addHandler(error_handler)
 
     return logger
+
+

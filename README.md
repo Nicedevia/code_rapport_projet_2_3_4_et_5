@@ -106,14 +106,14 @@ Le script stop_all_docker.sh arrête et supprime tous les conteneurs Docker :
 bash [stop_all_docker.sh]
 
 3. Nettoyer les conteneurs et images Docker
-Le script cleanup_docker.sh nettoie les conteneurs, images, volumes et réseaux inutilisés :
+Le script cleanup_docker.sh nettoie les conteneurs, images, volumes et réseaux inutilisés il relance aussi les docker :
 bash [cleanup_docker.sh]
 
 4. Relancer tous les services Docker
 Le script start_all_docker.sh relance tous les services définis dans docker-compose.yml :
 bash [start_all_docker.sh]
 
-Structure du Projet
+Structure du Projet alléger :
 projet_3/
 ├── api/
 │   ├── api.py
@@ -143,6 +143,6 @@ projet_3/
 ├── Dockerfile
 ├── [docker-compose.yml]
 ├── [prometheus.yml]
-├── [alertmanager.yml]
+├── [alertmanager.yml] # Mise en pause actuellement utilisation d'un script python personnalisé 
 ├── [requirements.txt]
 └── [README.md]

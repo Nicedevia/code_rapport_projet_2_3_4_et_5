@@ -38,4 +38,3 @@ jobs:
         else
           echo "✅ Aucun rapport d'incident nécessaire."
         fi
-  
