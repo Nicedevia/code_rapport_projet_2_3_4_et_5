@@ -2,10 +2,8 @@ import os
 import hashlib
 from PIL import Image
 
-# 📂 Dossier des images
 DATASET_DIR = "data/extracted"
 
-# 🔍 Vérification et suppression des doublons
 def clean_images():
     hashes = set()
     for root, _, files in os.walk(DATASET_DIR):
@@ -32,6 +30,5 @@ def clean_images():
                 print(f"⚠️ Suppression : {file_path} (fichier corrompu)")
                 os.remove(file_path)
 
-# 🚀 Exécution
 clean_images()
 print("✅ Nettoyage terminé : fichiers corrompus et doublons supprimés.")

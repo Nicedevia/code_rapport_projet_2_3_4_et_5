@@ -1,15 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import os
 
-# Dossier racine à lister (par exemple, le répertoire du projet)
 PROJECT_ROOT = os.getcwd()
 
-# Liste des répertoires à ignorer (dossiers inutiles ou cachés)
 IGNORED_DIRS = {".git", ".idea", "__pycache__"}
 
-# Extensions à compter pour les images et audios
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png")
 AUDIO_EXTENSIONS = (".wav",)
 
@@ -22,7 +16,6 @@ def list_directory_structure(root_dir, output_file="arborescence.txt"):
     """
     with open(output_file, "w", encoding="utf-8") as f:
         for root, dirs, files in os.walk(root_dir):
-            # Exclure les dossiers inutiles
             dirs[:] = [d for d in dirs if d not in IGNORED_DIRS and not d.startswith(".")]
 
             level = root.replace(root_dir, "").count(os.sep)
@@ -37,11 +30,9 @@ def list_directory_structure(root_dir, output_file="arborescence.txt"):
             png_count = sum(1 for file in files if file.lower().endswith(".png"))
             jpg_count = sum(1 for file in files if file.lower().endswith((".jpg", ".jpeg")))
 
-            # Lister les autres fichiers (en ignorant ceux commençant par '.')
             for file in files:
                 if file.startswith("."):
                     continue
-                # Ne pas lister les images et audios qui seront comptés
                 if file.lower().endswith(AUDIO_EXTENSIONS + (".png",) + (".jpg", ".jpeg")):
                     continue
                 f.write(f"{sub_indent}📄 {file}\n")
@@ -57,15 +48,3 @@ def list_directory_structure(root_dir, output_file="arborescence.txt"):
 
 if __name__ == "__main__":
     list_directory_structure(PROJECT_ROOT)
-
-
-
-
-
-
-
-
-
-
-
-

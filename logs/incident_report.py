@@ -1,4 +1,3 @@
-# --- logs/incident_report.py ---
 import re
 import datetime
 import os

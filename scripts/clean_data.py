@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import os
 import shutil
 import hashlib
@@ -31,13 +28,11 @@ def is_audio_quality_good(file_path, clipping_threshold=0.01):
     Retourne True si le fichier est de qualité acceptable, False sinon.
     """
     try:
-        # Chargement de l'audio (librosa normalise entre -1 et 1)
         y, sr = librosa.load(file_path, sr=None)
     except Exception as e:
         print(f"Erreur lors du chargement du fichier {file_path} : {e}")
         return False
 
-    # Vérifier le clipping : compter les échantillons dont l'amplitude est proche de 1.0 (ou -1.0)
     clipping_samples = np.sum(np.isclose(np.abs(y), 1.0, atol=1e-3))
     clipping_ratio = clipping_samples / len(y)
     if clipping_ratio > clipping_threshold:
@@ -67,27 +62,23 @@ def clean_audio_folder(source_dir, dest_dir, expected_label):
         if not os.path.isfile(file_path):
             continue
 
-        # Vérifier le format (seulement .wav)
         if not file.lower().endswith(".wav"):
             print(f"🛑 Audio ignoré (format incorrect) : {file}")
             os.remove(file_path)
             counters["ignored"] += 1
             continue
 
-        # Vérifier que le nom contient le label attendu
         if expected_label not in file.lower():
             print(f"🛑 Audio ignoré (nom non conforme, attendu '{expected_label}') : {file}")
             os.remove(file_path)
             counters["ignored"] += 1
             continue
 
-        # Vérifier la qualité audio (seulement le clipping dans ce cas)
         if not is_audio_quality_good(file_path, clipping_threshold=0.01):
             os.remove(file_path)
             counters["ignored"] += 1
             continue
 
-        # Calculer le hash pour détecter les doublons
         file_hash = compute_hash(file_path)
         if file_hash in hash_set:
             print(f"⚠️ Audio doublon détecté : {file}. Fichier supprimé.")
@@ -97,7 +88,6 @@ def clean_audio_folder(source_dir, dest_dir, expected_label):
         else:
             hash_set[file_hash] = file_path
 
-        # Vérifier si un fichier avec le même nom existe déjà dans la destination
         dest_file = os.path.join(dest_dir, file)
         if os.path.exists(dest_file):
             print(f"⚠️ Audio doublon (nom identique) : {file}. Fichier supprimé.")
@@ -176,7 +166,6 @@ def clean_audio_data():
     Place les fichiers validés dans data/audio/cleaned/train et data/audio/cleaned/test.
     """
     audio_sets = [
-        # (subset, category, source_dir, destination_dir)
         ("train", "cats", os.path.join("data", "audio", "train", "cats"),
          os.path.join("data", "audio", "cleaned", "train", "cats")),
         ("train", "dogs", os.path.join("data", "audio", "train", "dogs"),
@@ -208,7 +197,6 @@ def clean_image_data():
     et dépose les fichiers validés dans data/images/cleaned correspondants.
     """
     image_sets = [
-        # (subset, category, source_dir, destination_dir)
         ("training_set", "cats", os.path.join("data", "extracted", "training_set", "cats"),
          os.path.join("data", "images", "cleaned", "training_set", "cats")),
         ("training_set", "dogs", os.path.join("data", "extracted", "training_set", "dogs"),

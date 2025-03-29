@@ -4,15 +4,15 @@ import numpy as np
 import cv2
 import librosa
 
-# 📂 Définition des chemins
+# Définition des chemins
 TEST_IMAGE_DIR = "data/extracted/test_set"
 TEST_AUDIO_DIR = "data/audio/augmented"
 MODEL_PATH = "models/audio_image_classifier_v2.keras"
 
-# ✅ Charger le modèle
+# Charger le modèle
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# 📌 **Prétraitement des images et sons**
+#*Prétraitement des images et sons**
 def preprocess_image(image_path):
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     img = cv2.resize(img, (64, 64)) / 255.0
@@ -26,7 +26,7 @@ def preprocess_audio(audio_path):
     spectrogram_db = cv2.resize(spectrogram_db, (64, 64)) / 255.0
     return spectrogram_db.reshape(1, 64, 64, 1)
 
-# 📊 Tester plusieurs images et sons
+# tster plusieurs images et sons
 def test_bias():
     total = 0
     correct = 0
@@ -47,15 +47,12 @@ def test_bias():
             img_input = preprocess_image(img_path)
             audio_input = preprocess_audio(audio_path)
 
-            # 🔍 Faire la prédiction
             prediction = model.predict([img_input, audio_input])[0][0]
             confidence = round(float(prediction) * 100, 2)
 
-            # Détermination de la classe
             predicted_label = "🐶 Chien" if confidence > 50 else "🐱 Chat"
             expected_label = "🐱 Chat" if "cats" in img_path else "🐶 Chien"
 
-            # Vérifier si la prédiction est correcte
             if predicted_label == expected_label:
                 correct += 1
             else:

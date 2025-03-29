@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import os
 import zipfile
 import shutil
@@ -63,7 +60,6 @@ def reorganize_extracted_images():
         print(f"❌ Dossier source pour les images introuvable : {src_root}")
         return
 
-    # Définition des dossiers de destination
     dest_train_cats = os.path.join(image_extract_folder, "training_set", "cats")
     dest_train_dogs = os.path.join(image_extract_folder, "training_set", "dogs")
     dest_test_cats  = os.path.join(image_extract_folder, "test_set", "cats")
@@ -72,7 +68,6 @@ def reorganize_extracted_images():
     for folder in [dest_train_cats, dest_train_dogs, dest_test_cats, dest_test_dogs]:
         os.makedirs(folder, exist_ok=True)
 
-    # Déplacer les images d'entraînement
     src_train_cat = os.path.join(src_root, "train", "cat")
     src_train_dog = os.path.join(src_root, "train", "dog")
     if os.path.exists(src_train_cat):
@@ -91,7 +86,6 @@ def reorganize_extracted_images():
     else:
         print(f"❌ Dossier introuvable : {src_train_dog}")
 
-    # Déplacer les images de test
     src_test_cat = os.path.join(src_root, "test", "cat")
     src_test_dog = os.path.join(src_root, "test", "dog")
     if os.path.exists(src_test_cat):
@@ -110,7 +104,6 @@ def reorganize_extracted_images():
     else:
         print(f"❌ Dossier introuvable : {src_test_dog}")
 
-    # Supprimer le dossier source une fois le transfert terminé
     shutil.rmtree(src_root)
     print(f"🗑️ Dossier source supprimé : {src_root}")
 
@@ -168,20 +161,17 @@ def organize_audio_files():
 # Suppression des dossiers inutiles et vérification finale
 # ====================================================
 def remove_empty_dirs_and_verify():
-    # Suppression des dossiers vides dans data/extracted
     for dirpath, dirnames, filenames in os.walk(image_extract_folder, topdown=False):
         for d in dirnames:
             dpath = os.path.join(dirpath, d)
             if not os.listdir(dpath):
                 os.rmdir(dpath)
                 print(f"🗑️ Dossier vide supprimé : {dpath}")
-    # Suppression des dossiers inutiles dans data/audio (exemple: cats_dogs)
     cats_dogs_folder = os.path.join(audio_extract_folder, "cats_dogs")
     if os.path.exists(cats_dogs_folder):
         shutil.rmtree(cats_dogs_folder)
         print(f"🗑️ Dossier inutile supprimé : {cats_dogs_folder}")
 
-    # Vérification finale
     paths = [
         os.path.join(audio_extract_folder, "cleaned", "train", "cats"),
         os.path.join(audio_extract_folder, "cleaned", "train", "dogs"),
@@ -205,7 +195,6 @@ def remove_empty_dirs_and_verify():
 # ====================================================
 def main():
     print("🔄 Extraction du dataset...")
-    # Extraction audio et image
     extract_zip(audio_zip, audio_extract_folder)
     extract_zip(image_zip, image_extract_folder)
     print("✅ Extraction terminée.")

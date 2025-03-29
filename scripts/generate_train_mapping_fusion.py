@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import os
 import random
 import csv
@@ -29,26 +27,26 @@ def create_matching_pairs(image_cats, audio_cats, image_dogs, audio_dogs):
     print(f"📂 Chat images: {len(cat_images)}, Chat audios: {len(cat_audios)}")
     print(f"📂 Chien images: {len(dog_images)}, Chien audios: {len(dog_audios)}")
 
-    # 🔹 Matching des chats (label 0)
+    #  Matching des chats (label 0)
     for img in cat_images:
         if cat_audios:
             aud = random.choice(cat_audios)
             mapping_rows.append([img, aud, 0])  # 0 = Chat
 
-    # 🔹 Matching des chiens (label 1)
+    #  Matching des chiens (label 1)
     for img in dog_images:
         if dog_audios:
             aud = random.choice(dog_audios)
             mapping_rows.append([img, aud, 1])  # 1 = Chien
 
     # --- Paires discordantes (Erreur, label 2) ---
-    # 🔹 Chat image + Chien audio
+    # Chat image + Chien audio
     for img in cat_images:
         if dog_audios and random.random() < discordant_sample_rate:
             aud = random.choice(dog_audios)
             mapping_rows.append([img, aud, 2])  # 2 = Erreur
 
-    # 🔹 Chien image + Chat audio
+    # Chien image + Chat audio
     for img in dog_images:
         if cat_audios and random.random() < discordant_sample_rate:
             aud = random.choice(cat_audios)
@@ -56,7 +54,7 @@ def create_matching_pairs(image_cats, audio_cats, image_dogs, audio_dogs):
 
     return mapping_rows
 
-# ✅ --- Exécution principale ---
+# --- Exécution principale ---
 if __name__ == "__main__":
     # Chemins mis à jour avec ceux utilisés dans ton projet
     image_cats = "data/images/cleaned/training_set/cats"
@@ -72,7 +70,7 @@ if __name__ == "__main__":
     # Génération des paires
     mapping = create_matching_pairs(image_cats, audio_cats, image_dogs, audio_dogs)
 
-    # 📂 Sauvegarde du mapping
+    # Sauvegarde du mapping
     output_csv = "data/data_fusion_model/fusion_mapping.csv"
     os.makedirs(os.path.dirname(output_csv), exist_ok=True)
 
@@ -86,53 +84,3 @@ if __name__ == "__main__":
           f"Chat: {sum(1 for row in mapping if row[2] == 0)}, "
           f"Chien: {sum(1 for row in mapping if row[2] == 1)}, "
           f"Erreur: {sum(1 for row in mapping if row[2] == 2)}")  
-
-
-import csv
-from collections import Counter
-
-mapping_csv = "data/data_fusion_model/fusion_mapping.csv"
-counts = Counter()
-
-with open(mapping_csv, 'r', encoding='utf-8') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        counts[row['label']] += 1
-
-print("Répartition des classes :", counts)
-
-import csv
-import os
-import random
-
-mapping_csv = "data/data_fusion_model/fusion_mapping.csv"
-
-# Lecture du CSV dans une liste de dictionnaires
-pairs = []
-with open(mapping_csv, "r", encoding="utf-8") as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        pairs.append(row)
-
-# Dictionnaire pour nommer les catégories
-categories = {"0": "Chat", "1": "Chien", "2": "Erreur"}
-
-# Sélection aléatoire de 3 paires par catégorie
-samples = {}
-for cat in categories.keys():
-    cat_pairs = [pair for pair in pairs if pair["label"] == cat]
-    if len(cat_pairs) < 3:
-        print(f"Pas assez de paires pour la catégorie {categories[cat]}")
-        samples[cat] = cat_pairs
-    else:
-        samples[cat] = random.sample(cat_pairs, 3)
-
-# Affichage et vérification de l'existence des fichiers
-for cat, sample in samples.items():
-    print(f"\nExemples pour la catégorie {categories[cat]} (label {cat}):")
-    for pair in sample:
-        image_path = pair["image_path"]
-        audio_path = pair["audio_path"]
-        image_exists = os.path.exists(image_path)
-        audio_exists = os.path.exists(audio_path)
-        print(f"Image: {image_path} (existe: {image_exists}) | Audio: {audio_path} (existe: {audio_exists})")

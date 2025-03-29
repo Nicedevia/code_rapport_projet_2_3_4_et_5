@@ -3,7 +3,7 @@ from fastapi import FastAPI, Response
 
 app = FastAPI()
 
-# ✅ Définition du compteur Prometheus pour suivre le nombre de requêtes HTTP
+# Définition du compteur Prometheus pour suivre le nombre de requêtes HTTP
 request_counter = Counter("http_requests_total", "Nombre total de requêtes reçues")
 
 @app.middleware("http")

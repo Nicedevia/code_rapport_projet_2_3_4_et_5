@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import os
 import zipfile
 import shutil
@@ -32,13 +29,11 @@ def extract_zip(zip_path, extract_dir):
 # Étape 2 : Aplatir la structure des dossiers imbriqués
 # ====================================================
 def flatten_structure():
-    # Pour chaque ensemble (training_set et test_set)
     for split in ["training_set", "test_set"]:
         split_path = os.path.join(EXTRACT_DIR, split)
         if not os.path.exists(split_path):
             continue
 
-        # (A) Cas où un dossier dupliqué existe : data/extracted/{split}/{split}
         nested_split = os.path.join(split_path, split)
         if os.path.isdir(nested_split):
             print(f"🔄 Aplatissement du dossier imbriqué {nested_split}...")
@@ -49,7 +44,6 @@ def flatten_structure():
             os.rmdir(nested_split)
             print(f"✅ Dossier {nested_split} supprimé.")
 
-        # (B) Pour chaque catégorie, s'il y a un doublon : data/extracted/{split}/cats/cats ou dogs/dogs
         for category in ["cats", "dogs"]:
             cat_path = os.path.join(split_path, category)
             if os.path.isdir(cat_path):

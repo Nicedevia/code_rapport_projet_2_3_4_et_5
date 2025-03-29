@@ -1,14 +1,12 @@
 import os
 import pandas as pd
 
-# 📂 Définition des chemins
 IMAGE_TRAIN_FOLDER = "data/extracted/training_set"
 AUDIO_TRAIN_FOLDER = "data/audio/cats_dogs/train"
 TEST_CSV = "data/audio/test_image_audio_mapping.csv"
 TRAIN_CSV = "data/audio/train_image_audio_mapping.csv"
 SPECTROGRAM_FOLDER = "data/audio/spectrograms"
 
-# 🔎 Vérification des images
 def count_files(folder):
     return sum([len(files) for _, _, files in os.walk(folder)])
 
@@ -17,7 +15,6 @@ print(f"📸 Images d'entraînement : {count_files(IMAGE_TRAIN_FOLDER)}")
 print(f"🎵 Audios d'entraînement : {count_files(AUDIO_TRAIN_FOLDER)}")
 print(f"🖼 Spectrogrammes générés : {count_files(SPECTROGRAM_FOLDER)}")
 
-# 🔎 Vérification du fichier CSV
 if os.path.exists(TRAIN_CSV):
     train_df = pd.read_csv(TRAIN_CSV)
     print(f"✅ {len(train_df)} associations image-audio dans le dataset d'entraînement")

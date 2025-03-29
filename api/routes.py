@@ -1,5 +1,3 @@
-
-# --- api/routes.py ---
 from fastapi import APIRouter, File, UploadFile, HTTPException, Query, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.responses import Response, PlainTextResponse
@@ -21,7 +19,7 @@ image_model = load_image_model()
 audio_model = load_audio_model()
 fusion_model = load_fusion_model()
 
-# Dummy pass
+# Dummy pass == mannequin pour forcer la construction du modèle ou un faux  
 _ = image_model(tf.zeros((1, 64, 64, 1)))
 _ = audio_model(tf.zeros((1, 64, 64, 1)))
 

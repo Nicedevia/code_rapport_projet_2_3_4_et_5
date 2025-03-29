@@ -1,7 +1,8 @@
-# --- logs/log_config.py ---
 import os
 import logging
 from logging.handlers import RotatingFileHandler
+
+# Handler == gestionnaire
 
 def setup_logger(name: str, log_dir: str = "logs", level=logging.INFO):
     os.makedirs(log_dir, exist_ok=True)

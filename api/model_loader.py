@@ -1,5 +1,3 @@
-# api/model_loader.py
-
 import tensorflow as tf
 
 def load_image_model():
@@ -23,3 +21,6 @@ def load_fusion_model():
     model = tf.keras.models.load_model("models/image_audio_fusion_model_v2.h5", compile=False)
     # print("✅ Modèle FUSION chargé avec succès :", model.summary())
     return model
+
+
+# utilisation de print et summary en prodution pour le debug

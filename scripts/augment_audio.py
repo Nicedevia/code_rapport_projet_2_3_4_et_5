@@ -5,18 +5,18 @@ import numpy as np
 import soundfile as sf
 import random
 
-# 📂 Dossiers source et destination
+# Dossiers source et destination
 source_dir = "data/audio/cleaned"
 dest_dir = "data/audio/augmented"
 
-# 🏗 Création des dossiers
+# Création des dossiers
 os.makedirs(os.path.join(dest_dir, "cats"), exist_ok=True)
 os.makedirs(os.path.join(dest_dir, "dogs"), exist_ok=True)
 
-# 🎛 Paramètres audio
+# Paramètres audio
 SR = 22050  # Fréquence d'échantillonnage
 
-# 🔹 Fonctions d'augmentation
+# Fonctions d'augmentation
 def add_white_noise(y, noise_level=0.02):
     noise = np.random.randn(len(y))
     return y + noise_level * noise
@@ -30,7 +30,7 @@ def time_stretch(y, rate=1.2):
 def reverse_audio(y):
     return np.flip(y)
 
-# 🔄 Fonction principale d'augmentation
+# Fonction principale d'augmentation
 def augment_audio(file_path, output_folder, augment_factor=3):
     y, sr = librosa.load(file_path, sr=SR)
 
@@ -47,22 +47,20 @@ def augment_audio(file_path, output_folder, augment_factor=3):
         elif transformation == "reverse":
             aug_y = reverse_audio(aug_y)
 
-        # 🔹 Normalisation du volume
         aug_y = librosa.util.normalize(aug_y)
 
-        # 💾 Sauvegarde
         filename = os.path.basename(file_path).replace(".wav", f"_aug_{i}.wav")
         output_path = os.path.join(output_folder, filename)
 
         sf.write(output_path, aug_y, sr)
         print(f"✅ Fichier généré : {output_path}")
 
-# 🏗 Appliquer l'augmentation
+# Appliquer l'augmentation
 for category in ["cats", "dogs"]:
     input_folder = os.path.join(source_dir, category)
     output_folder = os.path.join(dest_dir, category)
 
-    augment_factor = 3 if category == "dogs" else 2  # 🎯 Augmente plus les chiens
+    augment_factor = 3 if category == "dogs" else 2  # Augmente plus les chiens meilleur retour constaté 
 
     for file in os.listdir(input_folder):
         if file.endswith(".wav"):

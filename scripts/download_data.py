@@ -4,7 +4,6 @@ import kaggle  # Assurez-vous que le package est installé : pip install kaggle
 import os
 os.environ['KAGGLE_CONFIG_DIR'] = "config"
 
-# 📂 Définition des chemins et variables
 KAGGLE_CONFIG_DIR = os.path.expanduser("~/.kaggle")  # Dossier de configuration Kaggle
 KAGGLE_JSON_PATH = "config/kaggle.json"  # Fichier JSON contenant la clé API
 DATASET_NAME = "tongpython/cat-and-dog"  # Nom du dataset Kaggle
@@ -27,7 +26,7 @@ def download_kaggle_data():
     """ ⬇️ Télécharge et extrait les données Kaggle """
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)  # Création du dossier data
     
-    # Vérifie si les données existent déjà pour éviter de les re-télécharger
+    # Vérifie si les données existent déjà pour éviter de les rlécharger
     dataset_zip_path = os.path.join(DOWNLOAD_DIR, "cat-and-dog.zip")
     
     if not os.path.exists(dataset_zip_path):
