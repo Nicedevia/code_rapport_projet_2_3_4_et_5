@@ -4,10 +4,8 @@ import time
 import streamlit as st
 import tensorflow as tf
 import numpy as np
-import librosa
-import librosa.display
-import matplotlib.pyplot as plt
 import cv2
+import matplotlib.pyplot as plt
 import pygame
 
 # --- Définition des chemins ---
@@ -35,7 +33,7 @@ def load_fusion_model():
 fusion_model = load_fusion_model()
 
 # ------------------------------------------------------------------------------
-# Prétraitement de l'image
+# Prétraitement de l'image (identique à l'entraînement)
 def preprocess_image(image_path):
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
@@ -45,17 +43,17 @@ def preprocess_image(image_path):
     return img.reshape(64, 64, 1)
 
 # ------------------------------------------------------------------------------
-# Prétraitement de l'audio
+# Prétraitement de l'audio (chargement du spectrogramme pré-généré)
 def preprocess_audio(audio_path):
-    try:
-        y, sr = librosa.load(audio_path, sr=22050, duration=2)
-    except Exception as e:
-        st.error(f"Erreur lors du chargement de l'audio: {e}")
+    spec_path = audio_path.replace("cleaned", "spectrograms").replace(".wav", ".png")
+    if not os.path.exists(spec_path):
+        st.error(f"❌ Spectrogramme introuvable pour {audio_path} -> {spec_path}")
         return None
-    spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
-    spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
-    norm_spec = (spectrogram_db - spectrogram_db.min()) / (spectrogram_db.max() - spectrogram_db.min())
-    spec_img = cv2.resize(norm_spec, (64, 64))
+    spec_img = cv2.imread(spec_path, cv2.IMREAD_GRAYSCALE)
+    if spec_img is None:
+        st.error("Erreur lors du chargement du spectrogramme.")
+        return None
+    spec_img = cv2.resize(spec_img, (64, 64)) / 255.0
     return spec_img.reshape(64, 64, 1)
 
 # ------------------------------------------------------------------------------

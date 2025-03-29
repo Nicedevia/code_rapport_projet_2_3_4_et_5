@@ -10,10 +10,12 @@
     📄 docker-compose.yml
     📄 Dockerfile
     📄 instruction_api
+    📄 logging.yml
     📄 main.py
     📄 prometheus.yml
     📄 README.md
     📄 requirements.txt
+    📄 run.sh
     📄 start_all_docker.sh
     📄 stop_all_docker.sh
     📄 test_results_fusion_v2.csv
@@ -30,6 +32,7 @@
         📄 routes.py
         📄 __init__.py
     📂 config/
+        📄 code.py
         📄 kaggle.json
         📄 __init__.py
     📂 data/
@@ -118,9 +121,9 @@
             📂 test/
                 📂 audio/
                     📂 cats/
-                        🎵 114 fichiers .wav
+                        🎵 206 fichiers .wav
                     📂 dogs/
-                        🎵 97 fichiers .wav
+                        🎵 166 fichiers .wav
                 📂 images/
                     📂 cats/
                         📸 1011 fichiers .jpg/.jpeg
@@ -129,9 +132,9 @@
             📂 train/
                 📂 audio/
                     📂 cats/
-                        🎵 452 fichiers .wav
+                        🎵 544 fichiers .wav
                     📂 dogs/
-                        🎵 387 fichiers .wav
+                        🎵 456 fichiers .wav
                 📂 images/
                     📂 cats/
                         📸 4000 fichiers .jpg/.jpeg
@@ -190,18 +193,14 @@
                 📂 test_set/
                     📂 cats/
                         📄 _DS_Store
-                        📸 1011 fichiers .jpg/.jpeg
                     📂 dogs/
                         📄 _DS_Store
-                        📸 1012 fichiers .jpg/.jpeg
             📂 training_set/
                 📂 training_set/
                     📂 cats/
                         📄 _DS_Store
-                        📸 4000 fichiers .jpg/.jpeg
                     📂 dogs/
                         📄 _DS_Store
-                        📸 2186 fichiers .jpg/.jpeg
         📂 extracted_DvC/
             📂 DvC/
                 📂 Cats/
@@ -229,7 +228,7 @@
                 📂 chat/
                     📸 28 fichiers .jpg/.jpeg
                 📂 chien/
-                    📸 2 fichiers .jpg/.jpeg
+                    📸 3 fichiers .jpg/.jpeg
     📂 data_retrain/
         📄 mapping.csv
         📂 training/
@@ -270,9 +269,13 @@
         📄 __init__.py
     📂 logs/
         📄 app.log
+        📄 app_error.log
+        📄 app_info.log
+        📄 email_alert.py
         📄 incident_report.md
         📄 incident_report.py
         📄 log_config.py
+        📄 test_email.py
         📄 __init__.py
         📂 audio/
             📂 train/
@@ -370,6 +373,9 @@
         📄 train_model.py
         📄 verification.ipynb
         📄 __init__.py
+        📂 data/
+            📂 data_fusion_model/
+                📄 fusion_mapping.csv
     📂 tests/
         📄 README.md
         📄 test_api.py

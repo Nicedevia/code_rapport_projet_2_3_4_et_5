@@ -183,5 +183,60 @@ def main():
     trained_model = train_fusion_model(fusion_model, X_images, X_audio, y_labels)
     save_model_h5(trained_model)
 
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+
+def test_model_confusion(model):
+    # Charger le CSV de mapping
+    df = pd.read_csv(MAPPING_CSV)
+    df["label"] = df["label"].astype(int)
+    
+    # Sélectionner 300 exemples par classe
+    sampled_dfs = []
+    for label in [0, 1, 2]:
+        class_df = df[df["label"] == label]
+        if len(class_df) >= 300:
+            sampled_dfs.append(class_df.sample(300, random_state=42))
+        else:
+            print(f"Attention, il n'y a que {len(class_df)} exemples pour la classe {label}")
+            sampled_dfs.append(class_df)
+    sampled_df = pd.concat(sampled_dfs)
+    
+    X_images, X_audio, y_true = [], [], []
+    for _, row in sampled_df.iterrows():
+        img = preprocess_image(row["image_path"])
+        aud = preprocess_audio(row["audio_path"])
+        # Ne conserver que les exemples où les deux fichiers existent
+        if img is None or aud is None:
+            continue
+        X_images.append(img)
+        X_audio.append(aud)
+        y_true.append(row["label"])
+    
+    X_images = np.array(X_images)
+    X_audio = np.array(X_audio)
+    y_true = np.array(y_true)
+    
+    # Prédiction
+    y_pred_prob = model.predict([X_images, X_audio])
+    y_pred = np.argmax(y_pred_prob, axis=1)
+    
+    # Calcul et affichage de la matrice de confusion
+    cm = confusion_matrix(y_true, y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Chat", "Chien", "Erreur"])
+    disp.plot(cmap=plt.cm.Blues)
+    plt.title("Matrice de confusion sur 300 exemples par classe")
+    plt.show()
+
+# Exemple d'utilisation après l'entraînement :
 if __name__ == "__main__":
-    main()
+    # Exécution du pipeline d'entraînement
+    re_save_individual_models()
+    X_images, X_audio, y_labels = load_data()
+    image_feature_model, audio_feature_model = load_pretrained_models()
+    fusion_model = build_fusion_model(image_feature_model, audio_feature_model)
+    trained_model = train_fusion_model(fusion_model, X_images, X_audio, y_labels)
+    save_model_h5(trained_model)
+    
+    # Test sur 100 exemples par classe et affichage de la matrice de confusion
+    test_model_confusion(trained_model)
