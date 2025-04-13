@@ -42,7 +42,7 @@ def preprocess_image_from_bytes(image_bytes: bytes) -> np.ndarray:
         raise HTTPException(status_code=400, detail="Image invalide")
     img = cv2.resize(img, (64, 64)) / 255.0
     img = img.reshape(1, 64, 64, 1)
-    return image_extractor.predict(img)
+    return img  
 
 
 def preprocess_audio_from_bytes(audio_bytes: bytes) -> np.ndarray:
@@ -57,7 +57,7 @@ def preprocess_audio_from_bytes(audio_bytes: bytes) -> np.ndarray:
     spec_img = cv2.resize(S_db, (64, 64))
     spec_img = (spec_img - spec_img.min()) / (spec_img.max() - spec_img.min())
     spec_img = spec_img.reshape(1, 64, 64, 1)
-    return audio_extractor.predict(spec_img)
+    return spec_img  # ici aussi, on retourne l’image du spectrogramme, pas les features
 
 
 @router.post("/predict/image", tags=["Prediction"])
@@ -66,13 +66,16 @@ async def predict_image(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Format d'image non supporté")
     image_bytes = await file.read()
     try:
-        features = preprocess_image_from_bytes(image_bytes)
+        image = preprocess_image_from_bytes(image_bytes)
+        prediction = image_model.predict(image)
     except Exception as e:
         prediction_errors.inc()
-        raise e
-    prediction = image_model.predict(features)
+        print(f"[Erreur] Prediction image : {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne")
+    
     label = "Chien" if prediction[0][0] > DEFAULT_THRESHOLD else "Chat"
     return {"prediction": label, "confidence": float(prediction[0][0]), "used_threshold": DEFAULT_THRESHOLD}
+
 
 
 @router.post("/predict/audio", tags=["Prediction"])
@@ -81,11 +84,13 @@ async def predict_audio(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Format audio non supporté")
     audio_bytes = await file.read()
     try:
-        features = preprocess_audio_from_bytes(audio_bytes)
+        spectro = preprocess_audio_from_bytes(audio_bytes)
+        prediction = audio_model.predict(spectro)
     except Exception as e:
         prediction_errors.inc()
-        raise e
-    prediction = audio_model.predict(features)
+        print(f"[Erreur] Prediction audio : {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne")
+    
     label = "Chien" if prediction[0][0] > DEFAULT_THRESHOLD else "Chat"
     return {"prediction": label, "confidence": float(prediction[0][0]), "used_threshold": DEFAULT_THRESHOLD}
 

@@ -1,0 +1,23 @@
+lancer : python -m streamlit run frontend/app.py
+
+
+Étape 1 : Présentation du projet
+1 : README.md
+2 : docker-compose.yml
+
+
+Étape 2 : Le modèle IA
+1 : scripts/newmodel.py
+
+
+Étape 3 : Chargement et appel du modèle dans l’API
+1 : api/model_loader.py
+2 : api/routes.py
+
+
+Étape 4 : Lancement de l’API
+1 : uvicorn api.api:app --reload --port 8000
+
+
+Étape 5 : Tests de robustesse
+1 : pytest
